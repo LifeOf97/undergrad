@@ -1,0 +1,4 @@
+# python (django) settings
+venv/
+backend/media/
+backend/src/config.*
