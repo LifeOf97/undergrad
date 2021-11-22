@@ -5,9 +5,22 @@ from django.contrib import admin
 
 
 # Register your inline admins here.
-class QuestionnaireInlineAdmin(admin.TabularInline):
+class QuestionnaireStudentInlineAdmin(admin.TabularInline):
     model = Questionnaire.students.through
     extra = 0
+
+class QuestionnaireInlineAdmin(admin.TabularInline):
+    model = Questionnaire
+
+    fieldsets = (
+        ("Identification", {"fields": ("id", "staff")}),
+        ("Detail", {"fields": ("title", "slug", "question", "created", "completed")}),
+        ("Students", {"fields": ("students",)})
+    )
+
+    extra = 0
+    ordering = ("-created",)
+    readonly_fields = ("id", "slug", "created")
 
 
 class ScheduleInlineAdmin(admin.TabularInline):
@@ -71,7 +84,7 @@ class StaffAdmin(admin.ModelAdmin):
     ordering = ("id",)
     readonly_fields = ("id",)
     empty_value_display = '-empty-'
-    inlines = [ScheduleInlineAdmin,]
+    inlines = [ScheduleInlineAdmin, QuestionnaireInlineAdmin]
 
 
 
@@ -94,7 +107,7 @@ class StudentAdmin(admin.ModelAdmin):
     ordering = ("id",)
     readonly_fields = ("id",)
     empty_value_display = '-empty-'
-    inlines = [QuestionnaireInlineAdmin,]
+    inlines = [QuestionnaireStudentInlineAdmin,]
 
 
 

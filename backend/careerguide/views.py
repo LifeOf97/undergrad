@@ -109,7 +109,9 @@ class StudentViewSet(viewsets.ModelViewSet):
 
 
     def get_object(self):
-        # Get an object instance with the following lookup fields
+        # Get an object instance with the following lookup fields.
+        # make sure to edit the hyperlink identity field on the serializer class to make use
+        # of two url kwargs
         lookup_kwargs = {
             "department": self.kwargs["department"],
             "level": self.kwargs["level"],
@@ -162,7 +164,6 @@ class StudentViewSet(viewsets.ModelViewSet):
 
 
 class ScheduleViewSet(viewsets.ModelViewSet):
-    lookup_field = "id"
     queryset = Schedule.objects.all()
     serializer_class = ScheduleHyperlinkSerializer
     permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
@@ -179,8 +180,9 @@ class ScheduleViewSet(viewsets.ModelViewSet):
 
     def get_object(self):
         # Modified to return an instance of the logged in users schedule.
-        queryset = self.get_queryset()
-        obj = get_object_or_404(queryset, staff__staff_id=self.kwargs["staff_id"], id=self.kwargs["id"])
+        # make sure to edit the hyperlink identity field on the serializer class to make use
+        # of two url kwargs [staff_id and instance id]
+        obj = get_object_or_404(self.get_queryset(), staff__staff_id=self.request.user.staff.staff_id, id=self.kwargs["id"])
         
         # Make sure to check if the user has object level permission
         self.check_object_permissions(self.request, obj)
@@ -227,3 +229,60 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         schedule.delete()
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
 
+
+
+class QuestionnaireViewSet(viewsets.ModelViewSet):
+    queryset = Questionnaire.objects.all()
+    serializer_class = QuestionnaireHyperlinkSerializer
+    permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
+    authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication]
+
+    def get_queryset(self):
+        # return a list of questionnaire created by the logged in user
+        queryset = super().get_queryset()
+        queryset = queryset.filter(staff=self.request.user.staff)
+        return queryset
+
+    def get_object(self):
+        # return an instance of a questionnaire for the logged in user and the specified id.
+        # make sure to edit the hyperlink identity field on the serializer class to make use
+        # of two url kwargs [staff_id and intance id]
+        obj = get_object_or_404(super().get_queryset(), staff__staff_id=self.request.user.staff.staff_id, id=self.kwargs["id"])
+
+        # make sure to check for object level permissions
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
+    def list(self, request, *args, **kwargs):
+        serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=self.get_object(), context={"request": request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"request":  request})
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        # else
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def partial_update(self, request, *args, **kwargs):
+        serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        # else
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        question = self.get_object()
+        q_id, q_title, q_created, q_completed = [question.id, question.title, question.created, question.completed]
+        serializer = {"id": q_id, "title": q_title, "created": q_created, "completed": q_completed, "detail": "Deleted"}
+        question.delete()
+        return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)

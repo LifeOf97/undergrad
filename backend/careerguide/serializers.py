@@ -119,7 +119,7 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
                 message=_("Student with this Reg no, Student level/class and Department already exists.")
             ),
         ]
-    
+
     def validate_reg_no(self, value):
         # Validate the student reg number id field
         if (len(value) == 4) and (value.isnumeric()):
@@ -180,7 +180,7 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
-    url = others.ScheduleHyperlinkIdentityField(view_name="careerguide:staff-schedule-detail")
+    url = others.StaffHyperlinkIdentityField(view_name="careerguide:staff-schedule-detail")
 
     class Meta:
         model = Schedule
@@ -191,6 +191,13 @@ class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
+    url = others.StaffHyperlinkIdentityField(view_name="careerguide:staff-schedule-detail")
+    students = others.StudentHyperlinkRelatedField(view_name="careerguide:student-detail", read_only=True, lookup_field="", many=True)
+
     class Meta:
         model = Questionnaire
+        # exclude = ("students",)
         fields = "__all__"
+        extra_kwargs = {
+            "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
+        }

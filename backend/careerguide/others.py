@@ -26,7 +26,30 @@ class StudentHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
         return self.get_queryset().get(**lookup_kwargs)
 
 
-class ScheduleHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
+class StudentHyperlinkRelatedField(serializers.HyperlinkedRelatedField):
+    """
+    Custom student hyperlink identity field to retrieve a student instance
+    using the students department, class/level, and reg_no.
+    """
+    def get_url(self, obj, view_name, request, format):
+        url_kwargs = {
+            "department": obj.department,
+            "level": obj.level,
+            "reg_no": obj.reg_no,
+        }
+        return reverse(view_name, kwargs=url_kwargs, request=request, format=format)
+
+    def get_object(self, view_name, view_args, view_kwargs):
+        lookup_kwargs = {
+            "department": view_kwargs["department"],
+            "level": view_kwargs["level"],
+            "reg_no": view_kwargs["reg_no"],
+        }
+
+        return self.get_queryset().get(**lookup_kwargs)
+
+
+class StaffHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
     """
     Custom student hyperlink identity field to retrieve a student instance
     using the students department, class/level, and reg_no.

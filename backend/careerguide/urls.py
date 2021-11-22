@@ -25,11 +25,18 @@ urlpatterns = [
 
     # staff schedule urls
     path("staffs/<str:staff_id>/schedules/", views.ScheduleViewSet.as_view({"get": "list"}), name="staff-schedule-list"),
-    path("staffs/<str:staff_id>/schedules/<int:id>/", views.ScheduleViewSet.as_view({"get": "retrieve"}), name="staff-schedule-detail"),
     path("staffs/<str:staff_id>/schedules/create/", views.ScheduleViewSet.as_view({"post": "create"}), name="staff-schedule-create"),
+    path("staffs/<str:staff_id>/schedules/<int:id>/", views.ScheduleViewSet.as_view({"get": "retrieve"}), name="staff-schedule-detail"),
     path("staffs/<str:staff_id>/schedules/<int:id>/delete/", views.ScheduleViewSet.as_view({"delete": "destroy"}), name="staff-schedule-delete"),
     path("staffs/<str:staff_id>/schedules/<int:id>/update/", views.ScheduleViewSet.as_view({"patch": "partial_update"}), name="staff-schedule-update"),
     
+    # staffs questionnaire urls path
+    path("staffs/<str:staff_id>/questionnaires/", views.QuestionnaireViewSet.as_view({"get": "list"}), name="staff-questionnaire-list"),
+    path("staffs/<str:staff_id>/questionnaires/create/", views.QuestionnaireViewSet.as_view({"post": "create"}), name="staff-questionnaire-create"),
+    path("staffs/<str:staff_id>/questionnaires/<int:id>/", views.QuestionnaireViewSet.as_view({"get": "retrieve"}), name="staff-questionnaire-detail"),
+    path("staffs/<str:staff_id>/questionnaires/<int:id>/delete/", views.QuestionnaireViewSet.as_view({"delete": "destroy"}), name="staff-questionnaire-delete"),
+    path("staffs/<str:staff_id>/questionnaires/<int:id>/update/", views.QuestionnaireViewSet.as_view({"patch": "partial_update"}), name="staff-questionnaire-update"),
+
     # student urls path
     path("students/", views.StudentViewSet.as_view({"get": "list"}), name="student-list"),
     path("students/create/", views.StudentViewSet.as_view({"post": "create"}), name="student-create"),
