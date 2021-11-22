@@ -259,7 +259,7 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=self.get_object(), context={"request": request})
+        serializer = self.serializer_class(self.get_object(), context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):

@@ -180,7 +180,8 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
-    url = others.StaffHyperlinkIdentityField(view_name="careerguide:staff-schedule-detail")
+    # url identity field that links to staff instance that owns this schedule
+    url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-schedule-detail")
 
     class Meta:
         model = Schedule
@@ -191,7 +192,7 @@ class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
-    url = others.StaffHyperlinkIdentityField(view_name="careerguide:staff-schedule-detail")
+    url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-questionnaire-detail")
     students = others.StudentHyperlinkRelatedField(view_name="careerguide:student-detail", read_only=True, lookup_field="", many=True)
 
     class Meta:

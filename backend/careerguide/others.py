@@ -49,7 +49,7 @@ class StudentHyperlinkRelatedField(serializers.HyperlinkedRelatedField):
         return self.get_queryset().get(**lookup_kwargs)
 
 
-class StaffHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
+class OthersToStaffHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
     """
     Custom student hyperlink identity field to retrieve a student instance
     using the students department, class/level, and reg_no.
