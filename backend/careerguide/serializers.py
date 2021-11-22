@@ -11,7 +11,7 @@ Profile = get_user_model()
 class ProfileHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Profile
-        exclude = ("user_permissions", "groups", "date_joined", "is_superuser", "is_active", "password")
+        exclude = ("user_permissions", "groups", "date_joined", "is_superuser", "is_active")
         extra_kwargs = {
             # change the viewname of the url instance identity field
             "url": {"view_name": "careerguide:profile-detail", "lookup_field": "id"},
@@ -55,10 +55,10 @@ class StaffHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
         # has a one-to-one relationship to the Profile (user) model which houses
         # the default django auth backend. Get the profile data and password
         profile_data = validated_data.pop("profile")
-        profile_password = profile_data.pop("password")
+        password = profile_data.pop("password")
 
         profile = Profile.objects.create(**profile_data)
-        profile.set_password(profile_password)
+        profile.set_password(password)
         profile.is_staff = True
         profile.save()
 
@@ -159,20 +159,20 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
         instance.save()
 
         # now update the student profile fields
-        profile.username = profile_data.get("username", profile_data.username)
-        profile.first_name = profile_data.get("first_name", profile_data.first_name)
-        profile.other_name = profile_data.get("other_name", profile_data.other_name)
-        profile.last_name = profile_data.get("last_name", profile_data.last_name)
-        profile.dob = profile_data.get("dob", profile_data.dob)
-        profile.gender = profile_data.get("gender", profile_data.gender)
-        profile.image = profile_data.get("image", profile_data.image)
-        profile.about = profile_data.get("about", profile_data.about)
-        profile.email = profile_data.get("email", profile_data.email)
-        profile.phone_1 = profile_data.get("phone_1", profile_data.phone_1)
-        profile.phone_2 = profile_data.get("phone_2", profile_data.phone_2)
-        profile.country = profile_data.get("country", profile_data.country)
-        profile.state = profile_data.get("state", profile_data.state)
-        profile.postal = profile_data.get("postal", profile_data.postal)
+        profile.username = profile_data.get("username", profile.username)
+        profile.first_name = profile_data.get("first_name", profile.first_name)
+        profile.other_name = profile_data.get("other_name", profile.other_name)
+        profile.last_name = profile_data.get("last_name", profile.last_name)
+        profile.dob = profile_data.get("dob", profile.dob)
+        profile.gender = profile_data.get("gender", profile.gender)
+        profile.image = profile_data.get("image", profile.image)
+        profile.about = profile_data.get("about", profile.about)
+        profile.email = profile_data.get("email", profile.email)
+        profile.phone_1 = profile_data.get("phone_1", profile.phone_1)
+        profile.phone_2 = profile_data.get("phone_2", profile.phone_2)
+        profile.country = profile_data.get("country", profile.country)
+        profile.state = profile_data.get("state", profile.state)
+        profile.postal = profile_data.get("postal", profile.postal)
         profile.save()
 
         return instance
