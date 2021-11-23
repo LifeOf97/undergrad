@@ -51,7 +51,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         user = self.get_object()
         username, userid = [user.username, user.id]
         user.delete()
-        serializer = {"username": username, "id": userid, "detail": "Deleted"}
+        serializer = {"username": username, "id": userid, "detail": "Deleted successfully"}
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
 
 
@@ -95,7 +95,7 @@ class StaffViewSet(viewsets.ModelViewSet):
     def destroy(self, request, format=None, *args, **kwargs):
         staff = self.get_object()
         name, id = [staff.staff_name(), staff.staff_id]
-        serializer = {"full name": name, "staff id": id, "detail": "Deleted"}
+        serializer = {"name": name, "staff id": id, "detail": "Deleted successfully"}
         staff.delete()
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
 
@@ -125,7 +125,7 @@ class StudentViewSet(viewsets.ModelViewSet):
         return obj
 
 
-    def list(self, request, format=None):
+    def list(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -135,7 +135,7 @@ class StudentViewSet(viewsets.ModelViewSet):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-    def create(self, request, format=None):
+    def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request": request})
 
         if serializer.is_valid():
@@ -157,7 +157,7 @@ class StudentViewSet(viewsets.ModelViewSet):
     def destroy(self, request, format=None, *args, **kwargs):
         student = self.get_object()
         name, reg_no = [student.student_name(), student.reg_no]
-        serializer = {"name": name, "Reg number": reg_no, "detail": "Deleted"}
+        serializer = {"name": name, "Reg number": reg_no, "detail": "Deleted successfully"}
         student.delete()
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
 
@@ -225,7 +225,7 @@ class ScheduleViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         schedule = self.get_object()
         staff, title = [schedule.staff.staff_id, schedule.title]
-        serializer = {"staff id": staff, "title": title, "detail": "Deleted"}
+        serializer = {"staff id": staff, "title": title, "detail": "Deleted successfully"}
         schedule.delete()
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
 
@@ -266,7 +266,7 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(data=request.data, context={"request":  request})
 
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(staff=request.user.staff)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         # else
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -283,6 +283,6 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         question = self.get_object()
         q_id, q_title, q_created, q_completed = [question.id, question.title, question.created, question.completed]
-        serializer = {"id": q_id, "title": q_title, "created": q_created, "completed": q_completed, "detail": "Deleted"}
+        serializer = {"id": q_id, "title": q_title, "created": q_created, "completed": q_completed, "detail": "Deleted successfully"}
         question.delete()
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)

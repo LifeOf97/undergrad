@@ -13,10 +13,10 @@ SEX: tuple = (('male', 'male'), ('female', 'female'))
 STUDENT_LEVELS: tuple = (
     ('jss1', 'jss1'),
     ('jss2', 'jss2'),
-    ('jss3', 'JSS3'),
+    ('jss3', 'jss3'),
     ('sss1', 'sss1'),
     ('sss2', 'sss2'),
-    ('sss3', 'SSS3'),
+    ('sss3', 'sss3'),
 )
 DEPT: tuple = (
     ('art', 'art'),
@@ -76,10 +76,14 @@ class Staff(models.Model):
     """
     Staff model
     """
-    id = models.AutoField(_("ID"), primary_key=True, unique=True, blank=False, null=False)
+    id = models.CharField(_("ID"), max_length=7, primary_key=True, unique=True, blank=True, null=False)
     staff_id = models.CharField(_("Staff ID"), max_length=7, unique=True, blank=False, null=False, help_text=_("Example: <b>STF1234</b>"))
     level = models.CharField(_("Level"), max_length=255, blank=True, null=True)
     profile = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.id = self.staff_id
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return F"STAFF ID: {self.staff_id}"
@@ -93,9 +97,9 @@ class Student(models.Model):
     """
     Students model
     """
-    id = models.AutoField(_("ID"), primary_key=True, unique=True, blank=False, null=False)
+    id = models.CharField(_("ID"), max_length=4, primary_key=True, unique=True, blank=True, null=False)
     reg_no = models.CharField(_("Reg no"), max_length=4, blank=False, null=False)
-    level = models.CharField(_("Student level/class"), max_length=4, choices=STUDENT_LEVELS, blank=False, null=False)
+    level = models.CharField(_("Student level"), max_length=4, choices=STUDENT_LEVELS, blank=False, null=False)
     department = models.CharField(_("Department"), max_length=255, choices=DEPT, blank=False, null=False)
     parent = models.CharField(_("Parent/Guardian"), max_length=255, blank=True, null=True)
     profile = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -107,9 +111,12 @@ class Student(models.Model):
             models.UniqueConstraint(fields=['reg_no', 'level', 'department'], name='unique student')
         ]
 
-    def __str__(self):
-        return F"REG NO: {self.reg_no}"
+    def save(self, *args, **kwargs):
+        self.id = int(self.reg_no)
+        super().save(*args, **kwargs)
 
+    def __str__(self):
+        return F"{self.reg_no} - {self.level.upper()} {self.department.upper()}"
 
     def student_name(self):
         return F"{self.profile.first_name or ''} {self.profile.other_name or ''} {self.profile.last_name or ''}"

@@ -101,22 +101,20 @@ class StaffHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
-
-    # nested relationship
+    # identity field
     url = others.StudentHyperlinkIdentityField(view_name="careerguide:student-detail")
+    # nested relationship
     profile = ProfileHyperlinkSerializer()
 
     class Meta:
         model = Student
         fields = ("id", "reg_no", "url", "level", "department", "parent", "profile")
-        extra_kwargs = {
-            "url": {"view_name": "careerguide:student-detail", "lookup_field": "reg_no"},
-        }
+
         validators = [
             validators.UniqueTogetherValidator(
                 queryset=Student.objects.all(),
                 fields=["reg_no", "level", "department"],
-                message=_("Student with this Reg no, Student level/class and Department already exists.")
+                message=_("Student with this Reg no, level and department already exists.")
             ),
         ]
 
@@ -161,8 +159,8 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
         # now update the student profile fields
         profile.username = profile_data.get("username", profile.username)
         profile.first_name = profile_data.get("first_name", profile.first_name)
-        profile.other_name = profile_data.get("other_name", profile.other_name)
         profile.last_name = profile_data.get("last_name", profile.last_name)
+        profile.other_name = profile_data.get("other_name", profile.other_name)
         profile.dob = profile_data.get("dob", profile.dob)
         profile.gender = profile_data.get("gender", profile.gender)
         profile.image = profile_data.get("image", profile.image)
@@ -193,11 +191,10 @@ class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
 class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
     url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-questionnaire-detail")
-    students = others.StudentHyperlinkRelatedField(view_name="careerguide:student-detail", read_only=True, lookup_field="", many=True)
+    students = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all(), many=True)
 
     class Meta:
         model = Questionnaire
-        # exclude = ("students",)
         fields = "__all__"
         extra_kwargs = {
             "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
