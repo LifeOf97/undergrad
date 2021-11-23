@@ -20,6 +20,24 @@ Profile = get_user_model()
 
 # create views
 class ProfileViewSet(viewsets.ModelViewSet):
+    """
+    Profile API ModelViewSet. Profile model is the user model.
+
+    list: [Method: GET]
+    Returns a list of profiles in the system.
+
+    create: [Method: POST]
+    Create a new instance of a profile user account.
+
+    retrieve: [Method: GET]
+    Returns the details of a profile user account instance.
+
+    partial_update: [Method: PATCH]
+    Update a profile user account instance, only fields to be updated are passed.
+
+    destroy: [Method: DELETE]
+    Delete a profile user account intance.
+    """
     lookup_field = "id"
     queryset = Profile.objects.all()
     serializer_class = ProfileHyperlinkSerializer
@@ -57,6 +75,24 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
 
 class StaffViewSet(viewsets.ModelViewSet):
+    """
+    Staff API ModelViewset.
+
+    list: [Method: GET]
+    Returns a list of staffs in the system.
+
+    create: [Method: POST]
+    Create a new instance of a staff account.
+
+    retrieve: [Method: GET]
+    Returns the details of a staff account instance.
+
+    partial_update: [Method: PATCH]
+    Update a staff account instance, only fields to be updated are passed.
+
+    destroy: [Method: DELETE]
+    Delete a staff account intance.
+    """
     lookup_field = "staff_id"
     queryset = Staff.objects.all()
     serializer_class = StaffHyperLinkSerializer
@@ -102,6 +138,24 @@ class StaffViewSet(viewsets.ModelViewSet):
 
 
 class StudentViewSet(viewsets.ModelViewSet):
+    """
+    Student API ModelViewset.
+
+    list: [Method: GET]
+    Returns a list of students in the system.
+
+    create: [Method: POST]
+    Create a new instance of a student account.
+
+    retrieve: [Method: GET]
+    Returns the details of a student account instance.
+
+    partial_update: [Method: PATCH]
+    Update a student account instance, only fields to be updated are passed.
+
+    destroy: [Method: DELETE]
+    Delete a student account intance.
+    """
     queryset = Student.objects.all()
     serializer_class = StudentHyperLinkSerializer
     permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
@@ -164,6 +218,24 @@ class StudentViewSet(viewsets.ModelViewSet):
 
 
 class ScheduleViewSet(viewsets.ModelViewSet):
+    """
+    Schedule API ModelViewset.
+
+    list: [Method: GET]
+    Returns a list of schedules for a particular staff in the system.
+
+    create: [Method: POST]
+    Create a new instance of a schedule for a staff account.
+
+    retrieve: [Method: GET]
+    Returns the details of an instance of a schedule of a staff.
+
+    partial_update: [Method: PATCH]
+    Update a schedule instance of a staff account, only fields to be updated are passed.
+
+    destroy: [Method: DELETE]
+    Delete an schedule instance of a staff.
+    """
     queryset = Schedule.objects.all()
     serializer_class = ScheduleHyperlinkSerializer
     permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
@@ -232,6 +304,24 @@ class ScheduleViewSet(viewsets.ModelViewSet):
 
 
 class QuestionnaireViewSet(viewsets.ModelViewSet):
+    """
+    Schedule API ModelViewset.
+
+    list: [Method: GET]
+    Returns a list of questionnaires for a particular staff in the system.
+
+    create: [Method: POST]
+    Create a new instance of a questionnaire for a staff account.
+
+    retrieve: [Method: GET]
+    Returns the details of an instance of a questionnaire of a staff.
+
+    partial_update: [Method: PATCH]
+    Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+    destroy: [Method: DELETE]
+    Delete an questionnaire instance of a staff.
+    """
     queryset = Questionnaire.objects.all()
     serializer_class = QuestionnaireHyperlinkSerializer
     permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
