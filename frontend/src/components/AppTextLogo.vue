@@ -1,0 +1,12 @@
+<template>
+    <div class="flex flex-col font-black text-lg leading-4">
+        <p class="text-rose-500">CAREER</p>
+        <p class="text-blueGray-700">GUIDANCE</p>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "AppTextLogo"
+}
+</script>
