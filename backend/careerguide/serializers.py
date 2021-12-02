@@ -1,4 +1,4 @@
-from .models import Staff, Student, Schedule, Questionnaire
+from .models import Staff, Student, Schedule, Questionnaire, Comment
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers, validators
 from django.contrib.auth import get_user_model
@@ -29,7 +29,6 @@ class ProfileHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
         return profile
 
 
-
 class StaffHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
     # nested relationship
     profile = ProfileHyperlinkSerializer()
@@ -49,7 +48,6 @@ class StaffHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
         else:
             raise serializers.ValidationError(_("Incorrect staff id!"))
 
-
     def create(self, validated_data):
         # A new profile object has to be created first, because the staff model
         # has a one-to-one relationship to the Profile (user) model which houses
@@ -65,7 +63,6 @@ class StaffHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
         # after the profile has been created, create the staff instance
         staff = Staff.objects.create(profile=profile, **validated_data)
         return staff
-
 
     def update(self, instance, validated_data):
         # get the profile field
@@ -98,8 +95,6 @@ class StaffHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
         return instance
 
 
-
-
 class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
     # identity field
     url = others.StudentHyperlinkIdentityField(view_name="careerguide:student-detail")
@@ -125,7 +120,6 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
         else:
             raise serializers.ValidationError(_("Incorrect registration number!"))
 
-
     def create(self, validated_data):
         # A new profile object has to be created first, because the student model
         # has a one-to-one relationship to the Profile (user) model which houses
@@ -141,7 +135,6 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
         # after the profile has been created, create the student instance
         student = Student.objects.create(profile=profile, **validated_data)
         return student
-
 
     def update(self, instance, validated_data):
         # get the student profile field
@@ -176,14 +169,13 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
         return instance
 
 
-
 class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
     # url identity field that links to staff instance that owns this schedule
     url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-schedule-detail")
 
     class Meta:
         model = Schedule
-        fields = "__all__"
+        fields = ("id", "url", "staff", "title", "slug", "detail", "created", "completed")
         extra_kwargs = {
             "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
         }
@@ -195,7 +187,19 @@ class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Questionnaire
-        fields = "__all__"
+        fields = ("id", "url", "staff", "students", "created", "title", "slug", "question", "completed")
+        extra_kwargs = {
+            "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
+        }
+
+
+class CommentHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
+    url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-comment-detail")
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+
+    class Meta:
+        model = Comment
+        fields = ("id", "url", "staff", "student", "detail", "created")
         extra_kwargs = {
             "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
         }

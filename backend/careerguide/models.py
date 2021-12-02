@@ -8,7 +8,6 @@ from django.db import models
 import uuid
 
 # needed data
-user_is: str = ''
 SEX: tuple = (('male', 'male'), ('female', 'female'))
 STUDENT_LEVELS: tuple = (
     ('jss1', 'jss1'),
@@ -167,3 +166,18 @@ class Questionnaire(models.Model):
     def __str__(self):
         return F"{self.title}"
     
+
+
+class Comment(models.Model):
+    """
+    Model to store comments and observation on a particular students
+    sessioin.
+    """
+    id = models.AutoField(_("ID"), primary_key=True, unique=True, blank=False, null=False)
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, help_text=_("The staff who made the comments."))
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, help_text=_("The student the comment is made for."))
+    detail = models.TextField(_("Details"))
+    created = models.DateTimeField(_("Created"), auto_now=False, auto_now_add=False, default=timezone.now, blank=False, null=True)
+
+    def __str__(self):
+        return F"@{self.student}"

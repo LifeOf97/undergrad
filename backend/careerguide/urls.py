@@ -1,3 +1,4 @@
+from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views as auth_views
 from django.urls import path
 from . import views
@@ -6,6 +7,9 @@ app_name = "careerguide"
 
 
 urlpatterns = [
+    # API" root view ulr path
+    path("", views.APIRootView.as_view({"get": "list"})),
+
     # Auth url path.
     # Send a post request containing a username and password.
     path("get-auth-token/", auth_views.obtain_auth_token, name="login"),
@@ -37,6 +41,13 @@ urlpatterns = [
     path("staffs/<str:staff_id>/questionnaires/<int:id>/delete/", views.QuestionnaireViewSet.as_view({"delete": "destroy"}), name="staff-questionnaire-delete"),
     path("staffs/<str:staff_id>/questionnaires/<int:id>/update/", views.QuestionnaireViewSet.as_view({"patch": "partial_update"}), name="staff-questionnaire-update"),
 
+    # staffs questionnaire urls path
+    path("staffs/<str:staff_id>/comments/", views.CommentViewSet.as_view({"get": "list"}), name="staff-comment-list"),
+    path("staffs/<str:staff_id>/comments/create/", views.CommentViewSet.as_view({"post": "create"}), name="staff-comment-create"),
+    path("staffs/<str:staff_id>/comments/<int:id>/", views.CommentViewSet.as_view({"get": "retrieve"}), name="staff-comment-detail"),
+    path("staffs/<str:staff_id>/comments/<int:id>/delete/", views.CommentViewSet.as_view({"delete": "destroy"}), name="staff-comment-delete"),
+    path("staffs/<str:staff_id>/comments/<int:id>/update/", views.CommentViewSet.as_view({"patch": "partial_update"}), name="staff-comment-update"),
+
     # student urls path
     path("students/", views.StudentViewSet.as_view({"get": "list"}), name="student-list"),
     path("students/create/", views.StudentViewSet.as_view({"post": "create"}), name="student-create"),
@@ -44,3 +55,6 @@ urlpatterns = [
     path("students/<str:department>/<str:level>/<str:reg_no>/update/", views.StudentViewSet.as_view({"patch": "partial_update"}), name="student-update"),
     path("students/<str:department>/<str:level>/<str:reg_no>/delete/", views.StudentViewSet.as_view({"delete": "destroy"}), name="student-delete"),
 ]
+
+# urls can append a [url]?format=* or [url].* where * is one of ['json', 'api']
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=["api", "json"])

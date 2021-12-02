@@ -1,8 +1,8 @@
 from .serializers import (
     ProfileHyperlinkSerializer, StaffHyperLinkSerializer, StudentHyperLinkSerializer,
-    ScheduleHyperlinkSerializer, QuestionnaireHyperlinkSerializer,
+    ScheduleHyperlinkSerializer, QuestionnaireHyperlinkSerializer, CommentHyperlinkSerializer,
 )
-from .models import Staff, Student, Schedule, Questionnaire
+from .models import Staff, Student, Schedule, Questionnaire, Comment
 from .permissions import IsSuperUser, IsOwnerOrReadOnly
 from rest_framework import permissions, authentication
 from .authentications import BearerAuthentication
@@ -10,12 +10,27 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.reverse import reverse
 from rest_framework import viewsets
 from rest_framework import status
 
 
 # get the current user model
 Profile = get_user_model()
+
+
+class APIRootView(viewsets.ViewSet):
+    """
+    API root view, returns the urls to all apoi endpoint.
+    """
+    def list(self, request, format=None, *args, **kwargs):
+        profiles = reverse("careerguide:profile-list", request=request, format=format)
+        staffs = reverse("careerguide:staff-list", request=request, format=format)
+        students = reverse("careerguide:student-list", request=request, format=format)
+
+        serializer = {"profiles": profiles, "staffs": staffs, "students": students,}
+        return Response(data=serializer, status=status.HTTP_200_OK)
+
 
 
 # create views
@@ -45,17 +60,17 @@ class ProfileViewSet(viewsets.ModelViewSet):
     authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication,]
 
 
-    def list(self, request, format=None):
+    def list(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-    def retrieve(self, request, id=None, format=None):
+    def retrieve(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_object(), context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-    def create(self, request, format=None):
+    def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request": request})
 
         if serializer.is_valid():
@@ -65,7 +80,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    def destroy(self, request, id=None, format=None):
+    def destroy(self, request, format=None, *args, **kwargs):
         user = self.get_object()
         username, userid = [user.username, user.id]
         user.delete()
@@ -100,7 +115,7 @@ class StaffViewSet(viewsets.ModelViewSet):
     authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication,]
 
 
-    def list(self, request, format=None):
+    def list(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -261,15 +276,15 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         return obj
     
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_object(), context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request": request})
 
         # make sure the request comes from the currently logged in staff
@@ -286,7 +301,7 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         serializer = {"detail": "You are not the owner of the account you are trying to create a schedule for!"}
         return Response(data=serializer, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-    def partial_update(self, request, *args, **kwargs):
+    def partial_update(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
 
         if serializer.is_valid():
@@ -294,7 +309,7 @@ class ScheduleViewSet(viewsets.ModelViewSet):
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request, format=None, *args, **kwargs):
         schedule = self.get_object()
         staff, title = [schedule.staff.staff_id, schedule.title]
         serializer = {"staff id": staff, "title": title, "detail": "Deleted successfully"}
@@ -337,22 +352,22 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         # return an instance of a questionnaire for the logged in user and the specified id.
         # make sure to edit the hyperlink identity field on the serializer class to make use
         # of two url kwargs [staff_id and intance id]
-        obj = get_object_or_404(super().get_queryset(), staff__staff_id=self.request.user.staff.staff_id, id=self.kwargs["id"])
+        obj = get_object_or_404(self.get_queryset(), staff__staff_id=self.request.user.staff.staff_id, id=self.kwargs["id"])
 
         # make sure to check for object level permissions
         self.check_object_permissions(self.request, obj)
         return obj
 
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_object(), context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request":  request})
 
         if serializer.is_valid():
@@ -361,18 +376,75 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         # else
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def partial_update(self, request, *args, **kwargs):
+    def partial_update(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
 
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(staff=request.user.staff)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         # else
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request, format=None, *args, **kwargs):
         question = self.get_object()
         q_id, q_title, q_created, q_completed = [question.id, question.title, question.created, question.completed]
         serializer = {"id": q_id, "title": q_title, "created": q_created, "completed": q_completed, "detail": "Deleted successfully"}
         question.delete()
+        return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    """
+    """
+    queryset = Comment.objects.all()
+    serializer_class = CommentHyperlinkSerializer
+    permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
+    authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication]
+
+    def get_queryset(self):
+        # return a list of comments created by the logged in user (staff)
+        queryset = super().get_queryset()
+        queryset = queryset.filter(staff=self.request.user.staff)
+        return queryset
+
+    def get_object(self):
+        # return an instance of a comment for the logged in user and the specified id.
+        # make sure to edit the hyperlink identity field on the serializer class to make use
+        # of two url kwargs [staff_id and intance id]
+        obj = get_object_or_404(self.get_queryset(), staff__staff_id=self.request.user.staff.staff_id, id=self.kwargs["id"])
+        # make sure to check for object level permissions
+        self.check_object_permissions(self.request, obj)
+        return obj    
+
+    def list(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(self.get_object(), context={"request": request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"request":  request})
+
+        if serializer.is_valid():
+            serializer.save(staff=request.user.staff)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        # else
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def partial_update(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
+
+        if serializer.is_valid():
+            serializer.save(staff=request.user.staff)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        # else
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, format=None, *args, **kwargs):
+        comment = self.get_object()
+        c_id, c_student, c_created = [comment.id, comment.student, comment.created]
+        serializer = {"id": c_id, "student": c_student, "created": c_created, "detail": "Deleted successfully"}
+        comment.delete()
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
