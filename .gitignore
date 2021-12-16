@@ -11,6 +11,7 @@ node_modules
 # local env files
 frontend/.env.local
 frontend/.env.*.local
+frontend/src/views/play.vue
 
 # Log files
 frontend/npm-debug.log*
