@@ -12,17 +12,15 @@ export default {
     components: {Calendar,},
     data() {
         return {
-            calendarMask: {
-                weekdays: 'WWW',
-            },
+            calendarMask: {weekdays: 'WWW',},
             calendarAttrs: [
                 {
                     key: "today",
                     highlight: {
                         class: "bg-rose-500",
-                        contentClass: "text-blueGray-50",
+                        contentClass: "text-slate-50",
                     },
-                    dates:  new Date(),
+                    dates: new Date(),
                 },
             ],
         };

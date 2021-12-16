@@ -1,13 +1,13 @@
 <template>
     <div class="flex flex-col space-y-4">
 
-        <div class="flex flex-col p-4 rounded-md shadow bg-blueGray-50">
+        <div class="flex flex-col p-4 rounded-md shadow-md shadow-slate-100 bg-slate-50 hover:shadow-slate-200">
 
             <!-- start of question topic -->
-            <h1 class="text-lg text-blueGray-900 font-medium truncate">Topic of the question</h1>
+            <h1 class="text-lg text-slate-900 font-medium truncate">Topic of the question</h1>
             <!-- end of question topic -->
 
-            <div class="flex flex-wrap gap-4 text-blueGray-500 text-sm mt-2">
+            <div class="flex flex-wrap gap-4 text-slate-500 text-sm mt-2">
 
                 <!-- start of number of students -->
                 <span class="flex space-x-1">
@@ -44,7 +44,7 @@
 
             </div>
 
-            <button @click.prevent class="text-base text-blueGray-900 font-normal p-3 mt-10 bg-white rounded-md transition-colors duration-200 border border-green-400 hover:border-green-600">Open</button>
+            <button @click.prevent="commitUpdateQview({state: true})" class="text-base text-slate-900 font-normal p-3 mt-10 bg-white rounded-md transition-colors duration-200 border border-green-400 hover:border-green-600">Open</button>
 
         </div>
         
@@ -52,7 +52,19 @@
 </template>
 
 <script>
+import {mapState, mapActions} from "vuex";
+
 export default {
-    name: "AppStaffQuestion"
+    name: "AppQuestion",
+    computed: {
+        ...mapState({
+            qview: state => state.qview,
+        }),
+    },
+    methods: {
+        ...mapActions([
+            "commitUpdateQview",
+        ])
+    }
 }
 </script>
