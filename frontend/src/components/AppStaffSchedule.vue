@@ -1,9 +1,9 @@
 <template>
     <div class="w-full h-full selection:bg-rose-500 selection:text-slate-50">
 
-        <div class="flex flex-col pt-3 xl:p-0">
+        <div class="flex flex-col pt-3 mt-10 xl:p-0">
             
-            <div class="w-full flex flex-col mt-10 xl:flex-row xl:space-x-4">
+            <div class="w-full flex flex-col xl:flex-row xl:space-x-4">
 
                 <div class="w-full flex flex-col xl:w-8/12">
 
@@ -79,26 +79,11 @@
         </div>
 
         <teleport to='body'>
-           <div v-if="toDelete" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
-
-                <div class="w-96 h-auto flex flex-col items-center rounded-lg overflow-hidden shadow-lg shadow-red-500/20 bg-slate-50">
-                    <span class="w-full flex flex-col items-center justify-center gap-4 py-5 px-10 bg-white md:flex-row md:items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-rose-500 stroke-current" fill="none" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                        <span class="flex flex-col items-center gap-2 md:items-start">
-                            <h4 class="text-slate-900 text-lg font-semibold">Delete schedule</h4>
-                            <p class="text-slate-500 text-xs font-normal leading-3 md:text-sm">Are you sure you want to delete this schedule?</p>
-                        </span>
-                    </span>
-
-                    <div class="w-full flex flex-col gap-4 p-2 md:flex-row md:w-auto md:self-end">
+            <div v-if="toDelete" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
+                <AppDeleteModal :title="'schedule'">
                         <AppButton @click.prevent :name="'Cancle'" :type="'plain'" />
                         <AppButton @click.prevent="toDelete = false" :name="'Delete'" />
-                    </div>
-
-                </div>
-
+                </AppDeleteModal>
             </div>
         </teleport>
 
@@ -112,10 +97,11 @@ import AppToggle from "./AppToggle.vue";
 import AppCalendar from "./AppCalendar.vue";
 import AppTextField from "./AppTextField.vue"
 import AppInputField from "./AppInputField.vue";
+import AppDeleteModal from "./AppDeleteModal.vue";
 
 export default {
     name: "AppStaffSchedule",
-    components: {AppCalendar, AppTextField, AppInputField, AppButton, AppToggle},
+    components: {AppCalendar, AppTextField, AppInputField, AppButton, AppToggle, AppDeleteModal},
     data() {
         return {
             today: {

@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-500/50 backdrop-blur-sm">
+    <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-500/50 backdrop-blur-sm z-40">
 
         <div class="w-11/12 h-[90%] rounded-md shadow-lg bg-white p-10 overflow-auto lg:w-9/12">
 

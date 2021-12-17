@@ -5,6 +5,7 @@ export default createStore({
     nav: false,
     qform: false,
     qview: false,
+    oform: false,
   },
   mutations: {
     updateNavState(state, payload) {
@@ -19,6 +20,10 @@ export default createStore({
       // mutation to update the qform state
       state.qview = payload.state;
     },
+    updateOformState(state, payload) {
+      // mutation to update the qform state
+      state.oform = payload.state;
+    },
   },
   actions: {
     commitUpdateNav(context, payload) {
@@ -32,6 +37,10 @@ export default createStore({
     commitUpdateQview(context, payload) {
       // commit updateNavState mutation
       context.commit("updateQviewState", payload);
+    },
+    commitUpdateOform(context, payload) {
+      // commit updateNavState mutation
+      context.commit("updateOformState", payload);
     },
   },
   modules: {

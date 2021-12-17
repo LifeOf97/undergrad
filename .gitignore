@@ -1,17 +1,19 @@
 # python (django) settings
-venv/
+backend/venv/
 backend/media/
 backend/src/config.*
 
 .DS_Store
-node_modules
 /dist
 
 
 # local env files
+frontend/node_modules
 frontend/.env.local
 frontend/.env.*.local
-frontend/src/views/play.vue
+
+# vue js files
+frontend/src/assets/images/
 
 # Log files
 frontend/npm-debug.log*

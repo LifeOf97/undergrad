@@ -10,7 +10,8 @@ const routes = [
   {
     path: '/staff',
     name: 'staff',
-    component: () => import(/* webpackChunkName: "authview" */ '../views/Staff.vue'),
+    redirect: {name: 'dashboard'},
+    component: () => import(/* webpackChunkName: "staff" */ '../views/Staff.vue'),
     children: [
       {
         path: "dashboard",
@@ -18,7 +19,7 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "authview" */ '../components/AppStaffDashBoard.vue'),
+        component: () => import(/* webpackChunkName: "dashboard" */ '../components/AppStaffDashBoard.vue'),
       },
       {
         path: "myschedule",
@@ -26,7 +27,7 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "authview" */ '../components/AppStaffSchedule.vue'),
+        component: () => import(/* webpackChunkName: "schedules" */ '../components/AppStaffSchedule.vue'),
       },
       {
         path: "mystudents",
@@ -34,7 +35,35 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "authview" */ '../components/AppStaffStudents.vue'),
+        component: () => import(/* webpackChunkName: "students" */ '../components/AppStudent.vue'),
+      },
+      {
+        path: "mystudents/details",
+        name: "details",
+        redirect: {name: 'studentdata'},
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "details" */ '../components/AppStudentDetail.vue'),
+        children: [
+          {
+            path: "data",
+            name: "studentdata",
+            component: () => import(/* webpackChunkName: "studentdata" */ '../components/AppStudentData.vue'),
+          },
+          {
+            path: "observation",
+            name: "studentobservation",
+            component: () => import(/* webpackChunkName: "studentobservation" */ '../components/AppStudentObservation.vue'),
+          },
+        ]
+      },
+      {
+        path: "mystudents/data/observation",
+        name: "observation",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
       },
       {
         path: "signout",
@@ -42,7 +71,7 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "authview" */ '../components/AppStaffSignout.vue'),
+        component: () => import(/* webpackChunkName: "signout" */ '../components/AppStaffSignout.vue'),
       },
     ]
   },
@@ -52,7 +81,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "authview" */ '../views/play.vue')
+    component: () => import(/* webpackChunkName: "play" */ '../views/play.vue')
   }
 ]
 

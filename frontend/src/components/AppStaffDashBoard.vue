@@ -38,7 +38,7 @@
 
         <!-- start of teleport for questionnaire form -->
         <teleport to='body'>
-            <div v-if="qform" class="z-40">
+            <div v-if="qform">
                 <AppQuestionForm />
             </div>
         </teleport>
@@ -46,7 +46,7 @@
 
         <!-- start of teleport for questionnaire form -->
         <teleport to='body'>
-            <div v-if="qview" class="z-40">
+            <div v-if="qview">
                 <AppQuestionView />
             </div>
         </teleport>

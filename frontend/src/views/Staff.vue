@@ -17,7 +17,7 @@
         <div class="w-full h-full bg-transparent p-0 overflow-hidden xl:py-4">
             
             <div class="w-full h-full bg-white p-4 overflow-y-auto shadow-inner xl:rounded-l-2xl xl:px-8 xl:py-4">
-                <div class="flex justify-between items-center top-10 right-16 xl:fixed">
+                <div class="flex justify-between items-center top-10 right-16 z-20 xl:fixed">
                     <AppLeftNavButton />
                     <AppStaffId />
                 </div>
