@@ -13,7 +13,7 @@
                         <AppInputField :label="'Title'" :color="'green'" :placeholder="'Title of the schedule...'" />
                         <AppTextField :label="'Detail'" :color="'green'" :placeholder="'Detail of the schedule...'" />
                         
-                        <AppButton @click.prevent class="self-end absolute bottom-3 right-3 shadow-lg" :name="'Create'" :color="'green'" />
+                        <AppButton @click.prevent class="self-end absolute bottom-3 right-3" :name="'Create'" :color="'green'" />
                     </form>
                     <!-- schedule form -->
 
@@ -48,7 +48,10 @@
                                     <!-- buttons -->
                                     <div class="flex items-center justify-between border-t pt-2">
                                         <AppToggle v-model="completed" :text="'Completed'" />
-                                        <AppButton @click.prevent="toDelete = true" :name="'Delete'" />
+                                        <div class="flex gap-3">
+                                            <AppButton @click.prevent="toDelete = true" :name="'Save'" :type="'plain'" :disabled="!completed" />
+                                            <AppButton @click.prevent="toDelete = true" :name="'Delete'" />
+                                        </div>
                                     </div>
                                     <!-- buttons -->
 
