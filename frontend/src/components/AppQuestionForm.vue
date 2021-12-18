@@ -46,7 +46,7 @@
                 </div>
                 <!-- filter students -->
 
-                <div class="col-span-2 flex justify-end gap-3 mt-10 border-t border-slate-100 pt-4">
+                <div class="col-span-2 flex justify-end gap-3 mt-10 border-t border-slate-200 pt-4">
                     <AppButton @click.prevent="commitUpdateQform({state: false})" :name="'Cancle'" :type="'plain'" />
                     <AppButton @click.prevent :name="'Create'" :color="'green'" />
                 </div>
