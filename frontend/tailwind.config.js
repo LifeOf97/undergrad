@@ -11,6 +11,7 @@ module.exports = {
       },
       animation: {
         'bounce-h': 'bounce-h 1s infinite',
+        'bounce-v': 'bounce 1s infinite',
       },
       keyframes: {
         'bounce-h': {
