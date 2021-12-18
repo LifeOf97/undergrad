@@ -48,7 +48,7 @@
 
                 <div class="col-span-2 flex justify-end gap-3 mt-10 border-t border-slate-200 pt-4">
                     <AppButton @click.prevent="commitUpdateQform({state: false}), commitUpdateQformEdit({state: false})" :name="'Cancle'" :type="'plain'" />
-                    <AppButton @click.prevent :name="qformEdit ? 'Save changes':'Create'" :color="'rose'" />
+                    <AppButton @click.prevent="loading = !loading" :name="qformEdit ? 'Save changes':'Create'" :color="'rose'" :loading="loading" :loadingText="qformEdit ? 'Saving changes':'Creating'" />
                 </div>
 
             </form>
@@ -73,6 +73,7 @@ export default {
         return {
             title: "",
             question: "",
+            loading: false,
             students: [
                 {
                     title: "Gender",

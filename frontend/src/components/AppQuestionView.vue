@@ -71,7 +71,7 @@
             <div v-if="toDelete" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
                 <AppNotificationModal :type="'delete'" :title="'Delete questionnaire'" :text="'Are you sure you want to delete this questionnaire?'">
                     <AppButton @click.prevent="toDelete = false" :name="'Cancle'" :type="'plain'" />
-                    <AppButton @click.prevent="commitUpdateQview({state: false})" :name="'Delete'" :color="'rose'" />
+                    <AppButton @click.prevent="commitUpdateQview({state: false})" :name="'Delete'" :color="'rose'" :loading="loading" :loadingText="'Deleting'" />
                 </AppNotificationModal>
             </div>
         </teleport>
@@ -97,6 +97,7 @@ export default {
             filters: ["sss1", "science", "art", "commercial"],
             completed: false,
             toDelete: false,
+            loading: false,
         }
     },
     computed: {

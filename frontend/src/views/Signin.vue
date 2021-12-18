@@ -34,7 +34,7 @@
                         </button>
                     </span>
 
-                    <AppButton :name="'Sign in'" :color="'rose'" />
+                    <AppButton @click.prevent="loading = !loading" :name="'Sign in'" :color="'rose'" :loading="loading" :loadingText="'Signing in'" :disabled="loading" />
 
                 </form>
                 
@@ -61,6 +61,7 @@ export default {
     data() {
         return {
             pass: "",
+            loading: false,
             story: require("@/assets/images/amol-tyagi-0juktkOTkpU-unsplash.jpg").default,
         }
     }
