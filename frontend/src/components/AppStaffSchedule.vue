@@ -10,10 +10,10 @@
                     <!-- schedule form -->
                     <form class="relative w-full flex flex-col gap-4">
                         <h2 class="text-slate-600 text-xl font-medium tracking-wide">Create a schedule</h2>
-                        <AppInputField :label="'Title'" :color="'green'" :placeholder="'Title of the schedule...'" />
-                        <AppTextField :label="'Detail'" :color="'green'" :placeholder="'Detail of the schedule...'" />
+                        <AppInputField :label="'Title'" :color="'rose'" :placeholder="'Title of the schedule...'" />
+                        <AppTextField :label="'Detail'" :color="'rose'" :placeholder="'Detail of the schedule...'" />
                         
-                        <AppButton @click.prevent class="self-end absolute bottom-3 right-3" :name="'Create'" :color="'green'" />
+                        <AppButton @click.prevent class="self-end absolute bottom-3 right-3" :name="'Create'" :color="'rose'" />
                     </form>
                     <!-- schedule form -->
 
@@ -49,7 +49,7 @@
                                     <div class="flex items-center justify-between border-t pt-2">
                                         <AppToggle v-model="completed" :text="'Completed'" />
                                         <div class="flex gap-3">
-                                            <AppButton @click.prevent="toDelete = true" :name="'Save'" :type="'plain'" :disabled="!completed" />
+                                            <AppButton @click.prevent :name="'Save'" :type="'plain'" :disabled="!completed" />
                                             <AppButton @click.prevent="toDelete = true" :name="'Delete'" />
                                         </div>
                                     </div>
@@ -83,10 +83,10 @@
 
         <teleport to='body'>
             <div v-if="toDelete" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
-                <AppDeleteModal :title="'schedule'">
-                        <AppButton @click.prevent :name="'Cancle'" :type="'plain'" />
+                <AppNotificationModal :type="'delete'" :title="'Delete schedule'" :text="'Are you sure you want to delete this schedule?'">
+                        <AppButton @click.prevent="toDelete = false" :name="'Cancle'" :type="'plain'" />
                         <AppButton @click.prevent="toDelete = false" :name="'Delete'" />
-                </AppDeleteModal>
+                </AppNotificationModal>
             </div>
         </teleport>
 
@@ -100,11 +100,11 @@ import AppToggle from "./AppToggle.vue";
 import AppCalendar from "./AppCalendar.vue";
 import AppTextField from "./AppTextField.vue"
 import AppInputField from "./AppInputField.vue";
-import AppDeleteModal from "./AppDeleteModal.vue";
+import AppNotificationModal from "./AppNotificationModal.vue";
 
 export default {
     name: "AppStaffSchedule",
-    components: {AppCalendar, AppTextField, AppInputField, AppButton, AppToggle, AppDeleteModal},
+    components: {AppCalendar, AppTextField, AppInputField, AppButton, AppToggle, AppNotificationModal},
     data() {
         return {
             today: {

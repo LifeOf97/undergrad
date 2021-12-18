@@ -13,7 +13,6 @@ frontend/.env.local
 frontend/.env.*.local
 
 # vue js files
-frontend/src/assets/images
 frontend/src/views/play.vue
 
 # Log files

@@ -7,7 +7,7 @@
                 <div class="absolute top-5 right-5 lg:hidden">
                     <AppCloseButton @click.prevent="commitUpdateNav({state: false})" />
                 </div>
-                <AppTextLogo />
+                <AppTextLogo :color="'rose'" />
                 <AppLeftNavLinks />
             </div>
         </div>
@@ -32,32 +32,45 @@
         </div>
         <!-- end of main view -->
 
+        <teleport to='body'>
+            <div v-if="signout" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
+                <AppNotificationModal :type="'signout'" :title="'Sign out'" :text="'Are you sure you want to sign out?'">
+                        <AppButton @click.prevent="commitUpdateSignout({state: false})" :name="'Cancle'" :type="'plain'" />
+                        <AppButton @click.prevent="commitUpdateSignout({state: false})" :name="'Sign out'" />
+                </AppNotificationModal>
+            </div>
+        </teleport>
+
     </div>
 </template>
 
 <script>
 import {mapState, mapActions} from "vuex";
+import AppButton from "@/components/AppButton.vue";
 import AppStaffId from "@/components/AppStaffId.vue";
 import AppTextLogo from "@/components/AppTextLogo.vue";
 import AppCloseButton from "@/components/AppCloseButton.vue";
 import AppLeftNavLinks from "@/components/AppLeftNavLinks.vue";
 import AppLeftNavButton from "@/components/AppLeftNavButton.vue";
 import AppStaffDashBoard from "@/components/AppStaffDashBoard.vue";
+import AppNotificationModal from "@/components/AppNotificationModal.vue";
 
 export default {
     name: "AuthView",
     components: {
         AppStaffId, AppTextLogo, AppLeftNavLinks, AppCloseButton, AppStaffDashBoard,
-        AppLeftNavButton,
+        AppLeftNavButton, AppNotificationModal, AppButton
     },
     computed: {
         ...mapState({
             nav: state => state.nav,
+            signout: state => state.signout,
         }),
     },
     methods: {
         ...mapActions([
             "commitUpdateNav",
+            "commitUpdateSignout",
         ])
     }
 }

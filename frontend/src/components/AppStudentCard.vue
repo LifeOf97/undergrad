@@ -70,8 +70,6 @@ export default {
     data() {
         return  {
             src: require("@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg").default,
-            src1: require("@/assets/images/nana-o-LPaeGH0xHgw-unsplash.jpg").default,
-            src2: require("@/assets/images/zach-vessels--7I5Z7zPXGY-unsplash.jpg").default,
         }
     }
 }

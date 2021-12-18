@@ -8,15 +8,15 @@
                     <h1 class="text-2xl text-slate-900 font-bold">Questionnaire</h1>
                     <p class="text-xs text-slate-500 font-medium">Create questions to ask your students.</p>
                 </span>
-                <AppCloseButton @click.prevent="commitUpdateQform({state: false})" />
+                <AppCloseButton @click.prevent="commitUpdateQform({state: false}), commitUpdateQformEdit({state: false})" />
             </div>
 
             <!-- forms fields -->
             <form class="grid grid-cols-1 gap-8 mt-10 lg:grid-cols-3 lg:gap-x-16 lg:gap-y-0">
 
                 <div class="space-y-8 col-span-2">
-                    <AppInputField v-model="title" :label="'Title'" :type="'text'" :color="'green'" />
-                    <AppTextField :label="'Question(s)'" :color="'green'" />
+                    <AppInputField v-model="title" :label="'Title'" :type="'text'" :color="'rose'" />
+                    <AppTextField :label="'Question(s)'" :color="'rose'" />
                 </div>
 
                 <!-- filter students -->
@@ -47,8 +47,8 @@
                 <!-- filter students -->
 
                 <div class="col-span-2 flex justify-end gap-3 mt-10 border-t border-slate-200 pt-4">
-                    <AppButton @click.prevent="commitUpdateQform({state: false})" :name="'Cancle'" :type="'plain'" />
-                    <AppButton @click.prevent :name="'Create'" :color="'green'" />
+                    <AppButton @click.prevent="commitUpdateQform({state: false}), commitUpdateQformEdit({state: false})" :name="'Cancle'" :type="'plain'" />
+                    <AppButton @click.prevent :name="qformEdit ? 'Save changes':'Create'" :color="'rose'" />
                 </div>
 
             </form>
@@ -107,6 +107,7 @@ export default {
     computed: {
         ...mapState({
             qform: state => state.qform,
+            qformEdit: state => state.qformEdit,
             qview: state => state.qview,
         })
     },
@@ -114,6 +115,7 @@ export default {
         ...mapActions([
             "commitUpdateQform",
             "commitUpdateQview",
+            "commitUpdateQformEdit",
         ])
     }
 }

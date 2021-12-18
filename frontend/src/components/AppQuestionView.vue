@@ -58,7 +58,7 @@
 
                     <div class="flex gap-3 ">
                         <AppButton @click.prevent="toDelete = true" :name="'Delete'" :type="'plain'" />
-                        <AppButton @click.prevent="editQuestion" :name="'Edit'" :color="'green'" />
+                        <AppButton @click.prevent="commitUpdateQformEdit({state: true}), commitUpdateQview({state: false})" :name="'Edit'" :color="'rose'" />
                     </div>
                 </div>
                 <!-- question buttons -->
@@ -69,10 +69,10 @@
 
         <teleport to="body">
             <div v-if="toDelete" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
-                <AppDeleteModal :title="'questionnaire'">
-                    <AppButton @click.prevent :name="'Cancle'" :type="'plain'" />
-                    <AppButton @click.prevent="commitUpdateQview({state: false})" :name="'Delete'" />
-                </AppDeleteModal>
+                <AppNotificationModal :type="'delete'" :title="'Delete questionnaire'" :text="'Are you sure you want to delete this questionnaire?'">
+                    <AppButton @click.prevent="toDelete = false" :name="'Cancle'" :type="'plain'" />
+                    <AppButton @click.prevent="commitUpdateQview({state: false})" :name="'Delete'" :color="'rose'" />
+                </AppNotificationModal>
             </div>
         </teleport>
         
@@ -86,11 +86,11 @@ import AppButton from "./AppButton.vue";
 import AppToggle from "./AppToggle.vue";
 import AppStaffId from "./AppStaffId.vue";
 import AppCloseButton from "./AppCloseButton.vue";
-import AppDeleteModal from "./AppDeleteModal.vue";
+import AppNotificationModal from "./AppNotificationModal.vue";
 
 export default {
     name: "AppQuestionView",
-    components: {AppCloseButton, AppStaffId, AppButton, AppToggle, AppDeleteModal},
+    components: {AppCloseButton, AppStaffId, AppButton, AppToggle, AppNotificationModal},
     data() {
         return {
             published: DateTime.now().setLocale("en-US").toLocaleString(DateTime.DATE_MED),
@@ -102,12 +102,14 @@ export default {
     computed: {
         ...mapState({
             qview: state => state.qview,
+            qformEdit: state => state.qformEdit,
         }),
     },
     methods: {
         ...mapActions([
             "commitUpdateQform",
             "commitUpdateQview",
+            "commitUpdateQformEdit",
         ]),
         editQuestion() {
             this.commitUpdateQview({state: false});

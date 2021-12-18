@@ -28,12 +28,12 @@
 
         <!-- start of sign out -->
         <div>
-            <router-link :to="{name: 'signout'}" active-class="text-slate-50 bg-slate-500" class="group flex items-center text-slate-600 gap-3 rounded-lg p-2 transition-all duration-150 hover:bg-slate-500">
+            <button @click.prevent="commitUpdateSignout({state: true})" class="group flex items-center text-slate-600 gap-3 rounded-lg p-2 transition-all duration-150 hover:bg-slate-500">
                 <svg class="w-6 h-6 fill-current group-hover:text-slate-50" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 21H10C8.89543 21 8 20.1046 8 19V15H10V19H19V5H10V9H8V5C8 3.89543 8.89543 3 10 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21ZM12 16V13H3V11H12V8L17 12L12 16Z"></path>
                 </svg>
                 <p class="text-sm group-hover:text-slate-50">Sign out</p>
-            </router-link>
+            </button>
         </div>
         <!-- end of sign out -->
 
@@ -53,6 +53,7 @@ export default {
     methods: {
         ...mapActions([
             "commitUpdateNav",
+            "commitUpdateSignout",
         ]),
     },
 }

@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home
   },
   {
@@ -12,7 +12,7 @@ const routes = [
     name: 'staff',
     redirect: {name: 'dashboard'},
     component: () => import(/* webpackChunkName: "staff" */ '../views/Staff.vue'),
-    children: [
+    children: [ // nested routes
       {
         path: "dashboard",
         name: "dashboard",
@@ -45,7 +45,7 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "details" */ '../components/AppStudentDetail.vue'),
-        children: [
+        children: [ // nested routes
           {
             path: "data",
             name: "studentdata",
@@ -65,24 +65,16 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
       },
-      {
-        path: "signout",
-        name: "signout",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "signout" */ '../components/AppStaffSignout.vue'),
-      },
     ]
   },
   {
-    path: '/play',
-    name: 'play',
+    path: "/signin",
+    name: "signin",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "play" */ '../views/play.vue')
-  }
+    component: () => import(/* webpackChunkName: "signout" */ '../views/Signin.vue'),
+  },
 ]
 
 const router = createRouter({

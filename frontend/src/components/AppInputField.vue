@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col space-y-2">
+    <div class="flex flex-col">
 
-        <label :for="label" class="text-xs text-slate-900 font-medium md:text-base">{{label}}</label>
+        <label :for="label" :class="labelColor == 'black' ? 'text-slate-900':'text-slate-50'" class="text-xs font-medium md:text-base">{{label}}</label>
 
         <div :class="color == 'rose' ? 'hover:border-rose-500 focus-within:border-rose-500':'hover:border-green-500 focus-within:border-green-500'" class="relative flex bg-slate-50 rounded-md shadow border-2 border-transparent">
 
@@ -14,10 +14,10 @@
             :autofocus="autofocus ? true:false"
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
-            class="w-full text-slate-800 text-sm font-medium bg-transparent p-2 placeholder-slate-400 focus:outline-none">
+            class="w-full text-slate-800 text-sm font-medium bg-transparent p-2 placeholder-slate-300 focus:outline-none">
 
             <!-- this button is only available when the input field is a password type -->
-            <button title="show password" v-if="type == 'password'" @click.prevent="togglePassword" class="flex-initial flex justify-center items-center mr-3 font-extrabold text-2xl z-10">
+            <button title="show password" v-if="type == 'password'" @click.prevent="togglePassword()" class="flex-initial flex justify-center items-center mr-3 font-extrabold text-2xl z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" v-if="showPassword" class="fill-current text-slate-500 h-5 w-5" viewBox="0 0 20 20">
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
@@ -41,6 +41,7 @@ export default {
         modelValue: {type: String, required: false},
         type: {type: String, required: false, default: "text"},
         label: {type: String, required: false, default: "Text"},
+        labelColor: {type: String, required: false, default: "black"},
         color: {type: String, required: false, default: "rose"},
         placeholder: {type: String, required: false},
         required: {type: Boolean, required:false, default: false},

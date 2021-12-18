@@ -38,7 +38,7 @@
 
         <!-- start of teleport for questionnaire form -->
         <teleport to='body'>
-            <div v-if="qform">
+            <div v-if="qform|qformEdit">
                 <AppQuestionForm />
             </div>
         </teleport>
@@ -83,6 +83,7 @@ export default {
         ...mapState({
             qform: state => state.qform,
             qview: state => state.qview,
+            qformEdit: state => state.qformEdit,
         })
     },
     methods: {
