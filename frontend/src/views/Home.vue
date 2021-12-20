@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-screen w-screen flex flex-col bg-no-repeat bg-cover bg-center md:bg-left" :style="{backgroundImage: `url(${require(`@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg`).default})`}">
+  <div class="relative h-screen w-screen flex flex-col bg-no-repeat bg-cover bg-center selection:bg-rose-500 selection:text-slate-50 md:bg-left" :style="{backgroundImage: `url(${require(`@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg`).default})`}">
 
     <!-- absolute div background gradiant color -->
     <div class="absolute w-full h-full top-0 left-0 bg-gradient-to-r from-slate-100 via-slate-100/70 to-slate-100/0"></div>
@@ -19,8 +19,7 @@
           As teachers, parents and guardians, children look up to us<br>for direction. We should not outrightly decide their path,<br>but help them in deciding their career path.
         </p>
 
-        <span class="flex flex-col gap-1 mt-7">
-          <p class="text-xs text-slate-400 font-semibold">Are you a staff?</p>
+        <span class="mt-7">
           <span class="flex">
             <router-link :to="{name: 'signin'}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
           </span>
@@ -32,7 +31,7 @@
     <!-- <router-link :to="{name: 'staff'}" class="text-blue-400 font-bold">Staff</router-link> -->
 
     <!-- attributes -->
-    <span class="absolute bottom-3 right-10 text-slate-900 text-xs font-medium flex gap-1 text-sm z-10">
+    <span class="absolute bottom-3 right-10 text-slate-900 text-xs font-medium flex gap-1 z-10">
       <p>Photo by</p>
       <a class="underline decoration-2 decoration-blue-600 cursor-pointer" href="https://unsplash.com/@benwhitephotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Ben White</a>
       <p>on</p>

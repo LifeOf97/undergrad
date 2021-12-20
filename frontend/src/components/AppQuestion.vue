@@ -44,7 +44,7 @@
 
             </div>
 
-            <button @click.prevent="commitUpdateQview({state: true})" class="text-base text-slate-900 font-normal p-3 mt-10 bg-white rounded-md transition-colors duration-200 border border-green-400 hover:border-green-600">Open</button>
+            <button @click.prevent="actionUpdateQview({state: true})" class="text-base text-slate-900 font-normal p-3 mt-10 bg-white rounded-md transition-colors duration-200 border border-green-400 hover:border-green-600">Open</button>
 
         </div>
         
@@ -63,7 +63,7 @@ export default {
     },
     methods: {
         ...mapActions([
-            "commitUpdateQview",
+            "actionUpdateQview",
         ])
     }
 }

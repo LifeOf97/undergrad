@@ -13,7 +13,7 @@
             :required="required ? true:false"
             :autofocus="autofocus ? true:false"
             :value="modelValue"
-            @input="$emit('update:modelValue', $event.target.value)"
+            @input="emitValue"
             class="w-full text-slate-800 text-sm font-medium bg-transparent p-2 placeholder-slate-300 focus:outline-none">
 
             <!-- this button is only available when the input field is a password type -->
@@ -39,6 +39,9 @@ export default {
     name: "AppInputField",
     props: {
         modelValue: {type: String, required: false},
+        modelModifiers: {
+            default: () => ({})
+        },
         type: {type: String, required: false, default: "text"},
         label: {type: String, required: false, default: "Text"},
         labelColor: {type: String, required: false, default: "black"},
@@ -56,6 +59,19 @@ export default {
         }
     },
     methods: {
+        emitValue(e) { // adding modifiers
+            let value = e.target.value;
+            if (this.modelModifiers.capitalize) {
+                value = value.charAt(0).toUpperCase() + value.slice(1);
+            }
+            else if (this.modelModifiers.upper) {
+                value = value.toUpperCase();
+            }
+            else if (this.modelModifiers.lower) {
+                value = value.toLowerCase();
+            }
+            this.$emit("update:modelValue", value)
+        },
         togglePassword() {
             this.showPassword = !this.showPassword;
             this.inputType = this.showPassword ? "text":"password"; 

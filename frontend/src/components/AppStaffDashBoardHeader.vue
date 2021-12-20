@@ -8,7 +8,7 @@
                 <p class="text-slate-200 text-xs font-normal leading-4 md:text-sm md:leading-5">Ask your students relevant questions to help<br>them decide their career path.</p>
             </div>
 
-            <button @click.prevent="commitUpdateQform({state: true})" class="text-base text-slate-900 font-medium bg-slate-50 p-3 rounded-lg duration-200 hover:scale-105 hover:shadow-lg">Create Questionnaire</button>
+            <button @click.prevent="actionUpdateQform({state: true})" class="text-base text-slate-900 font-medium bg-slate-50 p-3 rounded-lg duration-200 hover:scale-105 hover:shadow-lg">Create Questionnaire</button>
 
         </div>
 
@@ -40,8 +40,8 @@ export default {
     },
     methods: {
         ...mapActions([
-            "commitUpdateQform",
-            "commitUpdateQview",
+            "actionUpdateQform",
+            "actionUpdateQview",
         ])
     }
 }

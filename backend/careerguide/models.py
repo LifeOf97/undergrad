@@ -36,7 +36,7 @@ class Profile(AbstractUser):
     username = models.CharField(_("Username"), max_length=255, unique=True, blank=False, null=False)
 
     # user bio
-    other_name = models.CharField(_("Other Name"), max_length=255, blank=True, null=True)
+    other_name = models.CharField(_("Other Name"), max_length=255, blank=True, null=False)
     gender = models.CharField(_("Gender"), max_length=6, choices=SEX, blank=True, null=True)
     dob = models.DateField(_("Date of Birth"), auto_now=False, auto_now_add=False, blank=True, null=True)
     image = models.ImageField(_("Image"), upload_to=save_image, blank=True, null=True)

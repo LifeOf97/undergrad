@@ -1,3 +1,4 @@
+from corsheaders.defaults import default_headers, default_methods
 from pathlib import Path
 import json
 
@@ -18,7 +19,7 @@ SECRET_KEY = CONFIG['SECRET_KEY']
 # Boolean value
 DEBUG = CONFIG['DEBUG']['DEVELOPMENT']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "192.168.43.208"]
 
 
 # Application definition
@@ -35,11 +36,13 @@ INSTALLED_APPS = [
     # 3rd party apps
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -142,3 +145,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     # "DEFAULT_AUTHENTICATION_CLASSES"
 }
+
+# Django corsheaders settings
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:8080',
+    'http://localhost:8000',
+    'http://localhost:8080',
+    'http://192.168.43.208:8000',
+    'http://192.168.43.208:8080',
+]
+
+CORS_ALLOW_METHODS = list(default_methods) + []
+CORS_ALLOW_HEADERS = list(default_headers) + []
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000',
+]
+CORS_EXPOSE_HEADERS = []
+CORS_REPLACE_HTTPS_REFERER = False
+CORS_PREFLIGHT_MAX_AGE = 86400
+CORS_ALLOW_CREDENTIALS = True

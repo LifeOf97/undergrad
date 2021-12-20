@@ -14,6 +14,9 @@
 export default {
     name: "AppTextField",
     props: {
+        modelModifiers: {
+            default: () => ({})
+        },
         label: {type: String, required: false},
         color: {type: String, required: false, default: "rose"},
         placeholder: {type: String, required: false},
@@ -22,5 +25,20 @@ export default {
     },
     emits: ["update:modelValue"],
     inheritAttrs: false,
+    methods: {
+        emitValue(e) { // adding modifiers
+            let value = e.target.value;
+            if (this.modelModifiers.capitalize) {
+                value = value.charAt(0).toUpperCase() + value.slice(1);
+            }
+            else if (this.modelModifiers.upper) {
+                value = value.toUpperCase();
+            }
+            else if (this.modelModifiers.lower) {
+                value = value.toLowerCase();
+            }
+            this.$emit("update:modelValue", value)
+        },
+    }
 }
 </script>

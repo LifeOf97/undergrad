@@ -19,13 +19,17 @@
                     </span>
                 </span>
 
-                <form class="w-full flex flex-col gap-5">
-                    <AppInputField :type="'text'" :label="'Staff ID'" :color="'rose'" :labelColor="'black'" />
-                    <AppInputField v-model="pass" :type="'password'" :label="'password'" :color="'rose'" :labelColor="'black'" />
+                <ul>
+                    <li v-if="signinError != null" class="text-sm text-rose-500 font-medium list-disc list-inside">{{signinError}}</li>
+                </ul>
+
+                <form @submit.prevent="signIn" class="w-full flex flex-col gap-5">
+                    <AppInputField v-model.upper="staffId" :type="'text'" :required="true" :label="'Staff ID'" :color="'rose'" :labelColor="'black'" />
+                    <AppInputField v-model="password" :type="'password'" :required="true" :label="'password'" :color="'rose'" :labelColor="'black'" />
 
                     <span class="flex justify-between items-center">
                         <span class="flex gap-1">
-                            <input type="checkbox" name="remember" id="remember" class="cursor-pointer accent-rose-500">
+                            <input v-model="rememberMe" type="checkbox" name="remember" id="remember" class="cursor-pointer accent-rose-500">
                             <label for="remember" class="text-slate-500 text-xs font-normal cursor-pointer">Remember me</label>
                         </span>
 
@@ -34,7 +38,7 @@
                         </button>
                     </span>
 
-                    <AppButton @click.prevent="loading = !loading" :name="'Sign in'" :color="'rose'" :loading="loading" :loadingText="'Signing in'" :disabled="loading" />
+                    <AppButton :name="'Sign in'" :color="'rose'" :loading="isAuthenticating" :loadingText="'Signing in'" :disabled="isAuthenticating" />
 
                 </form>
                 
@@ -51,19 +55,58 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+import Cookies from "js-cookie";
+import AppButton from "@/components/AppButton.vue";
 import AppTextLogo from "@/components/AppTextLogo.vue";
 import AppInputField from "@/components/AppInputField.vue";
-import AppButton from "@/components/AppButton.vue";
 
 export default {
     name: "Signin",
     components: {AppTextLogo, AppInputField, AppButton},
     data() {
         return {
-            pass: "",
-            loading: false,
             story: require("@/assets/images/amol-tyagi-0juktkOTkpU-unsplash.jpg").default,
+            staffId: "",
+            password: "",
+            rememberMe: false,
         }
-    }
+    },
+    mounted() {
+        this.$nextTick(function() { // makes sure all components are rendered
+            this.staffId = Cookies.get("staff_id");
+            this.rememberMe = Cookies.get("staff_id") ? true:false;
+        });
+    },
+    computed: {
+        ...mapState({
+            isAuthenticating: state => state.isAuthenticating,
+            signinError: state => state.signinError,
+            staffToken: state => state.staffToken,
+            staffData: state => state.staffData,
+        }),
+    },
+    methods: {
+        ...mapActions([
+            "actionSignin",
+        ]),
+        signIn() {
+            // method to sign in a staff. First get staff login details.
+            const staffData = {
+                staffId: this.staffId,
+                password: this.password,
+                rememberMe: this.rememberMe,
+            };
+            // then dispatch actionSignin
+            this.actionSignin(staffData);
+        },
+    },
+    watch: {
+        staffData() {
+            // watch staffData store state for changes so as to route
+            // authenticated users to their dashboard.
+            this.$router.push({name: "staff", params: {staffId: this.staffData.staff_id}})
+        }
+    },
 }
 </script>

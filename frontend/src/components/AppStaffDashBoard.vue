@@ -2,7 +2,7 @@
     <div class="w-full h-full">
 
         <div class="flex flex-col pt-3 xl:p-0">
-            <AppStaffGreet class="mt-10 mb-4 xl:mt-14" />
+            <AppStaffGreet :staffData="staffData" class="mt-10 mb-4 xl:mt-14" />
             
             <div class="w-full flex flex-col xl:flex-row xl:space-x-4">
 
@@ -84,12 +84,13 @@ export default {
             qform: state => state.qform,
             qview: state => state.qview,
             qformEdit: state => state.qformEdit,
-        })
+            staffData: state => state.staffData,
+        }),
     },
     methods: {
         ...mapActions([
-            "commitUpdateQform",
-            "commitUpdateQview",
+            "actionUpdateQform",
+            "actionUpdateQview",
         ])
     }
 }

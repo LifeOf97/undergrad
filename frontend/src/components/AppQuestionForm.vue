@@ -1,14 +1,14 @@
 <template>
     <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-500/50 backdrop-blur-sm z-40">
 
-        <div class="w-11/12 h-[90%] rounded-md shadow-lg bg-white p-10 overflow-auto lg:w-9/12">
+        <div class="w-11/12 h-[90%] rounded-md shadow-lg bg-white p-10 overflow-auto md:h-auto lg:w-9/12">
 
             <div class="flex items-center justify-between">
                 <span>
                     <h1 class="text-2xl text-slate-900 font-bold">Questionnaire</h1>
                     <p class="text-xs text-slate-500 font-medium">Create questions to ask your students.</p>
                 </span>
-                <AppCloseButton @click.prevent="commitUpdateQform({state: false}), commitUpdateQformEdit({state: false})" />
+                <AppCloseButton @click.prevent="actionUpdateQform({state: false}), actionUpdateQformEdit({state: false})" />
             </div>
 
             <!-- forms fields -->
@@ -47,7 +47,7 @@
                 <!-- filter students -->
 
                 <div class="col-span-2 flex justify-end gap-3 mt-10 border-t border-slate-200 pt-4">
-                    <AppButton @click.prevent="commitUpdateQform({state: false}), commitUpdateQformEdit({state: false})" :name="'Cancle'" :type="'plain'" />
+                    <AppButton @click.prevent="actionUpdateQform({state: false}), actionUpdateQformEdit({state: false})" :name="'Cancle'" :type="'plain'" />
                     <AppButton @click.prevent="loading = !loading" :name="qformEdit ? 'Save changes':'Create'" :color="'rose'" :loading="loading" :loadingText="qformEdit ? 'Saving changes':'Creating'" />
                 </div>
 
@@ -114,9 +114,9 @@ export default {
     },
     methods: {
         ...mapActions([
-            "commitUpdateQform",
-            "commitUpdateQview",
-            "commitUpdateQformEdit",
+            "actionUpdateQform",
+            "actionUpdateQview",
+            "actionUpdateQformEdit",
         ])
     }
 }

@@ -76,7 +76,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-            
+
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -213,7 +213,7 @@ class StudentViewSet(viewsets.ModelViewSet):
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    
+
     def partial_update(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
 
@@ -270,11 +270,11 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         # make sure to edit the hyperlink identity field on the serializer class to make use
         # of two url kwargs [staff_id and instance id]
         obj = get_object_or_404(self.get_queryset(), staff__staff_id=self.request.user.staff.staff_id, id=self.kwargs["id"])
-        
+
         # Make sure to check if the user has object level permission
         self.check_object_permissions(self.request, obj)
         return obj
-    
+
 
     def list(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
@@ -414,7 +414,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         obj = get_object_or_404(self.get_queryset(), staff__staff_id=self.request.user.staff.staff_id, id=self.kwargs["id"])
         # make sure to check for object level permissions
         self.check_object_permissions(self.request, obj)
-        return obj    
+        return obj
 
     def list(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
