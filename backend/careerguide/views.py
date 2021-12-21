@@ -1,8 +1,8 @@
 from .serializers import (
     ProfileHyperlinkSerializer, StaffHyperLinkSerializer, StudentHyperLinkSerializer,
-    ScheduleHyperlinkSerializer, QuestionnaireHyperlinkSerializer, CommentHyperlinkSerializer,
+    ScheduleHyperlinkSerializer, QuestionnaireHyperlinkSerializer, ObservationHyperlinkSerializer,
 )
-from .models import Staff, Student, Schedule, Questionnaire, Comment
+from .models import Staff, Student, Schedule, Questionnaire, Observation
 from .permissions import IsSuperUser, IsOwnerOrReadOnly
 from rest_framework import permissions, authentication
 from .authentications import BearerAuthentication
@@ -13,6 +13,7 @@ from rest_framework.decorators import action
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
 from rest_framework import status
+import json
 
 
 # get the current user model
@@ -370,6 +371,34 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
     def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request":  request})
 
+        # First, we need to retrieve reg_no's belonging to students in each category.
+        # get the categories field from the validated serializer 
+        categories = serializer.initial_data.get("categories")
+        # default categories
+        all_department: set = set({"art", "commercial", "science", "social science"})
+        all_level: set = set({"jss1", "jss2", "jss3", "sss1", "sss2", "sss3"})
+        all_gender: set = set({"male", "female"})
+        # retrieved categories
+        department: set = {dept for dept in categories['department']}
+        level: set = {lvl for lvl in categories['level']}
+        gender: set = {sex for sex in categories['gender']}
+
+        student_query = Student.objects.all()
+
+        category: set = {reg_no for reg_no in student_query.filter(
+            department__in=[dept for dept in all_department.intersection(department) or all_department],
+            level__in=[lvl for lvl in all_level.intersection(level) or all_level],
+            profile__gender__in=[sex for sex in all_gender.intersection(gender) or all_gender]
+        )}
+
+        # then update the students field with the reg number of students in each category
+        serializer.initial_data["students"] = [student.reg_no for student in category]
+        # and also update the category field to a string of value
+        serializer.initial_data["categories"] = ", ".join(department.union(level, gender))
+        # print(serializer.initial_data["categories"])
+        # print(serializer.initial_data["students"])
+
+
         if serializer.is_valid():
             serializer.save(staff=request.user.staff)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -393,22 +422,22 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
 
 
-class CommentViewSet(viewsets.ModelViewSet):
+class ObservationViewSet(viewsets.ModelViewSet):
     """
     """
-    queryset = Comment.objects.all()
-    serializer_class = CommentHyperlinkSerializer
+    queryset = Observation.objects.all()
+    serializer_class = ObservationHyperlinkSerializer
     permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
     authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication]
 
     def get_queryset(self):
-        # return a list of comments created by the logged in user (staff)
+        # return a list of observations created by the logged in user (staff)
         queryset = super().get_queryset()
         queryset = queryset.filter(staff=self.request.user.staff)
         return queryset
 
     def get_object(self):
-        # return an instance of a comment for the logged in user and the specified id.
+        # return an instance of a observation for the logged in user and the specified id.
         # make sure to edit the hyperlink identity field on the serializer class to make use
         # of two url kwargs [staff_id and intance id]
         obj = get_object_or_404(self.get_queryset(), staff__staff_id=self.request.user.staff.staff_id, id=self.kwargs["id"])
@@ -443,8 +472,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, format=None, *args, **kwargs):
-        comment = self.get_object()
-        c_id, c_student, c_created = [comment.id, comment.student, comment.created]
-        serializer = {"id": c_id, "student": c_student, "created": c_created, "detail": "Deleted successfully"}
-        comment.delete()
+        observation = self.get_object()
+        o_id, o_student, o_created = [observation.id, observation.student, observation.created]
+        serializer = {"id": o_id, "student": o_student, "created": o_created, "detail": "Deleted successfully"}
+        observation.delete()
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)

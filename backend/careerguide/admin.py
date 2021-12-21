@@ -1,12 +1,12 @@
 from .forms import ProfileCreationForm, ProfileChangeForm, StaffAdminForm, StudentAdminForm
-from .models import Profile, Staff, Student, Schedule, Questionnaire, Comment
+from .models import Profile, Staff, Student, Schedule, Questionnaire, Observation
 from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
 
 
 # Register your inline admins here.
-class CommentInlineAdmin(admin.TabularInline):
-    model = Comment
+class ObservationInlineAdmin(admin.TabularInline):
+    model = Observation
 
     fieldsets = (
         ("Identification", {"fields": ("id", "student")}),
@@ -55,9 +55,9 @@ class ProfileAdmin(UserAdmin):
     add_from = ProfileCreationForm
 
     # fields used in displaying the user model
-    list_display = ('info', 'id', 'username',)
+    list_display = ('info', 'username',)
     list_filter = ('is_staff', 'is_active', 'is_superuser')
-    list_display_links = ("info", "id",)
+    list_display_links = ("info",)
 
     fieldsets = (
         ("Identification", {"fields": ("id", "username", "password")}),
@@ -96,7 +96,7 @@ class StaffAdmin(admin.ModelAdmin):
     ordering = ("id",)
     readonly_fields = ("id",)
     empty_value_display = '-empty-'
-    inlines = [ScheduleInlineAdmin, QuestionnaireInlineAdmin, CommentInlineAdmin]
+    inlines = [ScheduleInlineAdmin, QuestionnaireInlineAdmin, ObservationInlineAdmin]
 
 
 
@@ -112,14 +112,14 @@ class StudentAdmin(admin.ModelAdmin):
     list_filter = ("level", "department")
 
     fieldsets = (
-        ("Identification", {"fields": ("id", "reg_no", "level", "department")}),
-        ("Bio", {"fields": ("parent", "profile")})
+        ("Identification", {"fields": ("id", "profile", "reg_no", "level", "department",)}),
+        ("Bio", {"fields": ("parent",)}),
     )
 
     ordering = ("id",)
     readonly_fields = ("id",)
     empty_value_display = '-empty-'
-    inlines = [QuestionnaireStudentInlineAdmin, CommentInlineAdmin,]
+    inlines = [QuestionnaireStudentInlineAdmin, ObservationInlineAdmin,]
 
 
 
@@ -144,7 +144,7 @@ class QuestionnaireAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ("Identification", {"fields": ("id", "staff")}),
-        ("Detail", {"fields": ("title", "slug", "question", "created", "completed")}),
+        ("Detail", {"fields": ("title", "slug", "question", "created", "categories", "completed")}),
         ("Students", {"fields": ("students",)})
     )
 
@@ -152,7 +152,7 @@ class QuestionnaireAdmin(admin.ModelAdmin):
     readonly_fields = ("id", "slug", "created")
 
 
-class CommentAdmin(admin.ModelAdmin):
+class ObservationAdmin(admin.ModelAdmin):
     list_display = ("id", "student", "created", "staff")
     list_display_links = ("id", "student")
     list_filter = ("staff",)
@@ -168,7 +168,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Staff, StaffAdmin)
 admin.site.register(Profile, ProfileAdmin)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(Observation, ObservationAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Questionnaire, QuestionnaireAdmin)

@@ -21,7 +21,7 @@ DEPT: tuple = (
     ('art', 'art'),
     ('science', 'science'),
     ('commercial', 'commercial'),
-    ('social science', 'Social Science'),
+    ('social science', 'social science'),
 )
 
 
@@ -59,9 +59,9 @@ class Profile(AbstractUser):
 
     def __str__(self):
         if self.is_staff:
-            return F"[STAFF] - {self.get_full_name()} : {self.id}"
+            return F"[STAFF] - {self.get_full_name()} : {self.username}"
         else:
-            return F"[STUDENT] - {self.get_full_name()} : {self.id}"
+            return F"[STUDENT] - {self.get_full_name()} : {self.username}"
 
 
     def info(self) -> str:
@@ -157,6 +157,10 @@ class Questionnaire(models.Model):
     slug = models.SlugField(_("Title slug"), max_length=255, blank=False, null=True)
     question = models.TextField(_("Question"))
     completed = models.BooleanField(_("Completed"), default=False, blank=False, null=False)
+    categories = models.CharField(
+        _("Categories"), max_length=255, blank=False, null=False,
+        help_text=_("Comma/space seperated values representing the type of students this questionnaire is ment for<br>E.G: art, ss1, male")
+    )
 
 
     def save(self, *args, **kwargs):
@@ -168,7 +172,7 @@ class Questionnaire(models.Model):
     
 
 
-class Comment(models.Model):
+class Observation(models.Model):
     """
     Model to store comments and observation on a particular students
     sessioin.

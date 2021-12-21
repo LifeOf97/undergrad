@@ -111,16 +111,18 @@ export default createStore({
           // then dispatch the actionGetStaffData action to get the staff data.
           context.dispatch("actionGetStaffData", payload)
         })
-        .catch(() => {
+        .catch((err) => {
           // if error response. set staffToken state to null, set isAuthenticating
           // and isAuthenticated state to false, set signinError state to the error
           // text and set staffData state to null
           context.commit("updateStaffTokenState", {token: null});
           context.commit("updateIsAuthenticatingState", {state: false});
           context.commit("updateIsAuthenticatedState", {state: false});
-          context.commit("updateSigninErrorState", {detail: "Incorrect staff id/password"});
+          context.commit("updateSigninErrorState", {
+            detail: err.toString().slice(7).startsWith("Network") ? "Please check your network connection":"Incorrect staff id/password"
+          });
           context.commit("updateStaffDataState", {detail: ""});
-          // console.log(err.response);
+          // console.log(err.toString().slice(7));
         });
     },
     async actionGetStaffData(context, payload) {

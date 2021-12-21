@@ -1,4 +1,4 @@
-from .models import Staff, Student, Schedule, Questionnaire, Comment
+from .models import Staff, Student, Schedule, Questionnaire, Observation
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers, validators
 from django.contrib.auth import get_user_model
@@ -187,18 +187,18 @@ class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Questionnaire
-        fields = ("id", "url", "staff", "students", "created", "title", "slug", "question", "completed")
+        fields = ("id", "url", "staff", "students", "categories", "created", "title", "slug", "question", "completed")
         extra_kwargs = {
             "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
         }
 
 
-class CommentHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
-    url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-comment-detail")
+class ObservationHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
+    url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-observation-detail")
     student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
 
     class Meta:
-        model = Comment
+        model = Observation
         fields = ("id", "url", "staff", "student", "detail", "created")
         extra_kwargs = {
             "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},

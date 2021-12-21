@@ -42,11 +42,11 @@ urlpatterns = [
     path("staffs/<str:staff_id>/questionnaires/<int:id>/update/", views.QuestionnaireViewSet.as_view({"patch": "partial_update"}), name="staff-questionnaire-update"),
 
     # staffs questionnaire urls path
-    path("staffs/<str:staff_id>/observations/", views.CommentViewSet.as_view({"get": "list"}), name="staff-comment-list"),
-    path("staffs/<str:staff_id>/observations/create/", views.CommentViewSet.as_view({"post": "create"}), name="staff-comment-create"),
-    path("staffs/<str:staff_id>/observations/<int:id>/", views.CommentViewSet.as_view({"get": "retrieve"}), name="staff-comment-detail"),
-    path("staffs/<str:staff_id>/observations/<int:id>/delete/", views.CommentViewSet.as_view({"delete": "destroy"}), name="staff-comment-delete"),
-    path("staffs/<str:staff_id>/observations/<int:id>/update/", views.CommentViewSet.as_view({"patch": "partial_update"}), name="staff-comment-update"),
+    path("staffs/<str:staff_id>/observations/", views.ObservationViewSet.as_view({"get": "list"}), name="staff-observation-list"),
+    path("staffs/<str:staff_id>/observations/create/", views.ObservationViewSet.as_view({"post": "create"}), name="staff-observation-create"),
+    path("staffs/<str:staff_id>/observations/<int:id>/", views.ObservationViewSet.as_view({"get": "retrieve"}), name="staff-observation-detail"),
+    path("staffs/<str:staff_id>/observations/<int:id>/delete/", views.ObservationViewSet.as_view({"delete": "destroy"}), name="staff-observation-delete"),
+    path("staffs/<str:staff_id>/observations/<int:id>/update/", views.ObservationViewSet.as_view({"patch": "partial_update"}), name="staff-observation-update"),
 
     # student urls path
     path("students/", views.StudentViewSet.as_view({"get": "list"}), name="student-list"),
