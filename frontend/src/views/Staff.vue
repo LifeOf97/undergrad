@@ -76,7 +76,6 @@ export default {
             "actionUpdateNav",
             "actionUpdateSignout",
             "actionSignout",
-            "actionResetStaffData"
         ]),
         async signOut() {
             this.actionUpdateNav({state: false});

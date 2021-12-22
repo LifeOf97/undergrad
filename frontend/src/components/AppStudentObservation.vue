@@ -6,7 +6,7 @@
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl text-slate-900 font-bold">Observations</h2>
 
-                <button @click.prevent="actionUpdateOform({state: true})" class="flex items-center justify-between gap-2 border border-slate-500 rounded-md p-2 group hover:border-slate-900">
+                <button @click.prevent="actionUpdateObservationForm({open: true})" class="flex items-center justify-between gap-2 border border-slate-500 rounded-md p-2 group hover:border-slate-900">
                     <span class="text-xs text-slate-500 font-medium group-hover:text-slate-900">New</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 fill-current group-hover:text-green-600" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
@@ -49,7 +49,7 @@
         </div>
 
         <teleport to='body'>
-            <div v-if="oform" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
+            <div v-if="observationForm.open" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
                 <AppObservationForm />
             </div>
         </teleport>
@@ -66,12 +66,12 @@ export default {
     components: {AppObservationForm,},
     computed: {
         ...mapState({
-            oform: state => state.oform,
+            observationForm: state => state.observationForm,
         }),
     },
     methods: {
         ...mapActions([
-            "actionUpdateOform",
+            "actionUpdateObservationForm",
         ]),
     },
 }

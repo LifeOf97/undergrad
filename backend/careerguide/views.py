@@ -374,29 +374,28 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         # First, we need to retrieve reg_no's belonging to students in each category.
         # get the categories field from the validated serializer 
         categories = serializer.initial_data.get("categories")
+        print(categories)
         # default categories
         all_department: set = set({"art", "commercial", "science", "social science"})
         all_level: set = set({"jss1", "jss2", "jss3", "sss1", "sss2", "sss3"})
         all_gender: set = set({"male", "female"})
         # retrieved categories
-        department: set = {dept for dept in categories['department']}
-        level: set = {lvl for lvl in categories['level']}
-        gender: set = {sex for sex in categories['gender']}
+        categories: set = set({cat for cat in categories})
 
         student_query = Student.objects.all()
 
         category: set = {reg_no for reg_no in student_query.filter(
-            department__in=[dept for dept in all_department.intersection(department) or all_department],
-            level__in=[lvl for lvl in all_level.intersection(level) or all_level],
-            profile__gender__in=[sex for sex in all_gender.intersection(gender) or all_gender]
+            department__in=[dept for dept in all_department.intersection(categories) or all_department],
+            level__in=[lvl for lvl in all_level.intersection(categories) or all_level],
+            profile__gender__in=[sex for sex in all_gender.intersection(categories) or all_gender]
         )}
 
         # then update the students field with the reg number of students in each category
         serializer.initial_data["students"] = [student.reg_no for student in category]
         # and also update the category field to a string of value
-        serializer.initial_data["categories"] = ", ".join(department.union(level, gender))
-        # print(serializer.initial_data["categories"])
-        # print(serializer.initial_data["students"])
+        serializer.initial_data["categories"] = ", ".join(categories)
+        print(serializer.initial_data["categories"])
+        print(serializer.initial_data["students"])
 
 
         if serializer.is_valid():
@@ -407,6 +406,31 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
 
     def partial_update(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
+
+        # First, we need to retrieve reg_no's belonging to students in each category.
+        # get the categories field from the validated serializer 
+        categories = serializer.initial_data.get("categories")
+        # default categories
+        all_department: set = set({"art", "commercial", "science", "social science"})
+        all_level: set = set({"jss1", "jss2", "jss3", "sss1", "sss2", "sss3"})
+        all_gender: set = set({"male", "female"})
+        # retrieved categories
+        categories: set = set({cat for cat in categories})
+
+        student_query = Student.objects.all()
+
+        category: set = {reg_no for reg_no in student_query.filter(
+            department__in=[dept for dept in all_department.intersection(categories) or all_department],
+            level__in=[lvl for lvl in all_level.intersection(categories) or all_level],
+            profile__gender__in=[sex for sex in all_gender.intersection(categories) or all_gender]
+        )}
+
+        # then update the students field with the reg number of students in each category
+        serializer.initial_data["students"] = [student.reg_no for student in category]
+        # and also update the category field to a string of value
+        serializer.initial_data["categories"] = ", ".join(categories)
+        print(serializer.initial_data["categories"])
+        print(serializer.initial_data["students"])
 
         if serializer.is_valid():
             serializer.save(staff=request.user.staff)

@@ -158,7 +158,7 @@ class Questionnaire(models.Model):
     question = models.TextField(_("Question"))
     completed = models.BooleanField(_("Completed"), default=False, blank=False, null=False)
     categories = models.CharField(
-        _("Categories"), max_length=255, blank=False, null=False,
+        _("Categories"), max_length=255, blank=True, null=False,
         help_text=_("Comma/space seperated values representing the type of students this questionnaire is ment for<br>E.G: art, ss1, male")
     )
 

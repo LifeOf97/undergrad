@@ -4,13 +4,13 @@
         <div class="relative w-11/12 h-auto rounded-md shadow-lg bg-white overflow-y-auto p-7 lg:w-9/12">
 
             <!-- close button -->
-            <AppCloseButton @click.prevent="actionUpdateOform({state: false})" class="absolute top-7 right-7" />
+            <AppCloseButton @click.prevent="actionUpdateObservationForm({open: false})" class="absolute top-7 right-7" />
             <!-- close button -->
 
             <div class="w-full mx-auto flex flex-col gap-10 mt-20 lg:w-8/12">
 
                 <div class="flex items-center justify-between">
-                    <AppStaffId :staffData="staffData" />
+                    <AppStaffId :staffData="staffData.data" />
                     <p class="text-xs text-slate-500 font-medium">{{today}}</p>
                 </div>
 
@@ -22,8 +22,8 @@
                 <form class="flex flex-col gap-4">
                     <AppTextField :color="'rose'" :placeholder="'What have you observed?'" />
                     <div class="flex justify-end gap-3 border-slate-100 pt-4">
-                        <AppButton @click.prevent="actionUpdateOform({state: false})" :name="'Cancle'" :type="'plain'" />
-                        <AppButton @click.prevent="actionUpdateOform({state: false})" :name="'Create'" :color="'rose'" />
+                        <AppButton @click.prevent="actionUpdateObservationForm({open: false})" :name="'Cancle'" :type="'plain'" />
+                        <AppButton @click.prevent="actionUpdateObservationForm({open: false})" :name="'Create'" :color="'rose'" />
                     </div>
                 </form>
 
@@ -53,13 +53,13 @@ export default {
     },
     computed: {
         ...mapState({
-            oform: state => state.oform,
+            observationForm: state => state.observationForm,
             staffData: state => state.staffData,
         }),
     },
     methods: {
         ...mapActions([
-            "actionUpdateOform",
+            "actionUpdateObservationForm",
         ]),
     },
 }

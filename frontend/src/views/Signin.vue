@@ -3,7 +3,7 @@
 
         <div class="relative w-full h-full flex flex-col items-center justify-center bg-white lg:w-1/2">
 
-            <router-link :to="{name: 'home'}" class="absolute top-3 right-5 group flex items-center text-blue-500 font-light gap-1 hover:text-blue-600 md:gap-2">
+            <router-link :to="{name: 'home'}" class="absolute top-0 right-0 group flex items-center text-slate-50 font-light gap-1 px-2 py-1 rounded-bl-md bg-blue-500 hover:bg-blue-600 md:gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-current group-hover:animate-bounce-h" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
                 </svg>
@@ -20,7 +20,8 @@
                 </span>
 
                 <ul>
-                    <li v-if="signinError != null" class="text-sm text-rose-500 font-medium list-disc list-inside">{{signinError}}</li>
+                    <li v-if="auth.error != null" class="text-sm text-rose-500 font-medium list-disc list-inside">{{auth.error}}</li>
+                    <li v-if="auth.authToken != null" class="text-sm text-rose-500 font-medium list-disc list-inside">{{auth.authToken}}</li>
                 </ul>
 
                 <form @submit.prevent="signIn" class="w-full flex flex-col gap-5">
@@ -38,7 +39,7 @@
                         </button>
                     </span>
 
-                    <AppButton :name="'Sign in'" :color="'rose'" :loading="isAuthenticating" :loadingText="'Signing in'" :disabled="isAuthenticating" />
+                    <AppButton :name="'Sign in'" :color="'rose'" :loading="auth.isAuthenticating" :loadingText="'Signing in'" :disabled="auth.isAuthenticating" />
 
                 </form>
                 
@@ -50,6 +51,7 @@
         <div class="w-1/2 h-full bg-transparent hidden lg:block">
             <img :src="story" class="w-full h-full object-cover" />
         </div>
+
     
     </div>
 </template>
@@ -80,9 +82,7 @@ export default {
     },
     computed: {
         ...mapState({
-            isAuthenticating: state => state.isAuthenticating,
-            signinError: state => state.signinError,
-            staffToken: state => state.staffToken,
+            auth: state => state.auth,
             staffData: state => state.staffData,
         }),
     },
@@ -105,7 +105,7 @@ export default {
         staffData() {
             // watch staffData store state for changes so as to route
             // authenticated users to their dashboard.
-            this.$router.push({name: "staff", params: {staffId: this.staffData.staff_id}})
+            this.$router.push({name: "staff", params: {staffId: this.staffData.staff_id}});
         }
     },
 }

@@ -25,7 +25,7 @@ const routes = [
       title: "Dashboard | Career Guidance"
     },
     beforeEnter: (to) => {
-      if (to.meta.requiresAth && !store.state.isAuthenticated) {
+      if (to.meta.requiresAth && !store.state.auth.isAuthenticated) {
         return {name: 'signin'}
       }
       else {
@@ -92,7 +92,13 @@ const routes = [
       title: "Sign in | Career Guidance"
     },
     beforeEnter: (to) => {
-      document.title = to.meta.title;
+      if (store.state.auth.isAuthenticated) {
+        return {name: "staff", params: {staffId: store.state.staffData.staff_id}}
+      }
+      else {
+        document.title = to.meta.title;
+        return true;
+      }
     }
   },
   {

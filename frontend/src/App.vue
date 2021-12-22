@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     ...mapState({
-      isAuthenticated: state => state.isAuthenticated,
+      isAuthenticated: state => state.auth.isAuthenticated,
       staffData: state => state.staffData,
     }),
   },

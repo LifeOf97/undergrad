@@ -4,7 +4,7 @@
         <label :for="label" class="text-xs text-slate-900 font-medium md:text-base">{{label}}</label>
 
         <div :class="color == 'rose' ? 'hover:border-rose-500 focus-within:border-rose-500':'hover:border-green-500 focus-within:border-green-500'" class="relative bg-slate-50 rounded-md shadow border-2 border-transparent">
-            <textarea :name="label" :id="label" :rows="rows" :cols="cols" :placeholder="placeholder" @input="$emit('update:modelValue', $event.target.value)" class="w-full resize-none text-slate-800 text-sm font-medium p-2 bg-transparent placeholder-slate-300 focus:outline-none md:text-base"></textarea>
+            <textarea :required="required ? true:false" :name="label" :id="label" :rows="rows" :cols="cols" :placeholder="placeholder" @input="$emit('update:modelValue', $event.target.value)" class="w-full resize-none text-slate-800 text-sm font-medium p-2 bg-transparent placeholder-slate-300 focus:outline-none md:text-base"></textarea>
         </div>
         
     </div>
@@ -22,6 +22,7 @@ export default {
         placeholder: {type: String, required: false},
         cols: {type: String, required: false, default: "30"},
         rows: {type: String, required: false, default: "10"},
+        required: {type: Boolean, required: false, default: false},
     },
     emits: ["update:modelValue"],
     inheritAttrs: false,

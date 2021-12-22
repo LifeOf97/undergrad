@@ -1,10 +1,10 @@
 <template>
     <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-500/50 backdrop-blur-sm z-40 selection:bg-rose-500 selection:text-slate-50">
 
-        <div class="relative w-11/12 h-[90%] rounded-md shadow-lg bg-white overflow-y-auto p-7 md:h-auto lg:w-9/12">
+        <div class="relative w-11/12 h-[90%] rounded-md shadow-lg bg-white overflow-y-auto lg:w-9/12">
 
             <!-- close button -->
-            <AppCloseButton @click.prevent="actionUpdateQview({state: false})" class="absolute top-7 right-7" />
+            <AppCloseButton @click.prevent="actionUpdateQuestionnaireView({open: false})" class="absolute top-7 right-7" />
             <!-- close button -->
 
             <div class="w-full flex flex-col gap-4 mt-16 mx-auto lg:w-10/12 xl:w-8/12">
@@ -58,7 +58,7 @@
 
                     <div class="flex gap-3 ">
                         <AppButton @click.prevent="toDelete = true" :name="'Delete'" :type="'plain'" />
-                        <AppButton @click.prevent="actionUpdateQformEdit({state: true}), actionUpdateQview({state: false})" :name="'Edit'" :color="'rose'" />
+                        <AppButton @click.prevent="actionUpdateQuestionnaireEdit({open: true, saving: false}), actionUpdateQuestionnaireView({open: false})" :name="'Edit'" :color="'rose'" />
                     </div>
                 </div>
                 <!-- question buttons -->
@@ -71,7 +71,7 @@
             <div v-if="toDelete" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
                 <AppNotificationModal :type="'delete'" :title="'Delete questionnaire'" :text="'Are you sure you want to delete this questionnaire?'">
                     <AppButton @click.prevent="toDelete = false" :name="'Cancle'" :type="'plain'" />
-                    <AppButton @click.prevent="actionUpdateQview({state: false})" :name="'Delete'" :color="'rose'" :loading="loading" :loadingText="'Deleting'" />
+                    <AppButton @click.prevent="actionUpdateQuestionnaireView({open: false})" :name="'Delete'" :color="'rose'" :loading="loading" :loadingText="'Deleting'" />
                 </AppNotificationModal>
             </div>
         </teleport>
@@ -102,20 +102,20 @@ export default {
     },
     computed: {
         ...mapState({
-            qview: state => state.qview,
-            qformEdit: state => state.qformEdit,
+            questionnaireView: state => state.questionnaireView,
+            questionnaireEdit: state => state.questionnaireEdit,
             staffData: state => state.staffData,
         }),
     },
     methods: {
         ...mapActions([
-            "actionUpdateQform",
-            "actionUpdateQview",
-            "actionUpdateQformEdit",
+            "actionUpdateQuestionnaireForm",
+            "actionUpdateQuestionnaireView",
+            "actionUpdateQuestionnaireEdit",
         ]),
         editQuestion() {
-            this.actionUpdateQview({state: false});
-            this.actionUpdateQform({state: true});
+            this.actionUpdateQuestionnaireView({open: false});
+            this.actionUpdateQuestionnaireForm({open: true});
         }
     },
 }
