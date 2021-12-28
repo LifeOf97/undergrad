@@ -10,7 +10,7 @@
             <div class="w-full mx-auto flex flex-col gap-10 mt-20 lg:w-8/12">
 
                 <div class="flex items-center justify-between">
-                    <AppStaffId :staffData="staffData.data" />
+                    <AppStaffId :staffData="staffData" />
                     <p class="text-xs text-slate-500 font-medium">{{today}}</p>
                 </div>
 

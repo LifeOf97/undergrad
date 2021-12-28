@@ -21,7 +21,7 @@
 
                 <ul>
                     <li v-if="auth.error != null" class="text-sm text-rose-500 font-medium list-disc list-inside">{{auth.error}}</li>
-                    <li v-if="auth.authToken != null" class="text-sm text-rose-500 font-medium list-disc list-inside">{{auth.authToken}}</li>
+                    <!-- <li v-if="auth.authToken != null" class="text-sm text-rose-500 font-medium list-disc list-inside">{{auth.authToken}}</li> -->
                 </ul>
 
                 <form @submit.prevent="signIn" class="w-full flex flex-col gap-5">
@@ -31,7 +31,7 @@
                     <span class="flex justify-between items-center">
                         <span class="flex gap-1">
                             <input v-model="rememberMe" type="checkbox" name="remember" id="remember" class="cursor-pointer accent-rose-500">
-                            <label for="remember" class="text-slate-500 text-xs font-normal cursor-pointer">Remember me</label>
+                            <label for="remember" class="text-slate-500 text-xs font-normal cursor-pointer">Remember staff</label>
                         </span>
 
                         <button @click.prevent class="text-sm font-medium text-blue-500 hover:text-blue-600">
@@ -52,6 +52,14 @@
             <img :src="story" class="w-full h-full object-cover" />
         </div>
 
+        <!-- credits -->
+        <span class="absolute bottom-3 right-10 text-slate-50 text-xs font-medium flex gap-1 z-10">
+            <p>Photo by</p>
+            <a class="underline decoration-2 decoration-blue-600 cursor-pointer" target="_blank" href="https://unsplash.com/@nate_dumlao?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Nathan Dumlao</a>
+            <p>on</p>
+            <a class="underline decoration-2 decoration-blue-600 cursor-pointer" target="_blank" href="https://unsplash.com/s/photos/class-room?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+        </span>
+
     
     </div>
 </template>
@@ -68,7 +76,7 @@ export default {
     components: {AppTextLogo, AppInputField, AppButton},
     data() {
         return {
-            story: require("@/assets/images/amol-tyagi-0juktkOTkpU-unsplash.jpg").default,
+            story: require("@/assets/images/nathan-dumlao-xPHmmVKS8lM-unsplash.jpg").default,
             staffId: "",
             password: "",
             rememberMe: false,

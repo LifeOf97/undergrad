@@ -8,12 +8,12 @@
                 <div class="w-full flex flex-col xl:w-8/12">
 
                     <!-- schedule form -->
-                    <form class="relative w-full flex flex-col gap-4">
+                    <form @submit.prevent="createSchedule()" class="relative w-full flex flex-col gap-4">
                         <h2 class="text-slate-600 text-xl font-medium tracking-wide">Create a schedule</h2>
-                        <AppInputField :label="'Title'" :color="'rose'" :placeholder="'Title of the schedule...'" />
-                        <AppTextField :label="'Detail'" :color="'rose'" :placeholder="'Detail of the schedule...'" />
+                        <AppInputField v-model="title" :label="'Title'" :color="'rose'" :placeholder="'Title of the schedule...'" :required="true" />
+                        <AppTextField v-model="detail" :label="'Detail'" :color="'rose'" :placeholder="'Detail of the schedule...'" :required="true" />
                         
-                        <AppButton @click.prevent="creating = !creating" class="self-end absolute bottom-3 right-3" :name="'Create'" :color="'rose'" :loading="creating" :loadingText="'Creating'" :disabled="creating" />
+                        <AppButton class="self-end absolute bottom-3 right-3" :name="'Create'" :color="'rose'" :loading="scheduleForm.saving" :loadingText="'Creating'" :disabled="scheduleForm.saving" />
                     </form>
                     <!-- schedule form -->
 
@@ -21,47 +21,33 @@
 
                         <h2 class="text-2xl text-slate-900 font-bold md:text-3xl">Schedules</h2>
 
+                        <!-- if fetching schedules -->
+                        <span v-if="schedules.loading" class="flex items-center justify-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-spin stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <p class="text-base text-slate-600 font-normal">Loading</p>
+                        </span>
+
+                        <!-- if fetching schedules returns an error -->
+                        <span v-if="schedules.error != null" class="flex flex-col items-center justify-center">
+                            <p class="text-sm text-rose-500 font-medium">{{schedules.error}}</p>
+                            <span>
+                                <AppButton @click.prevent="actionRetrieveSchedule()" :type="'plain'" :name="'Try again'" :loading="schedules.loading" :loadingText="'Loading'" />
+                            </span>
+                        </span>
+
+                        <!-- if no schedules yet -->
+                        <span v-if="schedulesLen()" class="flex item-center justify-center">
+                            <p class="text-base text-slate-500 font-light">You do not have any schedule</p>
+                        </span>
+
+                        <!-- if schedules are available -->
                         <div class="flex flex-col gap-4">
-                            <details v-for="(name, index) in [1,2,3]" :key="index" class="flex flex-col gap-4 bg-slate-100 rounded-md p-4 shadow open:shadow-lg hover:shadow-lg">
-                                <summary class="flex items-center gap-4 cursor-pointer">
-                                    <svg :class="completed ? 'text-green-500':'text-rose-500'" class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M13.66 4.3C13.5649 3.83433 13.1553 3.5 12.68 3.5H5.5C4.94772 3.5 4.5 3.94772 4.5 4.5V19.5C4.5 20.0523 4.94772 20.5 5.5 20.5C6.05228 20.5 6.5 20.0523 6.5 19.5V13.5H12.1L12.34 14.7C12.4307 15.1683 12.8431 15.5048 13.32 15.5H18.5C19.0523 15.5 19.5 15.0523 19.5 14.5V6.5C19.5 5.94772 19.0523 5.5 18.5 5.5H13.9L13.66 4.3Z"></path>
-                                    </svg>
-
-                                    <span class="flex flex-col max-w-[80%]">
-                                        <p class="text-sm text-slate-700 font-medium truncate md:text-base">Create questionnaire for SSS2 students</p>
-                                        <p class="text-xs text-slate-500 font-light md:text-sm">created: {{today.time}} </p>
-                                    </span>
-                                </summary>
-
-                                <span class="flex flex-col gap-8 mt-4 ml-10">
-                                    <p class="text-slate-500 text-sm font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus
-                                        venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent
-                                        elementum facilisis leo, vel  Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
-                                        aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus
-                                        dolor purus non enim praesent elementum facilisis leo, vel  Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna
-                                        fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo,
-                                        vel  Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet
-                                    </p>
-
-                                    <!-- buttons -->
-                                    <div class="flex items-center justify-between border-t pt-2">
-                                        <AppToggle v-model="completed" :text="'Completed'" />
-                                        <div class="flex gap-3">
-                                            <AppButton @click.prevent :name="'Save'" :type="'plain'" :disabled="!completed" />
-                                            <AppButton @click.prevent="toDelete = true" :name="'Delete'" :loading="toDelete" :loadingText="'Deleting'" :disabled="toDelete" />
-                                        </div>
-                                    </div>
-                                    <!-- buttons -->
-
-                                </span>
-
-                            </details>
+                            <AppScheduleCard v-for="schedule in schedules.data" :key="schedule.id" :schedule="schedule" />
                         </div>
-
                     </div>
-
                 </div>
 
 
@@ -82,10 +68,10 @@
         </div>
 
         <teleport to='body'>
-            <div v-if="toDelete" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
+            <div v-if="scheduleDelete.open" class="w-screen h-screen absolute top-0 left-0 flex justify-center items-center bg-slate-500/50 backdrop-blur z-50">
                 <AppNotificationModal :type="'delete'" :title="'Delete schedule'" :text="'Are you sure you want to delete this schedule?'">
-                        <AppButton @click.prevent="toDelete = false" :name="'Cancle'" :type="'plain'" />
-                        <AppButton @click.prevent="toDelete = false" :name="'Delete'" />
+                        <AppButton @click.prevent="actionUpdateScheduleDelete({open: false, id: ''})" :name="'Cancle'" :type="'plain'" />
+                        <AppButton @click.prevent="actionDeleteSchedule()" :name="'Delete'" />
                 </AppNotificationModal>
             </div>
         </teleport>
@@ -94,28 +80,64 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
 import {DateTime} from "luxon";
 import AppButton from "./AppButton.vue";
-import AppToggle from "./AppToggle.vue";
 import AppCalendar from "./AppCalendar.vue";
-import AppTextField from "./AppTextField.vue"
+import AppTextField from "./AppTextField.vue";
 import AppInputField from "./AppInputField.vue";
+import AppScheduleCard from "./AppScheduleCard.vue";
 import AppNotificationModal from "./AppNotificationModal.vue";
 
 export default {
     name: "AppStaffSchedule",
-    components: {AppCalendar, AppTextField, AppInputField, AppButton, AppToggle, AppNotificationModal},
+    components: {
+        AppCalendar, AppTextField, AppInputField, AppButton,
+        AppNotificationModal, AppScheduleCard
+    },
     data() {
         return {
+            title: "",
+            detail: "",
             today: {
                 weekday: DateTime.now().setLocale("en-US").toLocaleString({weekday: 'long'}),
                 full: DateTime.now().setLocale("en-US").toLocaleString(DateTime.DATE_FULL),
                 time: DateTime.now().setLocale("en-US").toLocaleString(DateTime.TIME_SIMPLE),
             },
-            completed: false,
-            toDelete: false,
-            creating: false,
         }
+    },
+    computed: {
+        ...mapState({
+            scheduleDelete: state => state.scheduleDelete,
+            scheduleForm: state => state.scheduleForm,
+            schedules: state => state.schedules,
+        }),
+    },
+    methods: {
+        ...mapActions([
+            "actionCreateSchedule",
+            "actionUpdateSchedule",
+            "actionRetrieveSchedule",
+            "actionDeleteSchedule",
+            "actionUpdateScheduleDelete",
+        ]),
+        createSchedule() {
+            // method to create a new schedule
+            const data = {title: this.title, detail: this.detail}
+            // then pass the data to the actionCreateSchedule
+            this.actionCreateSchedule({data: data});
+
+            // make sure to reset data state
+            this.title = "";
+            this.detail = "";
+        },
+        schedulesLen() {
+            if (this.schedules.data.length < 1) return true
+            else return false;
+        },
+    },
+    created() {
+        this.actionRetrieveSchedule();
     },
 }
 </script>

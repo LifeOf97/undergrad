@@ -14,7 +14,7 @@
             :autofocus="autofocus ? true:false"
             :value="modelValue"
             @input="emitValue"
-            class="w-full text-slate-800 text-sm font-medium bg-transparent p-2 placeholder-slate-300 focus:outline-none">
+            class="w-full text-slate-600 text-sm font-medium bg-transparent p-2 placeholder-slate-300 focus:outline-none">
 
             <!-- this button is only available when the input field is a password type -->
             <button title="show password" v-if="type == 'password'" @click.prevent="togglePassword()" class="flex-initial flex justify-center items-center mr-3 font-extrabold text-2xl z-10">

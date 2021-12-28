@@ -44,7 +44,7 @@
 
             </div>
 
-            <button @click.prevent="actionUpdateQuestionnaireView({open: true})" class="text-base text-slate-900 font-normal p-3 mt-10 bg-white rounded-md transition-colors duration-200 border border-green-400 hover:border-green-600">Open</button>
+            <button @click.prevent="actionUpdateQuestionnaireView({open: true, data: question, error: null})" class="text-base text-slate-900 font-normal p-3 mt-10 bg-white rounded-md transition-colors duration-200 border border-green-400 hover:border-green-600">Open</button>
 
         </div>
         

@@ -30,8 +30,8 @@
 
     <!-- <router-link :to="{name: 'staff'}" class="text-blue-400 font-bold">Staff</router-link> -->
 
-    <!-- attributes -->
-    <span class="absolute bottom-3 right-10 text-slate-900 text-xs font-medium flex gap-1 z-10">
+    <!-- credits -->
+    <span class="absolute bottom-3 right-10 text-slate-50 text-xs font-medium flex gap-1 z-10">
       <p>Photo by</p>
       <a class="underline decoration-2 decoration-blue-600 cursor-pointer" href="https://unsplash.com/@benwhitephotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Ben White</a>
       <p>on</p>

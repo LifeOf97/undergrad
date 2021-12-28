@@ -2,8 +2,13 @@
     <div class="">
 
         <!-- start of staff name/id -->
-        <div class="flex items-center space-x-2">
-            <img :src="img" alt="Staff avatar" class="w-10 h-10 rounded-full object-cover object-top border border-red-50">
+        <div class="flex items-center justify-center">
+            <div class="">
+                <img v-if="staffData.profile.image" :src="staffData.profile.image" alt="Staff avatar" class="w-10 h-10 rounded-full object-cover object-top mr-2 border border-red-50">
+                <div v-else class="w-8 h-8 flex items-center justify-center rounded-full bg-rose-500 ring-2 ring-rose-500 ring-offset-4 ring-offset-rose-200 mr-3">
+                    <p class="capitalize font-black text-2xl text-slate-50">{{staffData.profile.first_name[0]}}</p>
+                </div>
+            </div>
 
             <div class="flex flex-col">
                 <h3 class="max-w-[10rem] text-slate-900 text-sm font-semibold capitalize truncate">{{staffData.profile.first_name}} {{staffData.profile.other_name[0]}}. {{staffData.profile.last_name}}</h3>

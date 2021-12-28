@@ -14,6 +14,7 @@
 export default {
     name: "AppTextField",
     props: {
+        modelValue: {type: String, required: false},
         modelModifiers: {
             default: () => ({})
         },

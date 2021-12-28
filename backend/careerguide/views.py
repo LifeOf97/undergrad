@@ -262,7 +262,7 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         # modified queryset to return a list of schedules belonging to the
         # logged in user.
         queryset = super().get_queryset()
-        queryset = queryset.filter(staff=self.request.user.staff)
+        queryset = queryset.filter(staff=self.request.user.staff).order_by("-created")
         return queryset
 
 
@@ -346,7 +346,7 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # return a list of questionnaire created by the logged in user
         queryset = super().get_queryset()
-        queryset = queryset.filter(staff=self.request.user.staff)
+        queryset = queryset.filter(staff=self.request.user.staff).order_by("-created")
         return queryset
 
     def get_object(self):
@@ -385,15 +385,15 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         student_query = Student.objects.all()
 
         category: set = {reg_no for reg_no in student_query.filter(
-            department__in=[dept for dept in all_department.intersection(categories) or all_department],
-            level__in=[lvl for lvl in all_level.intersection(categories) or all_level],
-            profile__gender__in=[sex for sex in all_gender.intersection(categories) or all_gender]
+            department__in=[dept for dept in all_department.intersection(categories)],
+            level__in=[lvl for lvl in all_level.intersection(categories)],
+            profile__gender__in=[sex for sex in all_gender.intersection(categories)]
         )}
 
         # then update the students field with the reg number of students in each category
         serializer.initial_data["students"] = [student.reg_no for student in category]
         # and also update the category field to a string of value
-        serializer.initial_data["categories"] = ", ".join(categories)
+        serializer.initial_data["categories"] = ",".join(categories)
         print(serializer.initial_data["categories"])
         print(serializer.initial_data["students"])
 
@@ -420,15 +420,15 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         student_query = Student.objects.all()
 
         category: set = {reg_no for reg_no in student_query.filter(
-            department__in=[dept for dept in all_department.intersection(categories) or all_department],
-            level__in=[lvl for lvl in all_level.intersection(categories) or all_level],
-            profile__gender__in=[sex for sex in all_gender.intersection(categories) or all_gender]
+            department__in=[dept for dept in all_department.intersection(categories)],
+            level__in=[lvl for lvl in all_level.intersection(categories)],
+            profile__gender__in=[sex for sex in all_gender.intersection(categories)]
         )}
 
         # then update the students field with the reg number of students in each category
         serializer.initial_data["students"] = [student.reg_no for student in category]
         # and also update the category field to a string of value
-        serializer.initial_data["categories"] = ", ".join(categories)
+        serializer.initial_data["categories"] = ",".join(categories)
         print(serializer.initial_data["categories"])
         print(serializer.initial_data["students"])
 
@@ -440,10 +440,10 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, format=None, *args, **kwargs):
         question = self.get_object()
-        q_id, q_title, q_created, q_completed = [question.id, question.title, question.created, question.completed]
-        serializer = {"id": q_id, "title": q_title, "created": q_created, "completed": q_completed, "detail": "Deleted successfully"}
+        q_id, q_title, q_completed = [question.id, question.title, question.completed]
+        serializer = {"id": q_id, "title": q_title, "completed": q_completed, "detail": "Deleted successfully"}
         question.delete()
-        return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
+        return Response(data=serializer, status=status.HTTP_200_OK)
 
 
 class ObservationViewSet(viewsets.ModelViewSet):
