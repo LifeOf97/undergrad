@@ -11,7 +11,11 @@
                     <form @submit.prevent="createSchedule()" class="relative w-full flex flex-col gap-4">
                         <h2 class="text-slate-600 text-xl font-medium tracking-wide">Create a schedule</h2>
                         <AppInputField v-model="title" :label="'Title'" :color="'rose'" :placeholder="'Title of the schedule...'" :required="true" />
-                        <AppTextField v-model="detail" :label="'Detail'" :color="'rose'" :placeholder="'Detail of the schedule...'" :required="true" />
+                        <!-- textfield-->
+                        <div class="relative flex flex-col space-y-2">
+                            <label for="question" class="text-xs text-slate-900 font-medium md:text-base">Detail</label>
+                            <textarea required name="question" id="question" rows="10" cols="30" v-model="detail" placeholder="Detail of this schedule" class="w-full resize-none text-slate-600 text-sm font-medium p-2 bg-slate-50 placeholder-slate-300 rounded-md shadow border-2 border-transparent hover:border-rose-500 focus-within:border-rose-500 focus:outline-none md:text-base"></textarea>
+                        </div>
                         
                         <AppButton class="self-end absolute bottom-3 right-3" :name="'Create'" :color="'rose'" :loading="scheduleForm.saving" :loadingText="'Creating'" :disabled="scheduleForm.saving" />
                     </form>
@@ -34,12 +38,12 @@
                         <span v-if="schedules.error != null" class="flex flex-col items-center justify-center">
                             <p class="text-sm text-rose-500 font-medium">{{schedules.error}}</p>
                             <span>
-                                <AppButton @click.prevent="actionRetrieveSchedule()" :type="'plain'" :name="'Try again'" :loading="schedules.loading" :loadingText="'Loading'" />
+                                <AppButton @click.prevent="actionFetchSchedule()" :type="'plain'" :name="'Try again'" :loading="schedules.loading" :loadingText="'Loading'" />
                             </span>
                         </span>
 
                         <!-- if no schedules yet -->
-                        <span v-if="schedulesLen()" class="flex item-center justify-center">
+                        <span v-if="noSchedules()" class="flex item-center justify-center">
                             <p class="text-base text-slate-500 font-light">You do not have any schedule</p>
                         </span>
 
@@ -84,7 +88,6 @@ import { mapActions, mapState } from 'vuex';
 import {DateTime} from "luxon";
 import AppButton from "./AppButton.vue";
 import AppCalendar from "./AppCalendar.vue";
-import AppTextField from "./AppTextField.vue";
 import AppInputField from "./AppInputField.vue";
 import AppScheduleCard from "./AppScheduleCard.vue";
 import AppNotificationModal from "./AppNotificationModal.vue";
@@ -92,7 +95,7 @@ import AppNotificationModal from "./AppNotificationModal.vue";
 export default {
     name: "AppStaffSchedule",
     components: {
-        AppCalendar, AppTextField, AppInputField, AppButton,
+        AppCalendar, AppInputField, AppButton,
         AppNotificationModal, AppScheduleCard
     },
     data() {
@@ -117,7 +120,7 @@ export default {
         ...mapActions([
             "actionCreateSchedule",
             "actionUpdateSchedule",
-            "actionRetrieveSchedule",
+            "actionFetchSchedule",
             "actionDeleteSchedule",
             "actionUpdateScheduleDelete",
         ]),
@@ -131,13 +134,13 @@ export default {
             this.title = "";
             this.detail = "";
         },
-        schedulesLen() {
+        noSchedules() {
             if (this.schedules.data.length < 1) return true
             else return false;
         },
     },
     created() {
-        this.actionRetrieveSchedule();
+        this.actionFetchSchedule();
     },
 }
 </script>

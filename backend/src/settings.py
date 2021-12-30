@@ -19,7 +19,7 @@ SECRET_KEY = CONFIG['SECRET_KEY']
 # Boolean value
 DEBUG = CONFIG['DEBUG']['DEVELOPMENT']
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "192.168.43.208"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "192.168.43.208", "192.168.1.102"]
 
 
 # Application definition
@@ -154,6 +154,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'http://192.168.43.208:8000',
     'http://192.168.43.208:8080',
+    'http://192.168.1.102:8000',
+    'http://192.168.1.102:8080',
+
 ]
 
 CORS_ALLOW_METHODS = list(default_methods) + []

@@ -5,7 +5,7 @@
             <h1 class="text-slate-900 text-2xl font-bold md:text-4xl">My Students</h1>
 
             <div class="grid grid-cols-2 gap-x-4 gap-y-8 my-5 md:grid-cols-3 xl:grid-cols-4">
-                <AppStudentCard v-for="n in [1,2,3,4,5,6,7,8,9,10]" :key="n" />
+                <AppStudentCard v-for="student in students.data" :key="student.id" :student="student" />
             </div>
 
         </div>
@@ -15,10 +15,26 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
 import AppStudentCard from "./AppStudentCard";
 
 export default {
     name: "AppStudent",
     components: {AppStudentCard,},
+    computed: {
+        ...mapState({
+            students: state => state.students,
+        }),
+    },
+    methods: {
+        ...mapActions([
+            "actionFetchStudents",
+        ]),
+    },
+    mounted() {
+        this.$nextTick(function() {
+            this.actionFetchStudents();
+        })
+    },
 }
 </script>

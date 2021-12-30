@@ -33,9 +33,9 @@
     <!-- credits -->
     <span class="absolute bottom-3 right-10 text-slate-50 text-xs font-medium flex gap-1 z-10">
       <p>Photo by</p>
-      <a class="underline decoration-2 decoration-blue-600 cursor-pointer" href="https://unsplash.com/@benwhitephotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Ben White</a>
+      <a class="underline decoration-2 decoration-blue-600 cursor-pointer" target="_blank" href="https://unsplash.com/@benwhitephotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Ben White</a>
       <p>on</p>
-      <a class="underline decoration-2 decoration-blue-600 cursor-pointer" href="https://unsplash.com/s/photos/haiti-students?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+      <a class="underline decoration-2 decoration-blue-600 cursor-pointer" target="_blank" href="https://unsplash.com/s/photos/haiti-students?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
     </span>
   
   </div>

@@ -103,7 +103,7 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Student
-        fields = ("id", "reg_no", "url", "level", "department", "parent", "profile")
+        fields = ("id", "sid", "reg_no", "url", "level", "department", "parent", "profile")
 
         validators = [
             validators.UniqueTogetherValidator(
@@ -183,7 +183,7 @@ class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
 class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
     url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-questionnaire-detail")
-    students = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all(), many=True)
+    students = serializers.SlugRelatedField(queryset=Student.objects.all(), many=True, slug_field="profile_id")
 
     class Meta:
         model = Questionnaire
@@ -194,12 +194,16 @@ class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ObservationHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
-    url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-observation-detail")
-    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+    # url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-observation-detail")
+    url  = others.StudentObservationHyperlinkIdentityField(view_name="careerguide:students-observation-detail")
+    # student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+    student = serializers.SlugRelatedField(queryset=Student.objects.all(), slug_field="sid")
+    staff_id = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Observation
-        fields = ("id", "url", "staff", "student", "detail", "created")
+        fields = ("id", "url", "staff", "staff_id", "student", "detail", "created")
         extra_kwargs = {
             "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
+            # "staff_id": {"read_only": True},
         }

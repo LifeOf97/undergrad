@@ -6,56 +6,53 @@
 
             <span>
                 <span class="text-slate-500 text-xs font-light md:text-sm">First Name</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">Kelvin</p>
+                <p class="text-slate-900 text-sm font-normal md:text-lg">{{studentView.profile.first_name}}</p>
             </span>
 
             <span>
                 <span class="text-slate-500 text-xs font-light md:text-sm">Last Name</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">Mayowa</p>
+                <p class="text-slate-900 text-sm font-normal md:text-lg">{{studentView.profile.last_name}}</p>
             </span>
 
             <span>
                 <span class="text-slate-500 text-xs font-light md:text-sm">Other Name</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">Ayeni</p>
+                <p class="text-slate-900 text-sm font-normal md:text-lg">{{studentView.profile.other_name}}</p>
             </span>
 
             <span>
                 <span class="text-slate-500 text-xs font-light md:text-sm">Department</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">Science</p>
+                <p class="text-slate-900 text-sm font-normal md:text-lg">{{studentView.department}}</p>
             </span>
 
             <span>
                 <span class="text-slate-500 text-xs font-light md:text-sm">Class</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">SS3 - A</p>
+                <p class="text-slate-900 text-sm font-normal md:text-lg">{{studentView.level}}</p>
             </span>
 
             <span>
                 <span class="text-slate-500 text-xs font-light md:text-sm">Reg No</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">1234</p>
+                <p class="text-slate-900 text-sm font-normal md:text-lg">{{studentView.reg_no}}</p>
             </span>                
 
             <span>
                 <span class="text-slate-500 text-xs font-light md:text-sm">Address</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">Shagari, overhead tank</p>
+                <p class="text-slate-900 text-sm font-normal md:text-lg">{{studentView.profile.state}}, {{studentView.profile.country}}</p>
             </span>
 
             <span>
                 <span class="text-slate-500 text-xs font-light md:text-sm">Parent/Guardian</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">Mrs Felicai Ayeni</p>
+                <p class="text-slate-900 text-sm font-normal md:text-lg">{{studentView.parent}}</p>
             </span>
 
             <span>
                 <span class="text-slate-500 text-xs font-light md:text-sm">Phone(s)</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">+234 8065035596</p>
+                <p class="text-slate-900 text-sm font-normal md:text-lg">{{studentView.profile.phone_1}}, {{studentView.profile.phone_2}}</p>
             </span>
 
             <span class=" col-span-full">
                 <span class="text-slate-500 text-xs font-light md:text-sm">About Me</span>
-                <p class="text-slate-900 text-sm font-normal md:text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam,
-                    purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor
-                    rhoncus dolor purus non enim praesent elementum facilisis leo, vel
-                    fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis
-                    enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra
+                <p class="text-slate-900 text-sm font-normal md:text-lg">
+                    {{studentView.profile.about}}
                 </p>
             </span>
 
@@ -76,7 +73,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
     name: "AppStudentData",
+    computed: {
+        ...mapState({
+            studentView: state => state.studentView,
+        })
+    },
 }
 </script>

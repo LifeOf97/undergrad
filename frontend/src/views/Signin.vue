@@ -53,7 +53,7 @@
         </div>
 
         <!-- credits -->
-        <span class="absolute bottom-3 right-10 text-slate-50 text-xs font-medium flex gap-1 z-10">
+        <span class="absolute bottom-3 right-10 text-slate-50 text-xs font-medium gap-1 z-10 hidden lg:flex">
             <p>Photo by</p>
             <a class="underline decoration-2 decoration-blue-600 cursor-pointer" target="_blank" href="https://unsplash.com/@nate_dumlao?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Nathan Dumlao</a>
             <p>on</p>

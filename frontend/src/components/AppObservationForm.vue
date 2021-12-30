@@ -4,7 +4,7 @@
         <div class="relative w-11/12 h-auto rounded-md shadow-lg bg-white overflow-y-auto p-7 lg:w-9/12">
 
             <!-- close button -->
-            <AppCloseButton @click.prevent="actionUpdateObservationForm({open: false})" class="absolute top-7 right-7" />
+            <AppCloseButton @click.prevent="actionUpdateObservationForm({open: false, saving: false, error: null})" class="absolute top-7 right-7" />
             <!-- close button -->
 
             <div class="w-full mx-auto flex flex-col gap-10 mt-20 lg:w-8/12">
@@ -19,11 +19,11 @@
                     <AppStudentId />
                 </div>
 
-                <form class="flex flex-col gap-4">
-                    <AppTextField :color="'rose'" :placeholder="'What have you observed?'" />
+                <form @submit.prevent="createObservation()" class="flex flex-col gap-4">
+                    <AppTextField v-model="detail" :label="'Observation'" :color="'rose'" :placeholder="'What have you observed?'" :required="true" />
                     <div class="flex justify-end gap-3 border-slate-100 pt-4">
-                        <AppButton @click.prevent="actionUpdateObservationForm({open: false})" :name="'Cancle'" :type="'plain'" />
-                        <AppButton @click.prevent="actionUpdateObservationForm({open: false})" :name="'Create'" :color="'rose'" />
+                        <AppButton @click.prevent="actionUpdateObservationForm({open: false, saving: false, error: null})" :name="'Cancle'" :type="'plain'" />
+                        <AppButton :name="'Create'" :color="'rose'" :loading="observationForm.saving" :loadingText="'Creating'" />
                     </div>
                 </form>
 
@@ -48,6 +48,7 @@ export default {
     components: {AppCloseButton, AppStaffId, AppStudentId, AppTextField, AppButton},
     data() {
         return {
+            detail: "",
             today: DateTime.now().setLocale("en-US").toLocaleString(DateTime.DATE_MED),
         }
     },
@@ -60,7 +61,12 @@ export default {
     methods: {
         ...mapActions([
             "actionUpdateObservationForm",
+            "actionCreateObservation",
         ]),
+        createObservation() {
+            const data = {detail: this.detail}
+            this.actionCreateObservation({data: data});
+        }
     },
 }
 </script>

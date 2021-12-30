@@ -41,12 +41,6 @@ urlpatterns = [
     path("staffs/<str:staff_id>/questionnaires/<int:id>/delete/", views.QuestionnaireViewSet.as_view({"delete": "destroy"}), name="staff-questionnaire-delete"),
     path("staffs/<str:staff_id>/questionnaires/<int:id>/update/", views.QuestionnaireViewSet.as_view({"patch": "partial_update"}), name="staff-questionnaire-update"),
 
-    # staffs questionnaire urls path
-    path("staffs/<str:staff_id>/observations/", views.ObservationViewSet.as_view({"get": "list"}), name="staff-observation-list"),
-    path("staffs/<str:staff_id>/observations/create/", views.ObservationViewSet.as_view({"post": "create"}), name="staff-observation-create"),
-    path("staffs/<str:staff_id>/observations/<int:id>/", views.ObservationViewSet.as_view({"get": "retrieve"}), name="staff-observation-detail"),
-    path("staffs/<str:staff_id>/observations/<int:id>/delete/", views.ObservationViewSet.as_view({"delete": "destroy"}), name="staff-observation-delete"),
-    path("staffs/<str:staff_id>/observations/<int:id>/update/", views.ObservationViewSet.as_view({"patch": "partial_update"}), name="staff-observation-update"),
 
     # student urls path
     path("students/", views.StudentViewSet.as_view({"get": "list"}), name="student-list"),
@@ -54,6 +48,13 @@ urlpatterns = [
     path("students/<str:department>/<str:level>/<str:reg_no>/", views.StudentViewSet.as_view({"get": "retrieve"}), name="student-detail"),
     path("students/<str:department>/<str:level>/<str:reg_no>/update/", views.StudentViewSet.as_view({"patch": "partial_update"}), name="student-update"),
     path("students/<str:department>/<str:level>/<str:reg_no>/delete/", views.StudentViewSet.as_view({"delete": "destroy"}), name="student-delete"),
+
+    # students observations urls path
+    path("students/<str:department>/<str:level>/<str:reg_no>/observations/", views.ObservationViewSet.as_view({"get": "list"}), name="students-observation-list"),
+    path("students/<str:department>/<str:level>/<str:reg_no>/observations/create/", views.ObservationViewSet.as_view({"post": "create"}), name="students-observation-create"),
+    path("students/<str:department>/<str:level>/<str:reg_no>/observations/<int:id>/", views.ObservationViewSet.as_view({"get": "retrieve"}), name="students-observation-detail"),
+    path("students/<str:department>/<str:level>/<str:reg_no>/observations/<int:id>/delete/", views.ObservationViewSet.as_view({"delete": "destroy"}), name="students-observation-delete"),
+    path("students/<str:department>/<str:level>/<str:reg_no>/observations/<int:id>/update/", views.ObservationViewSet.as_view({"patch": "partial_update"}), name="students-observation-update"),
 ]
 
 # urls can append a [url]?format=* or [url].* where * is one of ['json', 'api']

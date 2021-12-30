@@ -1,7 +1,7 @@
 <template>
     <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-500/50 backdrop-blur-sm z-40 selection:bg-rose-500 selection:text-slate-50">
 
-        <div class="relative w-11/12 h-auto max-w-[91.6%] max-h-[90%] rounded-md shadow-lg bg-white overflow-y-auto p-10 lg:w-7/12">
+        <div class="relative w-11/12 h-auto max-w-[91.6%] max-h-[90%] p-7 rounded-md shadow-lg bg-white overflow-y-auto md:p-10 lg:w-7/12">
 
             <!-- close button -->
             <AppCloseButton @click.prevent="actionUpdateQuestionnaireView({open: false, data: '', error: null})" class="absolute top-7 right-7" />
@@ -18,7 +18,7 @@
                 </span>
 
                 <!-- filter for -->
-                <span class="ml-12 flex flex-wrap gap-2">
+                <span v-if="questionnaireView.data.categories.split(',')[0] != ''" class="ml-9 flex flex-wrap gap-2">
                     <p v-for="filter in questionnaireView.data.categories.split(',')" :key="filter" class="text-xs text-slate-500 bg-slate-50 rounded-md px-2 py-1">{{filter}}</p>
                 </span>
                 <!-- filter for -->
@@ -48,7 +48,7 @@
                 </AppNotificationModal>
             </div>
         </teleport>
-        
+
     </div>
 </template>
 
@@ -68,6 +68,7 @@ export default {
             completed: false,
             toDelete: false,
             loading: false,
+            // filters:
         }
     },
     computed: {

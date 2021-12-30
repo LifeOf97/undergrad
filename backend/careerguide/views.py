@@ -13,8 +13,6 @@ from rest_framework.decorators import action
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
 from rest_framework import status
-import json
-
 
 # get the current user model
 Profile = get_user_model()
@@ -129,6 +127,9 @@ class StaffViewSet(viewsets.ModelViewSet):
     def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request": request})
 
+        # personnalize staff username field
+        serializer.initial_data["profile"]["username"] = serializer.initial_data['staff_id'].upper()
+
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -194,6 +195,11 @@ class StudentViewSet(viewsets.ModelViewSet):
         # then return obj instance
         return obj
 
+    def get_queryset(self):
+        queryset = super().get_queryset().order_by("id")
+        return queryset
+
+
 
     def list(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
@@ -207,6 +213,10 @@ class StudentViewSet(viewsets.ModelViewSet):
 
     def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request": request})
+
+        # personnalize student username field
+        set_username = F"{serializer.initial_data['department']}/{serializer.initial_data['level']}/{serializer.initial_data['reg_no']}"
+        serializer.initial_data["profile"]["username"] = set_username.upper()
 
         if serializer.is_valid():
             serializer.save()
@@ -372,26 +382,32 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(data=request.data, context={"request":  request})
 
         # First, we need to retrieve reg_no's belonging to students in each category.
-        # get the categories field from the validated serializer 
+        # get the categories field from the validated serializer
         categories = serializer.initial_data.get("categories")
-        print(categories)
+        print(F"categories: {categories}")
         # default categories
         all_department: set = set({"art", "commercial", "science", "social science"})
         all_level: set = set({"jss1", "jss2", "jss3", "sss1", "sss2", "sss3"})
         all_gender: set = set({"male", "female"})
+        
         # retrieved categories
-        categories: set = set({cat for cat in categories})
+        try:
+            categories: set = set({cat for cat in categories})
+        except TypeError:
+            categories: set = set({})
+        else:
+            categories: set = set({cat for cat in categories})
 
         student_query = Student.objects.all()
 
-        category: set = {reg_no for reg_no in student_query.filter(
+        category: set = [student for student in student_query.filter(
             department__in=[dept for dept in all_department.intersection(categories)],
             level__in=[lvl for lvl in all_level.intersection(categories)],
             profile__gender__in=[sex for sex in all_gender.intersection(categories)]
-        )}
+        )]
 
         # then update the students field with the reg number of students in each category
-        serializer.initial_data["students"] = [student.reg_no for student in category]
+        serializer.initial_data["students"] = [student.profile.id for student in category]
         # and also update the category field to a string of value
         serializer.initial_data["categories"] = ",".join(categories)
         print(serializer.initial_data["categories"])
@@ -408,25 +424,31 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
 
         # First, we need to retrieve reg_no's belonging to students in each category.
-        # get the categories field from the validated serializer 
+        # get the categories field from the validated serializer
         categories = serializer.initial_data.get("categories")
         # default categories
         all_department: set = set({"art", "commercial", "science", "social science"})
         all_level: set = set({"jss1", "jss2", "jss3", "sss1", "sss2", "sss3"})
         all_gender: set = set({"male", "female"})
+        
         # retrieved categories
-        categories: set = set({cat for cat in categories})
+        try:
+            categories: set = set({cat for cat in categories})
+        except TypeError:
+            categories: set = set({})
+        else:
+            categories: set = set({cat for cat in categories})
 
         student_query = Student.objects.all()
 
-        category: set = {reg_no for reg_no in student_query.filter(
+        category: set = [student for student in student_query.filter(
             department__in=[dept for dept in all_department.intersection(categories)],
             level__in=[lvl for lvl in all_level.intersection(categories)],
             profile__gender__in=[sex for sex in all_gender.intersection(categories)]
-        )}
+        )]
 
         # then update the students field with the reg number of students in each category
-        serializer.initial_data["students"] = [student.reg_no for student in category]
+        serializer.initial_data["students"] = [student.profile.id for student in category]
         # and also update the category field to a string of value
         serializer.initial_data["categories"] = ",".join(categories)
         print(serializer.initial_data["categories"])
@@ -457,14 +479,27 @@ class ObservationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # return a list of observations created by the logged in user (staff)
         queryset = super().get_queryset()
-        queryset = queryset.filter(staff=self.request.user.staff)
+
+        # lookup fields from url to filter the object.
+        lookup_kwargs = {
+            "student__department": self.kwargs["department"],
+            "student__level": self.kwargs["level"],
+            "student__reg_no": self.kwargs["reg_no"],
+        }
+        queryset = queryset.filter(**lookup_kwargs).order_by("-created")
         return queryset
 
     def get_object(self):
-        # return an instance of a observation for the logged in user and the specified id.
+        # return an instance of a observation for the student instance.
         # make sure to edit the hyperlink identity field on the serializer class to make use
-        # of two url kwargs [staff_id and intance id]
-        obj = get_object_or_404(self.get_queryset(), staff__staff_id=self.request.user.staff.staff_id, id=self.kwargs["id"])
+        # of the appropriate lookup fields.
+        lookup_kwargs = {
+            "student__department": self.kwargs["department"],
+            "student__level": self.kwargs["level"],
+            "student__reg_no": self.kwargs["reg_no"],
+            "id": self.kwargs["id"],
+        }
+        obj = get_object_or_404(self.get_queryset(), **lookup_kwargs)
         # make sure to check for object level permissions
         self.check_object_permissions(self.request, obj)
         return obj
@@ -479,6 +514,11 @@ class ObservationViewSet(viewsets.ModelViewSet):
 
     def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request":  request})
+
+        try:
+            serializer.initial_data["student"] = Student.objects.get(department=self.kwargs["department"], level=self.kwargs["level"], reg_no=self.kwargs["reg_no"]).sid
+        except Student.DoesNotExist:
+            return Response(data={"datail": "Student with that ID does not exists."}, status=status.HTTP_404_NOT_FOUND)
 
         if serializer.is_valid():
             serializer.save(staff=request.user.staff)
@@ -497,7 +537,7 @@ class ObservationViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, format=None, *args, **kwargs):
         observation = self.get_object()
-        o_id, o_student, o_created = [observation.id, observation.student, observation.created]
+        o_id, o_student, o_created = [observation.id, observation.student.reg_no, observation.created]
         serializer = {"id": o_id, "student": o_student, "created": o_created, "detail": "Deleted successfully"}
         observation.delete()
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)

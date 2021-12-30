@@ -17,7 +17,7 @@
                         <span v-if="questionnaires.error != null" class="flex flex-col items-center justify-center">
                             <p class="text-sm text-rose-500 font-medium">{{questionnaires.error}}</p>
                             <span>
-                                <AppButton @click.prevent="actionRetrieveQuestionnaires()" :type="'plain'" :name="'Try again'" :loading="questionnaires.loading" :loadingText="'Loading'" />
+                                <AppButton @click.prevent="actionFetchQuestionnaires()" :type="'plain'" :name="'Try again'" :loading="questionnaires.loading" :loadingText="'Loading'" />
                             </span>
                         </span>
                         <!-- if fetching questionnaire is in process -->
@@ -114,7 +114,7 @@ export default {
         ...mapActions([
             "actionUpdateQuestionnaireForm",
             "actionUpdateQuestionnaireView",
-            "actionRetrieveQuestionnaires",
+            "actionFetchQuestionnaires",
         ]),
         questionnaireLen() {
             if (this.questionnaires.data.length < 1) return true
@@ -122,7 +122,7 @@ export default {
         },
     },
     created() {
-        this.actionRetrieveQuestionnaires();
+        this.actionFetchQuestionnaires();
     },
 }
 </script>

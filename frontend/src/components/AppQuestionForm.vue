@@ -121,6 +121,7 @@ export default {
             title: "",
             question: "",
             completed: false,
+            filter: [],
             gender: [
                 {name: "male", selected: false},
                 {name: "female", selected: false},
@@ -139,7 +140,6 @@ export default {
                 {name: "science", selected: false},
                 {name: "social science", selected: false},
             ],
-            filter: [],
         }
     },
     mounted() {
@@ -161,7 +161,7 @@ export default {
             "actionUpdateQuestionnaireEdit",
             "actionCreateQuestionnaire",
             "actionUpdateQuestionnaire",
-            "actionRetrieveQuestionnaires",
+            "actionFetchQuestionnaires",
         ]),
         updateDataValue() {
             // method to update the questionnaire intial values when the edit button

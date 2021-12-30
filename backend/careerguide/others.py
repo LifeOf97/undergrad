@@ -63,6 +63,32 @@ class OthersToStaffHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
         return self.get_queryset().get(**lookup_kwargs)
 
 
+class StudentObservationHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
+    """
+    Custom student observation hyperlink identity field to retrieve an observation
+    belonging to a student instance using the students department, class/level,
+    and reg_no.
+    """
+    def get_url(self, obj, view_name, request, format):
+        url_kwargs = {
+            "department": obj.student.department,
+            "level": obj.student.level,
+            "reg_no": obj.student.reg_no,
+            "id": obj.id,
+        }
+        return reverse(view_name, kwargs=url_kwargs, request=request, format=format)
+
+    def get_object(self, view_name, view_args, view_kwargs):
+        lookup_kwargs = {
+            "student__department": view_kwargs["department"],
+            "student__level": view_kwargs["level"],
+            "student__reg_no": view_kwargs["reg_no"],
+            "id": view_kwargs["id"],
+        }
+
+        return self.get_queryset().get(**lookup_kwargs)
+
+
 
 def save_image(instance, filename):
     """

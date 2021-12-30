@@ -107,17 +107,17 @@ class StudentAdmin(admin.ModelAdmin):
     model = Student
     form = StudentAdminForm
 
-    list_display = ("id", "student_name", "reg_no", "level", "department")
-    list_display_links = ("reg_no", "student_name", "reg_no",)
+    list_display = ("id", "sid", "student_name", "reg_no", "level", "department")
+    list_display_links = ("sid", "student_name", "reg_no",)
     list_filter = ("level", "department")
 
     fieldsets = (
-        ("Identification", {"fields": ("id", "profile", "reg_no", "level", "department",)}),
+        ("Identification", {"fields": ("id", "sid", "profile", "reg_no", "level", "department",)}),
         ("Bio", {"fields": ("parent",)}),
     )
 
     ordering = ("id",)
-    readonly_fields = ("id",)
+    readonly_fields = ("id", "sid")
     empty_value_display = '-empty-'
     inlines = [QuestionnaireStudentInlineAdmin, ObservationInlineAdmin,]
 

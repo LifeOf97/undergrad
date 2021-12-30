@@ -33,7 +33,9 @@ class Profile(AbstractUser):
 
     # user identification
     id = models.UUIDField(_("ID"), primary_key=True, unique=True, editable=False, default=uuid.uuid4)
-    username = models.CharField(_("Username"), max_length=255, unique=True, blank=False, null=False)
+    username = models.CharField(
+        _("Username"), max_length=255, unique=True, blank=False, null=False,
+        help_text=_("<b>Students username syntax: department/class/reg_no</b><br><b>Staff username syntax: STF0000</b>"))
 
     # user bio
     other_name = models.CharField(_("Other Name"), max_length=255, blank=True, null=False)
@@ -55,7 +57,6 @@ class Profile(AbstractUser):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ('email',)
-
 
     def __str__(self):
         if self.is_staff:
@@ -96,7 +97,8 @@ class Student(models.Model):
     """
     Students model
     """
-    id = models.CharField(_("ID"), max_length=4, primary_key=True, unique=True, blank=True, null=False)
+    id = models.AutoField(_("ID"), primary_key=True, unique=True, blank=False, null=False)
+    sid = models.CharField(_("SID"), max_length=255, blank=True, null=True)
     reg_no = models.CharField(_("Reg no"), max_length=4, blank=False, null=False)
     level = models.CharField(_("Student level"), max_length=4, choices=STUDENT_LEVELS, blank=False, null=False)
     department = models.CharField(_("Department"), max_length=255, choices=DEPT, blank=False, null=False)
@@ -111,7 +113,7 @@ class Student(models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        self.id = int(self.reg_no)
+        self.sid = F"{self.department}/{self.level}/{self.reg_no}".upper()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -153,9 +155,9 @@ class Questionnaire(models.Model):
     staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
     students = models.ManyToManyField(Student, related_name="questions")
     created = models.DateTimeField(_("Created"), auto_now=False, auto_now_add=False, default=timezone.now, blank=False, null=True)
-    title = models.CharField(_("Title"), max_length=255, blank=False, null=True)
+    title = models.CharField(_("Title"), max_length=255, blank=False, null=False)
     slug = models.SlugField(_("Title slug"), max_length=255, blank=False, null=True)
-    question = models.TextField(_("Question"))
+    question = models.TextField(_("Question"), blank=False, null=False)
     completed = models.BooleanField(_("Completed"), default=False, blank=False, null=False)
     categories = models.CharField(
         _("Categories"), max_length=255, blank=True, null=False,

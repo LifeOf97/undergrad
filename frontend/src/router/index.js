@@ -62,8 +62,9 @@ const routes = [
         }
       },
       {
-        path: "mystudents/details",
+        path: "mystudents/:regNo",
         name: "details",
+        props: true,
         redirect: {name: 'studentdata'},
         component: () => import(/* webpackChunkName: "details" */ '../components/AppStudentDetail.vue'),
         children: [ // nested routes
