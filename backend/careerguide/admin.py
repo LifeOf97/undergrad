@@ -124,13 +124,13 @@ class StudentAdmin(admin.ModelAdmin):
 
 
 class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ("id", "staff", "title", "created", "completed")
+    list_display = ("id", "staff", "title", "created", "before", "completed")
     list_display_links = ("staff", "title")
     list_filter = ("staff", "completed")
 
     fieldsets = (
         ("Identification", {"fields": ("id", "staff")}),
-        ("Details", {"fields": ("title", "slug", "detail", "created", "completed")}),
+        ("Details", {"fields": ("title", "slug", "detail", "created", "before", "completed")}),
     )
 
     ordering = ("-created",)

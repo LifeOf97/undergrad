@@ -175,7 +175,7 @@ class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Schedule
-        fields = ("id", "url", "staff", "title", "slug", "detail", "created", "completed")
+        fields = ("id", "url", "staff", "title", "slug", "detail", "created", "before", "completed")
         extra_kwargs = {
             "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
         }

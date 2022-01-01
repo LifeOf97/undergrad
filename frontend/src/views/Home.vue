@@ -24,6 +24,7 @@
             <router-link :to="{name: 'signin'}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
           </span>
         </span>
+
       </div>
     </div>
 
@@ -46,10 +47,16 @@ import AppTextLogo from "@/components/AppTextLogo.vue";
 
 export default {
   name: 'Home',
-  components: {AppTextLogo,},
+  components: {AppTextLogo},
   data() {
     return {
+      date: "",
       src: require("@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg").default,
+    }
+  },
+  methods: {
+    getDate(value) {
+      console.log(value);
     }
   }
 }

@@ -7,10 +7,10 @@
                 <div class="flex items-start justify-center md:justify-start">
                     <img v-if="studentView.profile.image" :src="studentView.profile.image" class="w-60 aspect-[1/1] object-cover rounded-lg shadow">
                     <div v-else class="w-60 aspect-[1/1] flex flex-wrap items-center justify-center bg-rose-500 rounded-lg transition-all duration-1000 group-hover:scale-125">
-                        <span class="text-base text-slate-50 font-bold capitalize">{{studentView.sid}}</span>
+                        <span class="text-base text-slate-50 font-bold capitalize">{{studentView.profile.first_name}} {{studentView.profile.other_name}} {{studentView.profile.last_name}}</span>
                     </div>
                 </div>
-                <span class="text-sm text-slate-900 font-black md:text-base">{{studentView.profile.first_name}} {{studentView.profile.other_name}} {{studentView.profile.last_name}}</span>
+                <span class="text-sm text-slate-900 font-black md:text-base">{{studentView.sid}}</span>
             </div>
 
             <router-view v-slot="{Component}">

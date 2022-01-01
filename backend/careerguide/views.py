@@ -3,6 +3,7 @@ from .serializers import (
     ScheduleHyperlinkSerializer, QuestionnaireHyperlinkSerializer, ObservationHyperlinkSerializer,
 )
 from .models import Staff, Student, Schedule, Questionnaire, Observation
+from django.utils.translation import ugettext_lazy as _
 from .permissions import IsSuperUser, IsOwnerOrReadOnly
 from rest_framework import permissions, authentication
 from .authentications import BearerAuthentication
@@ -13,6 +14,7 @@ from rest_framework.decorators import action
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
 from rest_framework import status
+from django.utils import timezone
 
 # get the current user model
 Profile = get_user_model()
@@ -297,6 +299,18 @@ class ScheduleViewSet(viewsets.ModelViewSet):
 
     def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request": request})
+
+        # check that the before field was filled with a date, else fill it with a date 7 days
+        # in the future
+        try:
+            serializer.initial_data["before"]
+        except KeyError: # before field was not passed
+            serializer.initial_data["before"] = timezone.datetime.now() + timezone.timedelta(days=7)
+        else:
+            if timezone.datetime.fromisoformat(serializer.initial_data["before"]) < timezone.datetime.now():
+                return Response(data={"detail": _("Date cannot be in the past")}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                print(F"BEFORE: {serializer.initial_data['before']}")
 
         # make sure the request comes from the currently logged in staff
         if request.user.staff.staff_id == self.kwargs["staff_id"].upper():

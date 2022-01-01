@@ -19,7 +19,7 @@
                     <!-- textfield-->
                     <div class="relative flex flex-col space-y-2">
                         <label for="question" class="text-xs text-slate-900 font-medium md:text-base">Question(s)</label>
-                        <textarea required name="question" id="question" rows="10" cols="30" v-model="question" class="w-full resize-none text-slate-600 text-sm font-medium p-2 bg-slate-50 placeholder-slate-300 rounded-md shadow border-2 border-transparent hover:border-rose-500 focus-within:border-rose-500 focus:outline-none md:text-base"></textarea>
+                        <textarea required name="question" id="question" rows="10" cols="30" v-model="question" placeholder="Qeustions you want to ask " class="w-full resize-none text-slate-600 text-sm font-medium p-2 bg-slate-50 placeholder-slate-300 rounded-md shadow border-2 border-transparent hover:border-rose-500 focus-within:border-rose-500 focus:outline-none md:text-base"></textarea>
                     </div>
                     
                     <!-- question completed toggle button -->
