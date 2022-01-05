@@ -6,7 +6,7 @@
 
     <div class="w-11/12 mx-auto flex items-center justify-between bg-transparent py-6 z-10 md:py-8 md:w-10/12">
       <AppTextLogo :color="'rose'" />
-      <router-link :to="{name: 'signin'}" class="text-sm text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 bg-rose-500 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
+      <router-link :to="{name: 'signin'}" class="text-sm text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
     </div>
 
     <!-- hero text -->
@@ -21,7 +21,7 @@
 
         <span class="mt-7">
           <span class="flex">
-            <router-link :to="{name: 'signin'}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
+            <router-link :to="{name: 'signin'}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
           </span>
         </span>
 

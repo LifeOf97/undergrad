@@ -3,7 +3,7 @@
         <Calendar
             :masks="calendarMask"
             :first-day-of-week="1"
-            :attributes="calendarAttrs"
+            :attributes="attributes"
             is-expanded />
     </div>
 </template>
@@ -14,8 +14,12 @@ import { Calendar } from "v-calendar";
 export default {
     name: "AppCalendar",
     components: {Calendar,},
+    props: {
+        todos: {type: Array, requires: false},
+    },
     data() {
         return {
+            myTodos: this.$props.todos,
             calendarMask: {weekdays: 'WWW',},
             calendarAttrs: [
                 {
@@ -25,6 +29,11 @@ export default {
                 },
             ],
         };
+    },
+    computed: {
+        attributes() {
+            return [...this.calendarAttrs]
+        }
     },
 }
 </script>

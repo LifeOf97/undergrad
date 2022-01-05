@@ -15,68 +15,27 @@ Cookies.set("staff_id", "");
 export default createStore({
   state: {
     nav: false,
+    // auth
     signout: false,
-    auth: {
-      isAuthenticating: false,
-      isAuthenticated: false,
-      authToken: null,
-      error: null,
-    },
+    auth: { isAuthenticating: false, isAuthenticated: false, authToken: null, error: null,},
     staffData: "",
     staffError: null,
-    questionnaires: {
-      data: "",
-      loading: false,
-      error: null,
-    },
-    questionnaireForm: {
-      open: false,
-      saving: false,
-      error: null,
-    },
-    questionnaireEdit: {
-      open: false,
-      saving: false,
-      error: null,
-    },
-    questionnaireView: {
-      open: false,
-      data: "",
-      error: null,
-    },
-    observationForm: {
-      open: false,
-      saving: false,
-      error: null,
-    },
-    observationView: {
-      data: "",
-      loading: false,
-      error: null,
-    },
-    observationDelete: {
-      open: false,
-      id: "",
-    },
-    scheduleForm: {
-      saving: false,
-      error: null
-    },
-    schedules: {
-      data: "",
-      loading: false,
-      error: null,
-    },
-    scheduleDelete: {
-      open: false,
-      id: "",
-    },
-    students: {
-      data: "",
-      loading: false,
-      error: null,
-    },
-    studentView: ""
+    // students
+    studentView: "",
+    students: { data: "", loading: false, error: null,},
+    // staff schedule
+    scheduleDelete: { open: false, id: "",},
+    scheduleForm: {saving: false,error: null},
+    schedules: { data: "", loading: false, error: null,},
+    // staff observations on students
+    observationDelete: { open: false, id: "",},
+    observationView: { data: "", loading: false, error: null,},
+    observationForm: { open: false, saving: false, error: null,},
+    // staff questionnaires for student
+    questionnaireView: { open: false, data: "", error: null,},
+    questionnaires: { data: "", loading: false, error: null,},
+    questionnaireForm: { open: false, saving: false, error: null,},
+    questionnaireEdit: { open: false, saving: false, error: null,},
   },
   mutations: {
     updateNavState(state, payload) {

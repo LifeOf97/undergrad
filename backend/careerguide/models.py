@@ -135,7 +135,7 @@ class Schedule(models.Model):
     slug = models.SlugField(_("Title slug"), max_length=255, blank=False, null=True)
     detail = models.TextField(_("Details"), blank=True, null=True)
     created = models.DateTimeField(_("Created"), auto_now=False, auto_now_add=False, default=timezone.now, blank=False, null=True)
-    before = models.DateField(_("Before"), auto_now=False, auto_now_add=False, blank=True, null=True)
+    expire = models.DateField(_("Before"), auto_now=False, auto_now_add=False, blank=True, null=True)
     completed = models.BooleanField(_("Completed"), default=False, blank=False, null=False)
 
 

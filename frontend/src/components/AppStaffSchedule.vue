@@ -8,7 +8,7 @@
                 <div class="w-full flex flex-col xl:w-8/12">
 
                     <!-- schedule form -->
-                    <form @submit.prevent="createSchedule()" class="relative w-full flex flex-col gap-4">
+                    <form @submit.prevent="checkAndCreate()" class="relative w-full flex flex-col gap-4">
                         <h2 class="text-slate-600 text-xl font-medium tracking-wide">Create a schedule</h2>
                         <AppInputField v-model="title" :label="'Title'" :color="'rose'" :placeholder="'Title of the schedule...'" :required="true" />
                         <!-- textfield-->
@@ -18,22 +18,33 @@
                         </div>
                         
                         <div class="self-end absolute bottom-3 right-3 flex items-end gap-4">
-                            <p :class="displayBefore() ? 'p-2 bg-slate-300 rounded-md':''" class="self-center text-xs font-bold">{{displayBefore()}}</p>
+                            <p for="expire" :class="displayExpire() ? 'p-2 bg-slate-300 rounded-md':''" class="self-center text-xs font-bold">{{displayExpire()}}</p>
+
                             <!-- datepicker -->
-                            <DatePicker mode="date" v-model="before">
-                                <template v-slot="{togglePopover}">
-                                    <button @click.prevent="togglePopover()" class="group">
-                                        <svg class="w-6 h-6 fill-current text-slate-500 group-hover:text-rose-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4H7V2H9V4H15V2H17V4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22ZM5 10V20H19V10H5ZM5 6V8H19V6H5ZM9.8 19H8V17.2L12.2 13.01L14 14.81L9.8 19ZM14.625 14.182L12.825 12.382L14.2 11.013L16 12.813L14.63 14.183L14.625 14.182Z"></path>
-                                        </svg>
-                                    </button>
-                                </template>
-                            </DatePicker>
+                            <label for="expire" class="relative">
+                                <input v-model="expire" required type="text" class="absolute top-0 left-0 w-6 h-6 bg-transparent text-transparent cursor-pointer">
+                                <DatePicker mode="date" v-model="expire" :min-date="today.minDate">
+                                    <template v-slot="{togglePopover}" class="relative">
+                                        <button @click.prevent="togglePopover()" class="group relative">
+                                            <svg class="w-6 h-6 fill-current text-slate-500 group-hover:text-rose-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4H7V2H9V4H15V2H17V4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22ZM5 10V20H19V10H5ZM5 6V8H19V6H5ZM9.8 19H8V17.2L12.2 13.01L14 14.81L9.8 19ZM14.625 14.182L12.825 12.382L14.2 11.013L16 12.813L14.63 14.183L14.625 14.182Z"></path>
+                                            </svg>
+                                        </button>
+                                    </template>
+                                </DatePicker>
+                            </label>
                             <!-- create button -->
+
                             <AppButton :name="'Create'" :color="'rose'" :loading="scheduleForm.saving" :loadingText="'Creating'" :disabled="scheduleForm.saving" />
                         </div>
                     </form>
                     <!-- schedule form -->
+
+                    <!-- if creating schedules has errors -->
+                    <ul class="mt-2 list-disc list-inside">
+                        <li v-if="error.state" class="text-xs font-bold text-rose-500 mt-2 md:text-sm">{{error.detail}}</li>
+                    </ul>
+                    <!-- if creating schedules has errors -->
 
                     <div class="flex flex-col gap-4 my-10">
 
@@ -57,7 +68,7 @@
                         </span>
 
                         <!-- if no schedules yet -->
-                        <span v-if="noSchedules()" class="flex item-center justify-center">
+                        <span v-if="!hasSchedules()" class="flex item-center justify-center">
                             <p class="text-base text-slate-500 font-light">You do not have any schedule</p>
                         </span>
 
@@ -117,11 +128,13 @@ export default {
         return {
             title: "",
             detail: "",
-            before: "",
+            expire: "",
+            error: { state: false, detail: "",},
             today: {
                 weekday: DateTime.now().setLocale("en-US").toLocaleString({weekday: 'long'}),
                 full: DateTime.now().setLocale("en-US").toLocaleString(DateTime.DATE_FULL),
                 time: DateTime.now().setLocale("en-US").toLocaleString(DateTime.TIME_SIMPLE),
+                minDate: DateTime.now().plus({days: 1}).toISODate(),
             },
         }
     },
@@ -134,37 +147,53 @@ export default {
     },
     methods: {
         ...mapActions([
-            "actionCreateSchedule",
-            "actionUpdateSchedule",
-            "actionFetchSchedule",
-            "actionDeleteSchedule",
-            "actionUpdateScheduleDelete",
+            "actionCreateSchedule", "actionUpdateSchedule", "actionFetchSchedule",
+            "actionDeleteSchedule", "actionUpdateScheduleDelete",
         ]),
+        checkExpire() {
+            // method to make sure the expire date has not been choosen before.
+            const date = DateTime.fromJSDate(this.expire).toISODate()
+            if (this.schedules.data.filter((schedule) => schedule.expire === date).length > 0) {
+                this.error.state = true;
+                this.error.detail = `${date} is taken`;
+                return true
+            }
+            else {
+                this.error.state = false;
+                this.error.detail = "";
+                return false
+            }
+        },
         createSchedule() {
             // method to create a new schedule
-            const before = new Date(this.before)
             const data = {
                 title: this.title,
                 detail: this.detail,
-                before: `${before.getFullYear()}-${before.getMonth()}-${before.getDay()}`
+                expire: DateTime.fromJSDate(this.expire).toISODate()
             }
-            // then pass the data to the actionCreateSchedule
+            // then pass the data to the store actionCreateSchedule
             this.actionCreateSchedule({data: data});
 
             // make sure to reset data state
             this.title = "";
             this.detail = "";
-            this.before = "";
+            this.expire = "";
         },
-        noSchedules() {
-            if (this.schedules.data.length < 1) return true
+        hasSchedules() {
+            // method to check if the staff has schedules.
+            if (this.schedules.data.length > 0) return true
             else return false;
         },
-        displayBefore() {
-            const date = DateTime.fromJSDate(this.before)
+        displayExpire() {
+            // method to display the selexted expire date option
+            const date = DateTime.fromJSDate(this.expire)
 
-            if (this.before) return date.setLocale("en-US").toLocaleString(DateTime.DATE_FULL)
+            if (this.expire) return date.setLocale("en-US").toLocaleString(DateTime.DATE_FULL)
             else return "";
+        },
+        checkAndCreate() {
+            // method to check for errors
+            if (!this.checkExpire()) this.createSchedule()
         }
     },
     created() {

@@ -300,17 +300,17 @@ class ScheduleViewSet(viewsets.ModelViewSet):
     def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request": request})
 
-        # check that the before field was filled with a date, else fill it with a date 7 days
+        # check to make sure the expire field was filled with a date, else fill it with a date 7 days
         # in the future
         try:
-            serializer.initial_data["before"]
-        except KeyError: # before field was not passed
-            serializer.initial_data["before"] = timezone.datetime.now() + timezone.timedelta(days=7)
+            serializer.initial_data["expire"]
+        except KeyError: # expire field was not passed
+            serializer.initial_data["expire"] = timezone.datetime.now() + timezone.timedelta(days=7)
         else:
-            if timezone.datetime.fromisoformat(serializer.initial_data["before"]) < timezone.datetime.now():
-                return Response(data={"detail": _("Date cannot be in the past")}, status=status.HTTP_400_BAD_REQUEST)
+            if timezone.datetime.fromisoformat(serializer.initial_data["expire"]) < timezone.datetime.now():
+                return Response(data={"detail": _("Expire Date cannot be in the past")}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                print(F"BEFORE: {serializer.initial_data['before']}")
+                print(F"expire: {serializer.initial_data['expire']}")
 
         # make sure the request comes from the currently logged in staff
         if request.user.staff.staff_id == self.kwargs["staff_id"].upper():
@@ -329,10 +329,18 @@ class ScheduleViewSet(viewsets.ModelViewSet):
     def partial_update(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(data=serializer.data, status=status.HTTP_200_OK)
-        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # make sure the request comes from the currently logged in staff
+        if request.user.staff.staff_id == self.kwargs["staff_id"].upper():
+
+            if serializer.is_valid():
+                serializer.save(staff=request.user.staff)
+                return Response(data=serializer.data, status=status.HTTP_200_OK)
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # else if logged in staff is not equal to staff_id passed
+        serializer = {"detail": "You are not the owner of the account you are trying to create a schedule for!"}
+        return Response(data=serializer, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
     def destroy(self, request, format=None, *args, **kwargs):
         schedule = self.get_object()
