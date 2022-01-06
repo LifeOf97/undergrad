@@ -12,16 +12,16 @@
     <!-- hero text -->
     <div class="w-11/12 h-full flex items-center mx-auto z-10 md:w-10/12">
       <div class="flex flex-col gap-1">
-        <span ref="txt1" class="text-xs text-slate-400 font-bold lg:text-base">Career Guidance</span>
-        <span ref="txt2" class="text-3xl text-slate-900 font-black capitalize lg:text-6xl">Help the younger one's<br>decide their <code class="text-rose-500">career</code> path</span>
+        <span ref="txt1" class="text-xs text-slate-400 font-black uppercase md:text-sm">Career Guidance</span>
+        <span ref="hero" class="text-3xl text-slate-700 font-black capitalize lg:text-6xl">Help the younger one's<br>decide their <code class="text-rose-500">career</code> path</span>
 
-        <p ref="txt3" class="text-sm text-slate-500 font-normal">
+        <p ref="txt2" class="text-sm text-slate-500 font-normal">
           As teachers, parents and guardians, children look up to us<br>for direction. We should not outrightly decide their path,<br>but help them in deciding their career path.
         </p>
 
         <span class="mt-7">
-          <span class="flex">
-            <router-link :to="{name: 'signin'}" ref="btn" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
+          <span class="flex" ref="btn">
+            <router-link :to="{name: 'signin'}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
           </span>
         </span>
 
@@ -45,22 +45,31 @@
 <script>
 import AppTextLogo from "@/components/AppTextLogo.vue";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger)
 
 export default {
   name: 'Home',
   components: {AppTextLogo},
   data() {
     return {
-      date: "",
       src: require("@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg").default,
     }
   },
   methods: {
-    getDate(value) {
-      console.log(value);
+    animHome() {
+      // method to apply gsap animation to contents
+      // txt1,txt2,hero,btn
+      const {topnav, hero, txt2, txt1, btn} = this.$refs;
+      const tl = gsap.timeline()
+      tl.from([hero, txt2], {duration: 0.5, y: 50, opacity: 0, stagger: 0.5, delay: 0.5})
+        .from(txt1, {duration: 0.5, y: -50, opacity: 0})
+        .from(btn, {duration: 0.5, y: 50, opacity: 0}, "-=0.5")
+        .from(topnav, {duration: 0.5, y: -50, opacity: 0})
     }
+  },
+  mounted() {
+    this.$nextTick(function() {
+      this.animHome();
+    })
   }
 }
 </script>

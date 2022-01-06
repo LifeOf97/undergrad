@@ -2,13 +2,13 @@
     <div class="w-full h-full">
 
         <div class="flex flex-col pt-3 xl:p-0">
-            <AppStaffGreet :staffData="staffData" class="mt-10 mb-4 xl:mt-14" />
+            <AppStaffGreet ref="greet" :staffData="staffData" class="mt-10 mb-4 xl:mt-14" />
             
             <div class="w-full flex flex-col xl:flex-row xl:space-x-4">
 
                 <!-- main -->
                 <div class="w-full flex flex-col xl:w-8/12">
-                    <AppStaffDashBoardHeader />
+                    <AppStaffDashBoardHeader ref="card" />
 
                     <div class="flex flex-col space-y-5 my-10">
                         <h1 class="text-xl text-slate-900 font-medium">Questionnaires</h1>
@@ -35,7 +35,15 @@
                         </span>
                         <!-- if questionnaires are available -->
                         <div v-else class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                            <AppQuestion v-for="question in questionnaires.data" :key="question.id" :question="question" />
+                            <transition-group
+                                name="slide-cards"
+                                enter-from-class="translate-y-20 -translate-x-20 opacity-0"
+                                enter-active-class="transition-all duration-1000"
+                                leave-to-class="translate-y-20 -translate-x-20 opacity-0"
+                                leave-active-class="transition-all duration-1000"
+                                move-class="transition-all duration-1000">
+                                <AppQuestion v-for="question in questionnaires.data" :key="question.id" :question="question" />
+                            </transition-group>
                         </div>
                     </div>
                 </div>
@@ -44,11 +52,11 @@
                 <!-- calender/date -->
                 <div class="w-full flex flex-col text-2xl font-black pb-10 xl:fixed xl:top-44 xl:right-8 xl:w-3/12">
                     <div class="flex flex-col space-y-6">
-                        <span class="flex flex-col items-start leading-3">
+                        <span ref="date" class="flex flex-col items-start leading-3">
                             <p class="text-sm text-slate-500 font-normal">{{today.weekday}}</p>
                             <p class="text-lg text-slate-900 font-medium">{{today.full}}</p>
                         </span>
-                        <AppCalendar />
+                        <AppCalendar ref="calender" />
                     </div>
                 </div>
                 <!-- calender/date -->
@@ -86,6 +94,7 @@ import AppStaffGreet from "./AppStaffGreet.vue";
 import AppQuestionForm from "./AppQuestionForm.vue";
 import AppQuestionView from "./AppQuestionView.vue";
 import AppStaffDashBoardHeader from "./AppStaffDashBoardHeader.vue";
+import gsap from "gsap";
 
 export default {
     name: "AppStaffDashBoard",
@@ -120,9 +129,22 @@ export default {
             if (this.questionnaires.data.length < 1) return true
             else return false;
         },
+        animDashBoard() {
+            // method to apply gsap animation to dashboard
+            const {greet, card, date, calender} = this.$refs;
+            const tl = gsap.timeline();
+            tl.from([greet.$el, card.$el], {duration: 1, y: 50, opacity: 0, stagger: 0.4, delay: 0.5})
+                .from(date, {duration: 1, y: -50, opacity: 0})
+                .from(calender.$el, {duration: 0.5, y: -50, opacity: 0, ease: "bounce"})
+        },
     },
     created() {
         this.actionFetchQuestionnaires();
     },
+    mounted() {
+        this.$nextTick(function() {
+            this.animDashBoard();
+        })
+    }
 }
 </script>
