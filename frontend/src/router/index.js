@@ -8,11 +8,11 @@ const routes = [
     name: 'home',
     component: Home,
     meta: {
-      title: "Welcome | Career Guidance"
+      title: "Welcome | Career Guidance",
+      transition: 1,
+      transitionName: "",
     },
-    beforeEnter: (to) => {
-      document.title = to.meta.title;
-    },
+    beforeEnter: (to) => {document.title = to.meta.title;},
   },
   {
     path: '/:staffId',
@@ -22,7 +22,9 @@ const routes = [
     props: true,
     meta: {
       requiresAth: true,
-      title: "Dashboard | Career Guidance"
+      title: "Dashboard | Career Guidance",
+      transition: 3,
+      transitionName: "",
     },
     beforeEnter: (to) => {
       if (to.meta.requiresAth && !store.state.auth.isAuthenticated) {
@@ -43,23 +45,15 @@ const routes = [
         path: "myschedule",
         name: "myschedules",
         component: () => import(/* webpackChunkName: "schedules" */ '../components/AppStaffSchedule.vue'),
-        meta: {
-          title: "Schedules | Career Guidance"
-        },
-        beforeEnter: (to) => {
-          document.title = to.meta.title;
-        }
+        meta: {title: "Schedules | Career Guidance"},
+        beforeEnter: (to) => {document.title = to.meta.title;}
       },
       {
         path: "mystudents",
         name: "mystudents",
         component: () => import(/* webpackChunkName: "students" */ '../components/AppStudent.vue'),
-        meta: {
-          title: "Students | Career Guidance"
-        },
-        beforeEnter: (to) => {
-          document.title = to.meta.title;
-        }
+        meta: {title: "Students | Career Guidance"},
+        beforeEnter: (to) => {document.title = to.meta.title;}
       },
       {
         path: "mystudents/:regNo",
@@ -89,9 +83,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "signout" */ '../views/Signin.vue'),
-    meta: {
-      title: "Sign in | Career Guidance"
-    },
+    meta: {title: "Sign in | Career Guidance", transition: 2, transitionName: ""},
     beforeEnter: (to) => {
       if (store.state.auth.isAuthenticated) {
         return {name: "staff", params: {staffId: store.state.staffData.staff_id}}
@@ -106,12 +98,19 @@ const routes = [
     path: "/:pathMatch(.*)*",
     name: "notfound",
     component: () => import(/* webpackChunkName: "notfound" */ '../views/NotFound.vue'),
+    meta: {transition: 10},
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.afterEach((to, from) => {
+  // set the transition name of the incoming route, base on the
+  // the direction of the route
+  to.meta.transitionName = to.meta.transition > from.meta.transition ? "slide-left":"slide-right";
 })
 
 export default router

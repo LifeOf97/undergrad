@@ -1,6 +1,11 @@
 <template>
-  <div class="relative w-full h-full">
-    <router-view class="font-Roboto"></router-view>
+  <div class="relative w-full h-full font-Roboto overflow-hidden">
+
+    <router-view v-slot="{Component, route}">
+      <transition :name="route.meta.transitionName" mode="out-in">
+        <component :is='Component'></component>
+      </transition>
+    </router-view>
 
     <!-- authentication notice -->
     <transition
@@ -42,3 +47,19 @@ export default {
   }
 }
 </script>
+
+<style>
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+  @apply transition-all duration-300
+
+}
+.slide-right-enter-from {
+  @apply -translate-x-full
+}
+.slide-left-enter-from {
+  @apply translate-x-full opacity-0
+}
+</style>

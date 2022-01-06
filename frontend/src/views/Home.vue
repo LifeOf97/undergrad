@@ -4,7 +4,7 @@
     <!-- absolute div background gradiant color -->
     <div class="absolute w-full h-full top-0 left-0 bg-gradient-to-r from-slate-100 via-slate-100/70 to-slate-100/0"></div>
 
-    <div class="w-11/12 mx-auto flex items-center justify-between bg-transparent py-6 z-10 md:py-8 md:w-10/12">
+    <div ref="topnav" class="w-11/12 mx-auto flex items-center justify-between bg-transparent py-6 z-10 md:py-8 md:w-10/12">
       <AppTextLogo :color="'rose'" />
       <router-link :to="{name: 'signin'}" class="text-sm text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
     </div>
@@ -12,16 +12,16 @@
     <!-- hero text -->
     <div class="w-11/12 h-full flex items-center mx-auto z-10 md:w-10/12">
       <div class="flex flex-col gap-1">
-        <span class="text-xs text-slate-400 font-bold lg:text-base">Career Guidance</span>
-        <span class="text-3xl text-slate-900 font-black capitalize lg:text-6xl">Help the younger one's<br>decide their <code class="text-rose-500">career</code> path</span>
+        <span ref="txt1" class="text-xs text-slate-400 font-bold lg:text-base">Career Guidance</span>
+        <span ref="txt2" class="text-3xl text-slate-900 font-black capitalize lg:text-6xl">Help the younger one's<br>decide their <code class="text-rose-500">career</code> path</span>
 
-        <p class="text-sm text-slate-500 font-normal">
+        <p ref="txt3" class="text-sm text-slate-500 font-normal">
           As teachers, parents and guardians, children look up to us<br>for direction. We should not outrightly decide their path,<br>but help them in deciding their career path.
         </p>
 
         <span class="mt-7">
           <span class="flex">
-            <router-link :to="{name: 'signin'}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
+            <router-link :to="{name: 'signin'}" ref="btn" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
           </span>
         </span>
 
@@ -44,6 +44,9 @@
 
 <script>
 import AppTextLogo from "@/components/AppTextLogo.vue";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger)
 
 export default {
   name: 'Home',
