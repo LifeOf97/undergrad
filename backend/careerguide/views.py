@@ -406,7 +406,7 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         # First, we need to retrieve reg_no's belonging to students in each category.
         # get the categories field from the validated serializer
         categories = serializer.initial_data.get("categories")
-        print(F"categories: {categories}")
+        # print(F"categories: {categories}")
         # default categories
         all_department: set = set({"art", "commercial", "science", "social science"})
         all_level: set = set({"jss1", "jss2", "jss3", "sss1", "sss2", "sss3"})
@@ -432,8 +432,8 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         serializer.initial_data["students"] = [student.profile.id for student in category]
         # and also update the category field to a string of value
         serializer.initial_data["categories"] = ",".join(categories)
-        print(serializer.initial_data["categories"])
-        print(serializer.initial_data["students"])
+        # print(serializer.initial_data["categories"])
+        # print(serializer.initial_data["students"])
 
 
         if serializer.is_valid():
@@ -473,8 +473,8 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         serializer.initial_data["students"] = [student.profile.id for student in category]
         # and also update the category field to a string of value
         serializer.initial_data["categories"] = ",".join(categories)
-        print(serializer.initial_data["categories"])
-        print(serializer.initial_data["students"])
+        # print(serializer.initial_data["categories"])
+        # print(serializer.initial_data["students"])
 
         if serializer.is_valid():
             serializer.save(staff=request.user.staff)

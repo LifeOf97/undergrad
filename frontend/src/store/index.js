@@ -3,8 +3,9 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 // axios settings
-axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+// axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 // axios.defaults.baseURL = "http://192.168.43.208:8000/api/";
+axios.defaults.baseURL = "http://192.168.1.102:8000/api/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 9000;
