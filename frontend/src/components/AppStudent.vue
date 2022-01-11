@@ -5,7 +5,14 @@
             <h1 class="text-slate-900 text-2xl font-bold md:text-4xl">My Students</h1>
 
             <div class="grid grid-cols-2 gap-x-4 gap-y-8 my-5 md:grid-cols-3 xl:grid-cols-4">
-                <AppStudentCard v-for="student in students.data" :key="student.id" :student="student" />
+                <transition-group
+                    name="slide"
+                    enter-from-class="-translate-x-20 opacity-0"
+                    enter-active-class="transition-all duration-500"
+                    leave-to-class="-translate-x-20 opacity-0"
+                    leave-active-class="transition-all duration-500">
+                    <AppStudentCard v-for="student in students.data" :key="student.id" :student="student" />
+                </transition-group>
             </div>
 
         </div>

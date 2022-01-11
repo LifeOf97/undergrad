@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div class="flex flex-col bg-slate-50 rounded-md overflow-hidden shadow-md group transition-all duration-200 hover:shadow-xl">
+        <div class="flex flex-col bg-slate-50 rounded-md overflow-hidden shadow-md group transition-all duration-300 hover:shadow-xl">
             
             <div class="overflow-hidden">
                 <img v-if="student.profile.image" :src="student.profile.image" class="w-full aspect-[1/1] object-center object-cover transition-all duration-1000 group-hover:scale-125">

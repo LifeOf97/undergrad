@@ -3,7 +3,7 @@
 
         <div class="flex flex-col pt-3 xl:p-0">
             <AppStaffGreet ref="greet" :staffData="staffData" class="mt-10 mb-4 xl:mt-14" />
-            
+
             <div class="w-full flex flex-col xl:flex-row xl:space-x-4">
 
                 <!-- main -->
@@ -36,12 +36,11 @@
                         <!-- if questionnaires are available -->
                         <div v-else class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                             <transition-group
-                                name="slide-cards"
-                                enter-from-class="translate-y-20 -translate-x-20 opacity-0"
-                                enter-active-class="transition-all duration-1000"
-                                leave-to-class="translate-y-20 -translate-x-20 opacity-0"
-                                leave-active-class="transition-all duration-1000"
-                                move-class="transition-all duration-1000">
+                                name="slide"
+                                enter-from-class="-translate-x-20 opacity-0"
+                                enter-active-class="transition-all duration-500"
+                                leave-to-class="-translate-x-20 opacity-0"
+                                leave-active-class="transition-all duration-500">
                                 <AppQuestion v-for="question in questionnaires.data" :key="question.id" :question="question" />
                             </transition-group>
                         </div>
@@ -131,10 +130,9 @@ export default {
         },
         animDashBoard() {
             // method to apply gsap animation to dashboard
-            const {greet, card, date, calender} = this.$refs;
+            const {date, calender} = this.$refs;
             const tl = gsap.timeline();
-            tl.from([greet.$el, card.$el], {duration: 1, y: 50, opacity: 0, stagger: 0.4, delay: 0.5})
-                .from(date, {duration: 1, y: -50, opacity: 0})
+            tl.from(date, {duration: 1, y: -50, opacity: 0})
                 .from(calender.$el, {duration: 0.5, y: -50, opacity: 0, ease: "bounce"})
         },
     },

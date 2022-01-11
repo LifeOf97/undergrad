@@ -39,7 +39,15 @@
 
             <!-- if observations exists -->
             <div class="flex flex-col gap-4">
-                <AppObservationCard v-for="observation in observationView.data" :key="observation.id" :observation="observation" />
+                <transition-group
+                    name="slide"
+                    enter-from-class="-translate-x-20 opacity-0"
+                    enter-active-class="transition-all duration-500"
+                    leave-to-class="-translate-x-20 opacity-0"
+                    leave-active-class="transition-all duration-500"
+                    move-class="transition-all duration-500">
+                    <AppObservationCard v-for="observation in observationView.data" :key="observation.id" :observation="observation" />
+                </transition-group>
             </div>
 
             <span class="flex items-center justify-start">

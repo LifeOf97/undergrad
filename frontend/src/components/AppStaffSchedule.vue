@@ -74,7 +74,14 @@
 
                         <!-- if schedules are available -->
                         <div class="flex flex-col gap-4">
-                            <AppScheduleCard v-for="schedule in schedules.data" :key="schedule.id" :schedule="schedule" />
+                            <transition-group
+                                name="slide"
+                                enter-from-class="-translate-x-20 opacity-0"
+                                enter-active-class="transition-all duration-500"
+                                leave-to-class="-translate-x-20 opacity-0"
+                                leave-active-class="transition-all duration-500">
+                                <AppScheduleCard v-for="schedule in schedules.data" :key="schedule.id" :schedule="schedule" />
+                            </transition-group>
                         </div>
                     </div>
                 </div>
