@@ -42,7 +42,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "dashboard" */ '../components/AppStaffDashBoard.vue'),
       },
       {
-        path: "myschedule",
+        path: "myschedules",
         name: "myschedules",
         component: () => import(/* webpackChunkName: "schedules" */ '../components/AppStaffSchedule.vue'),
         meta: {title: "Schedules | Career Guidance"},

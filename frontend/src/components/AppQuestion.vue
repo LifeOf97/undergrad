@@ -4,7 +4,7 @@
         <div class="flex flex-col p-4 rounded-md shadow-md shadow-slate-100 bg-slate-50 hover:shadow-slate-200">
 
             <!-- start of question topic -->
-            <h1 class="text-lg text-slate-900 font-medium truncate">{{question.title}}</h1>
+            <h1 data-test="title" class="text-lg text-slate-900 font-medium truncate">{{question.title}}</h1>
             <!-- end of question topic -->
 
             <div class="flex flex-wrap gap-4 text-slate-500 text-sm mt-2">
@@ -18,19 +18,9 @@
                         <path d="M16 21H14C14 18.2386 11.7614 16 9 16C6.23858 16 4 18.2386 4 21H2C2 17.134 5.13401 14 9 14C12.866 14 16 17.134 16 21Z" fill="#2E3A59"></path>
                     </svg>
 
-                    <p class="font-normal">{{question.students.length}} student(s)</p>
+                    <p data-test="students" class="font-normal">{{question.students.length}} student(s)</p>
                 </span>
                 <!-- end of number of students -->
-
-                <!-- start of questions svg -->
-                <!-- <span class="flex space-x-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-
-                    <p class="font-normal">12 questions</p>
-                </span> -->
-                <!-- end of questions -->
 
                 <!-- start of duration -->
                 <span class="flex space-x-1">
@@ -38,7 +28,7 @@
                         <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C21.9939 17.5203 17.5203 21.9939 12 22ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C19.995 7.58378 16.4162 4.00496 12 4ZM17 13H11V7H13V11H17V13Z"></path>
                     </svg>
 
-                    <p class="font-normal">{{humanizeDate(question.created)}}</p>
+                    <p data-test="duration" class="font-normal">{{humanizeDate(question.created)}}</p>
                 </span>
                 <!-- start of duration -->
 

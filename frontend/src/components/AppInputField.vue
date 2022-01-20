@@ -6,15 +6,15 @@
         <div :class="color == 'rose' ? 'hover:border-rose-500 focus-within:border-rose-500':'hover:border-green-500 focus-within:border-green-500'" class="relative flex bg-slate-50 rounded-md shadow border-2 border-transparent">
 
             <input 
-            :type="inputType"
-            :id="label"
-            :name="label"
-            :placeholder="placeholder"
-            :required="required ? true:false"
-            :autofocus="autofocus ? true:false"
-            :value="modelValue"
-            @input="emitValue"
-            class="w-full text-slate-600 text-sm font-medium bg-transparent p-2 placeholder-slate-300 focus:outline-none">
+                :type="inputType"
+                :id="label"
+                :name="label"
+                :placeholder="placeholder"
+                :required="required"
+                :autofocus="autofocus"
+                :value="modelValue"
+                @input="emitValue"
+                class="w-full text-slate-600 text-sm font-medium bg-transparent p-2 placeholder-slate-300 focus:outline-none">
 
             <!-- this button is only available when the input field is a password type -->
             <button title="show password" v-if="type == 'password'" @click.prevent="togglePassword()" class="flex-initial flex justify-center items-center mr-3 font-extrabold text-2xl z-10">
@@ -39,9 +39,7 @@ export default {
     name: "AppInputField",
     props: {
         modelValue: {type: String, required: false},
-        modelModifiers: {
-            default: () => ({})
-        },
+        modelModifiers: {default: () => ({})},
         type: {type: String, required: false, default: "text"},
         label: {type: String, required: false, default: "Text"},
         labelColor: {type: String, required: false, default: "black"},
@@ -49,12 +47,11 @@ export default {
         placeholder: {type: String, required: false},
         required: {type: Boolean, required:false, default: false},
         autofocus: {type: Boolean, required:false, default: false},
-        autocomplete: {type: Boolean, required:false, default: false},
     },
     emits: ["update:modelValue"],
     data() {
         return {
-            inputType: this.$props.type,
+            inputType: this.type,
             showPassword: false
         }
     },

@@ -11,7 +11,7 @@
             </svg>
 
 
-            <span class="flex flex-col items-center gap-2 md:items-start">
+            <span data-test="detail" class="flex flex-col items-center gap-2 md:items-start">
                 <h4 class="text-slate-900 text-lg font-semibold first-letter:capitalize">{{title}}</h4>
                 <p class="text-slate-500 text-xs font-normal leading-3 first-letter:capitalize md:text-sm">{{text}}</p>
             </span>

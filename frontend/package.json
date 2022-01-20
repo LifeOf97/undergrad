@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test:unit": "jest",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -18,7 +18,7 @@
     "@vue/cli-plugin-babel": "^5.0.0-beta.2",
     "@vue/cli-plugin-eslint": "^4.5.13",
     "@vue/cli-plugin-router": "^5.0.0-beta.2",
-    "@vue/cli-plugin-unit-jest": "^4.5.15",
+    "@vue/cli-plugin-unit-jest": "^5.0.0-beta.2",
     "@vue/cli-plugin-vuex": "^5.0.0-beta.2",
     "@vue/cli-service": "^5.0.0-beta.2",
     "@vue/compiler-sfc": "^3.0.0",
@@ -27,17 +27,17 @@
     "autoprefixer": "^10.4.0",
     "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
-    "chai": "^4.1.2",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
     "gsap": "^3.8.0",
-    "jest": "^27.4.7",
+    "jest": "^26.6.3",
     "js-cookie": "^2.2.1",
     "luxon": "^2.1.1",
     "postcss": "^8.4.5",
     "prettier": "^2.2.1",
     "tailwindcss": "^3.0.2",
-    "v-calendar": "^3.0.0-alpha.6"
+    "v-calendar": "^3.0.0-alpha.6",
+    "vue-jest": "^5.0.0-alpha.10"
   }
 }

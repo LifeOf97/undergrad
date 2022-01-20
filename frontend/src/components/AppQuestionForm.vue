@@ -8,7 +8,7 @@
                     <h1 class="text-2xl text-slate-900 font-bold">Questionnaire</h1>
                     <p class="text-xs text-slate-500 font-medium">Create questions to ask your students.</p>
                 </span>
-                <AppCloseButton @click.prevent="actionUpdateQuestionnaireForm({open: false, saving: false, error: null}), actionUpdateQuestionnaireEdit({open: false, saving: false, error: null})" />
+                <AppCloseButton data-test="close-btn" @click.prevent="actionUpdateQuestionnaireForm({open: false, saving: false, error: null}), actionUpdateQuestionnaireEdit({open: false, saving: false, error: null})" />
             </div>
 
             <!-- forms fields -->
@@ -23,10 +23,10 @@
                     </div>
                     
                     <!-- question completed toggle button -->
-                    <AppToggle v-if="questionnaireEdit.open" v-model="completed" :text="'Completed by all students?'" :textPos="'top'" />
+                    <AppToggle data-test="toggle-btn" v-if="questionnaireEdit.open" v-model="completed" :text="'Completed by all students?'" :textPos="'top'" />
 
                     <!-- if errors -->
-                    <span v-if="questionnaireForm.error != null || questionnaireEdit.error != null" class="text-right col-span-2 text-sm text-rose-500 font-medium">{{questionnaireForm.error||questionnaireEdit.error}}</span>
+                    <span data-test="error" v-if="questionnaireForm.error != null || questionnaireEdit.error != null" class="text-right col-span-2 text-sm text-rose-500 font-medium">{{questionnaireForm.error||questionnaireEdit.error}}</span>
                 </div>
 
 
@@ -38,9 +38,10 @@
                     </span>
 
                     <div class="flex flex-wrap gap-7 mt-6">
+                        <!-- gender -->
                         <span class="space-y-2">
                             <p class="text-xs text-slate-500 font-medium capitalize">Gender</p>
-
+                            
                             <div class="flex flex-wrap gap-4">
                                 <span v-for="opt in gender" :key="opt.name" class="flex">
                                     <label :for="opt.name" :class="opt.selected ? 'bg-rose-500 text-white':'bg-slate-50 text-slate-500'" class="flex text-xs items-center justify-center space-x-2 rounded-lg border border-transparent p-2 cursor-pointer transition-all duration-100 capitalize outline-none hover:border-rose-500">
@@ -54,6 +55,7 @@
                             </div>
                         </span>
 
+                        <!-- class -->
                         <span class="space-y-2">
                             <p class="text-xs text-slate-500 font-medium capitalize">Class</p>
 
@@ -69,7 +71,8 @@
                                 </span>
                             </div>
                         </span>
-
+                        
+                        <!-- department -->
                         <span class="space-y-2">
                             <p class="text-xs text-slate-500 font-medium capitalize">Department</p>
 
@@ -90,11 +93,11 @@
                 <!-- filter students -->
 
                 <div class="col-span-2 flex justify-end gap-3 mt-10 border-t border-slate-200 pt-4">
-                    <AppButton @click.prevent="actionUpdateQuestionnaireForm({open: false, saving: false, error: null}), actionUpdateQuestionnaireEdit({open: false, saving: false, error: null})" :name="'Cancle'" :type="'plain'" />
+                    <AppButton data-test="cancle-btn" @click.prevent="actionUpdateQuestionnaireForm({open: false, saving: false, error: null}), actionUpdateQuestionnaireEdit({open: false, saving: false, error: null})" :name="'Cancle'" :type="'plain'" />
                     <!-- available when creating a new questionnaire -->
-                    <AppButton v-if="questionnaireForm.open" :name="'Create'" :color="'rose'" :loading="questionnaireForm.saving" :loadingText="'Creating'" />
+                    <AppButton data-test="create-btn" v-if="questionnaireForm.open" :name="'Create'" :color="'rose'" :loading="questionnaireForm.saving" :loadingText="'Creating'" />
                     <!-- available when editing a new questionnaire -->
-                    <AppButton v-else :name="'Save changes'" :color="'rose'" :loading="questionnaireEdit.saving" :loadingText="'Saving changes'" />
+                    <AppButton data-test="save-btn" v-else :name="'Save changes'" :color="'rose'" :loading="questionnaireEdit.saving" :loadingText="'Saving changes'" />
                 </div>
 
             </form>

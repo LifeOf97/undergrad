@@ -3,7 +3,8 @@
 
         <button
             type="submit"
-            :disabled="disabled" v-if="type == 'plain'"
+            :disabled="disabled"
+            v-if="type == 'plain'"
             class="w-full text-xs text-slate-600 font-bold rounded-md p-2 border border-slate-600 tracking-wide transition-all duration-200 active:outline-none hover:text-slate-900 disabled:bg-slate-100 disabled:text-slate-400 disabled:border-slate-400 disabled:cursor-not-allowed md:text-sm">
             <span v-if="loading" class="flex items-center justify-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-spin stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -18,7 +19,8 @@
 
         <button
             type="submit"
-            :disabled="disabled ? true:false" v-else
+            :disabled="disabled ? true:false"
+            v-else
             :class="color == 'rose' ? 'bg-rose-500 hover:bg-rose-600 disabled:bg-rose-300':'bg-green-500 hover:bg-green-600 disabled:bg-green-300'"
             class="w-full text-xs text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 hover:shadow-lg disabled:cursor-not-allowed disabled:hover:shadow-none md:text-sm">
             <span v-if="loading" class="flex items-center justify-center gap-2">
@@ -44,7 +46,7 @@ export default {
         color: {type: String, required: false, default: "rose"},
         disabled: {type: Boolean, required: false, default: false},
         loading: {type: Boolean, required: false, default: false},
-        loadingText: {type: String, required: false, default: "Loading"},
+        loadingText: {type: String, required: false, default: "Submitting"},
     },
 }
 </script>

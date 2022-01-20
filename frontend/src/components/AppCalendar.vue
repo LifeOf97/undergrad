@@ -14,12 +14,8 @@ import { Calendar } from "v-calendar";
 export default {
     name: "AppCalendar",
     components: {Calendar,},
-    props: {
-        todos: {type: Array, requires: false},
-    },
     data() {
         return {
-            myTodos: this.$props.todos,
             calendarMask: {weekdays: 'WWW',},
             calendarAttrs: [
                 {

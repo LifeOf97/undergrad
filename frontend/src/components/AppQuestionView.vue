@@ -4,7 +4,7 @@
         <div class="relative w-11/12 h-auto max-w-[91.6%] max-h-[90%] p-7 rounded-md shadow-lg bg-white overflow-y-auto md:p-10 lg:w-7/12">
 
             <!-- close button -->
-            <AppCloseButton @click.prevent="actionUpdateQuestionnaireView({open: false, data: '', error: null})" class="absolute top-7 right-7" />
+            <AppCloseButton data-test="close-btn" @click.prevent="actionUpdateQuestionnaireView({open: false, data: '', error: null})" class="absolute top-7 right-7" />
             <!-- close button -->
 
             <div class="w-full flex flex-col mt-10 mx-auto">
@@ -31,8 +31,8 @@
 
                 <!-- question buttons -->
                 <div class="flex items-center justify-end gap-3 border-t pt-4">
-                    <AppButton @click.prevent="actionUpdateQuestionnaireEdit({open: true, saving: false, error: null}), actionUpdateQuestionnaireView({open: false, data: questionnaireView.data, error: null})" :name="'Edit'" :type="'plain'" />
-                    <AppButton @click.prevent="toDelete = true" :name="'Delete'" :color="'rose'" />
+                    <AppButton data-test="edit-btn" @click.prevent="actionUpdateQuestionnaireEdit({open: true, saving: false, error: null}), actionUpdateQuestionnaireView({open: false, data: questionnaireView.data, error: null})" :name="'Edit'" :type="'plain'" />
+                    <AppButton data-test="delete-btn" @click.prevent="toDelete = true" :name="'Delete'" :color="'rose'" />
                 </div>
                 <!-- question buttons -->
 
@@ -68,7 +68,6 @@ export default {
             completed: false,
             toDelete: false,
             loading: false,
-            // filters:
         }
     },
     computed: {
