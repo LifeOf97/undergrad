@@ -20,6 +20,12 @@
                                 <AppButton @click.prevent="actionFetchQuestionnaires()" :type="'plain'" :name="'Try again'" :loading="questionnaires.loading" :loadingText="'Loading'" />
                             </span>
                         </span>
+
+                        <!-- if no questionnaires yet -->
+                        <span v-else-if="questionnaireLen()" class="flex item-center justify-center">
+                            <p class="text-base text-slate-500 font-light">You do not have any questionnaire</p>
+                        </span>
+
                         <!-- if fetching questionnaire is in process -->
                         <span v-if="questionnaires.loading" class="flex items-center justify-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-spin stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -29,10 +35,6 @@
                             <p class="text-base text-slate-600 font-normal">Loading</p>
                         </span>
 
-                        <!-- if no questionnaires yet -->
-                        <span v-if="questionnaireLen()" class="flex item-center justify-center">
-                            <p class="text-base text-slate-500 font-light">You do not have any questionnaire</p>
-                        </span>
                         <!-- if questionnaires are available -->
                         <div v-else class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                             <transition-group

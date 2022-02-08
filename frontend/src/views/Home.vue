@@ -1,12 +1,13 @@
 <template>
-  <div class="relative h-screen w-screen flex flex-col bg-no-repeat bg-cover bg-center selection:bg-rose-500 selection:text-slate-50 md:bg-left" :style="{backgroundImage: `url(${require(`@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg`).default})`}">
+  <div class="relative h-screen w-screen flex flex-col bg-no-repeat bg-cover bg-center selection:bg-rose-500 selection:text-slate-50 md:bg-left landscape:h-[30rem] md:landscape:h-screen" :style="{backgroundImage: `url(${require(`@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg`).default})`}">
 
     <!-- absolute div background gradiant color -->
     <div class="absolute w-full h-full top-0 left-0 bg-gradient-to-r from-slate-100 via-slate-100/70 to-slate-100/0"></div>
 
     <div ref="topnav" class="w-11/12 mx-auto flex items-center justify-between bg-transparent py-6 z-10 md:py-8 md:w-10/12">
       <AppTextLogo :color="'rose'" />
-      <router-link :to="{name: 'signin'}" class="text-sm text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
+      <router-link v-if="getAuthToken" :to="{name: 'staff', params: {staffId: staffData.staff_id}}" class="text-sm text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Dashboard</router-link>
+      <router-link v-else :to="{name: 'signin'}" class="text-sm text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
     </div>
 
     <!-- hero text -->
@@ -21,7 +22,8 @@
 
         <span class="mt-7">
           <span class="flex" ref="btn">
-            <router-link :to="{name: 'signin'}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
+            <router-link v-if="getAuthToken" :to="{name: 'staff', params: {staffId: staffData.staff_id}}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Dashboard</router-link>
+            <router-link v-else :to="{name: 'signin'}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
           </span>
         </span>
 
@@ -29,7 +31,6 @@
     </div>
 
 
-    <!-- <router-link :to="{name: 'staff'}" class="text-blue-400 font-bold">Staff</router-link> -->
 
     <!-- credits -->
     <span class="absolute bottom-3 right-10 text-slate-50 text-xs font-medium flex gap-1 z-10">
@@ -44,6 +45,8 @@
 
 <script>
 import AppTextLogo from "@/components/AppTextLogo.vue";
+import { mapActions, mapState } from 'vuex';
+import Cookies from "js-cookie";
 import gsap from "gsap";
 
 export default {
@@ -54,7 +57,18 @@ export default {
       src: require("@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg").default,
     }
   },
+  computed: {
+    ...mapState({
+      staffData: state => state.staffData,
+    }),
+    getAuthToken() {
+      return Cookies.get("authToken")
+    }
+  },
   methods: {
+    ...mapActions([
+      "actionFetchStaffData",
+    ]),
     animHome() {
       // method to apply gsap animation to contents
       // txt1,txt2,hero,btn
@@ -69,7 +83,12 @@ export default {
   mounted() {
     this.$nextTick(function() {
       this.animHome();
+
+      if (Cookies.get("authToken")) {
+        this.actionFetchStaffData({staffId: Cookies.get("authStaff")})
+      }
     })
+    console.log(Cookies.get("authToken"))
   }
 }
 </script>

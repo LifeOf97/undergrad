@@ -82,12 +82,4 @@ describe("AppQuestionView.vue", () => {
             {open: false, data: data, error: null}
         )
     })
-
-    test("Delete button sets toDelete data to true", async () => {
-        // trigger click
-        await wrapper.get("[data-test='delete']").trigger("click")
-
-        // assert
-        expect(wrapper)
-    })
 })

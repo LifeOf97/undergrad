@@ -8,7 +8,7 @@
             <!-- close button -->
 
             <div class="w-full flex flex-col mt-10 mx-auto">
-                <div class="mb-5">
+                <div class="mb-7">
                     <h1 class="text-xl text-center text-slate-900 font-bold tracking-wide underline underline-offset-4 md:text-3xl">{{questionnaireView.data.title}}</h1>
                 </div>
 
@@ -18,13 +18,13 @@
                 </span>
 
                 <!-- filter for -->
-                <span v-if="questionnaireView.data.categories.split(',')[0] != ''" class="ml-9 flex flex-wrap gap-2">
-                    <p v-for="filter in questionnaireView.data.categories.split(',')" :key="filter" class="text-xs text-slate-500 bg-slate-50 rounded-md px-2 py-1">{{filter}}</p>
+                <span class="flex flex-wrap gap-2">
+                    <p v-for="filter in questionnaireView.data.categories.split(',').slice(1)" :key="filter" class="text-xs text-slate-500 bg-slate-50 rounded-md px-2 py-1">{{filter}}</p>
                 </span>
                 <!-- filter for -->
 
                 <!-- question text -->
-                <p class="text-slate-600 text-xs font-medium my-6 ml-12 md:text-sm">
+                <p class="text-slate-600 text-xs font-medium my-6 whitespace-pre-line md:text-sm">
                     {{questionnaireView.data.question}}
                 </p>
                 <!-- question text -->

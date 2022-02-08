@@ -7,7 +7,7 @@
                 <div class="absolute top-5 right-5 lg:hidden">
                     <AppCloseButton @click.prevent="actionUpdateNav({state: false})" />
                 </div>
-                <AppTextLogo :color="'rose'" />
+                <AppTextLogo :position="'center'" :text="'small'" />
                 <AppLeftNavLinks />
             </div>
         </div>

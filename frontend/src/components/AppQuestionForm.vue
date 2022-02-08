@@ -15,7 +15,7 @@
             <form @submit.prevent="questionnaireForm.open ? createQuestionnaire():updateQuestionnaire(questionnaireView.data.id)" class="grid grid-cols-1 gap-8 mt-10 lg:grid-cols-3 lg:gap-x-16 lg:gap-y-0">
 
                 <div class="space-y-8 col-span-2">
-                    <AppInputField v-model="title" :label="'Title'" :type="'text'" :color="'rose'" :placeholder="'Title of the questionnaire'" :required="true" />
+                    <AppInputField v-model="title" :label="'Title'" :type="'text'" :color="'rose'" :placeholder="'Title of the questionnaire'" @keypress.enter.prevent :required="true" />
                     <!-- textfield-->
                     <div class="relative flex flex-col space-y-2">
                         <label for="question" class="text-xs text-slate-900 font-medium md:text-base">Question(s)</label>

@@ -1,6 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store';
-import Home from '../views/Home.vue'
+import Home from '../views/Home.vue';
+import Cookies from "js-cookie";
 
 const routes = [
   {
@@ -12,7 +13,9 @@ const routes = [
       transition: 1,
       transitionName: "",
     },
-    beforeEnter: (to) => {document.title = to.meta.title;},
+    beforeEnter: (to) => {
+      document.title = to.meta.title;
+    },
   },
   {
     path: '/:staffId',
@@ -27,7 +30,7 @@ const routes = [
       transitionName: "",
     },
     beforeEnter: (to) => {
-      if (to.meta.requiresAth && !store.state.auth.isAuthenticated) {
+      if (to.meta.requiresAth && !Cookies.get("authToken")) {
         return {name: 'signin'}
       }
       else {
@@ -79,13 +82,10 @@ const routes = [
   {
     path: "/signin",
     name: "signin",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "signout" */ '../views/Signin.vue'),
     meta: {title: "Sign in | Career Guidance", transition: 2, transitionName: ""},
     beforeEnter: (to) => {
-      if (store.state.auth.isAuthenticated) {
+      if (Cookies.get("authToken")) {
         return {name: "staff", params: {staffId: store.state.staffData.staff_id}}
       }
       else {

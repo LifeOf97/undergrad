@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen h-screen flex bg-rose-500 selection:text-slate-50 selection:bg-rose-500">
+    <div class="w-screen h-screen flex bg-rose-500 selection:text-slate-50 selection:bg-rose-500 landscape:h-[30rem] md:landscape:h-screen">
 
         <div class="relative w-full h-full flex flex-col items-center justify-center bg-white lg:w-1/2">
 
@@ -13,7 +13,7 @@
             <div class="w-9/12 mx-auto flex flex-col gap-7 md:w-7/12">
 
                 <span class="flex flex-col items-center justify-center gap-3">
-                    <AppTextLogo ref="logo" :color="'rose'" />
+                    <AppTextLogo ref="logo" :position="'center'" />
                     <span ref="txt1">
                         <p class="text-slate-800 text-2xl font-black tracking-wide">Sign in to your account </p>
                     </span>

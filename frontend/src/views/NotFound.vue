@@ -3,11 +3,11 @@
 
         <img :src="story" class="w-full h-full">
 
-        <router-link :to="auth.isAuthenticated ? {name: 'staff'}:{name: 'home'}" class="absolute top-5 left-5 px-6 py-4 group flex items-center text-slate-50 bg-rose-500 rounded-md gap-1 hover:bg-rose-600 md:gap-2">
+        <router-link :to="getAuthToken ? {name: 'staff', params: {staffId: staffData.staff_id}}:{name: 'home'}" class="absolute top-5 left-5 px-6 py-4 group flex items-center text-slate-50 bg-rose-500 rounded-md gap-1 hover:bg-rose-600 md:gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-current group-hover:animate-bounce-h" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
             </svg>
-            <p v-if="auth.isAuthenticated" class="text-base font-bold md:text-lg">Return to dashboard</p>
+            <p v-if="getAuthToken" class="text-base font-bold md:text-lg">Return to dashboard</p>
             <p v-else class="text-base font-bold md:text-lg">Back home</p>
         </router-link>
 
@@ -15,7 +15,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import Cookies from "js-cookie";
+import { mapActions, mapState } from 'vuex';
+
 export default {
     name: "NotFound",
     data() {
@@ -25,8 +27,23 @@ export default {
     },
     computed: {
         ...mapState({
-            auth: state => state.auth,
+            staffData: state => state.staffData,
         }),
+        getAuthToken() {
+            return Cookies.get("authToken")
+        }
+    },
+    methods: {
+        ...mapActions([
+            "actionFetchStaffData",
+        ])
+    },
+    mounted() {
+        this.$nextTick(function() {
+            if (Cookies.get("authToken")) {
+                this.actionFetchStaffData({staffId: Cookies.get("authStaff")})
+            }
+        })
     }
 }
 </script>

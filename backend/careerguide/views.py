@@ -432,9 +432,8 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         serializer.initial_data["students"] = [student.profile.id for student in category]
         # and also update the category field to a string of value
         serializer.initial_data["categories"] = ",".join(categories)
-        # print(serializer.initial_data["categories"])
-        # print(serializer.initial_data["students"])
-
+        print(serializer.initial_data["categories"])
+        print(serializer.initial_data["students"])
 
         if serializer.is_valid():
             serializer.save(staff=request.user.staff)
@@ -473,8 +472,8 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         serializer.initial_data["students"] = [student.profile.id for student in category]
         # and also update the category field to a string of value
         serializer.initial_data["categories"] = ",".join(categories)
-        # print(serializer.initial_data["categories"])
-        # print(serializer.initial_data["students"])
+        print(serializer.initial_data["categories"])
+        print(serializer.initial_data["students"])
 
         if serializer.is_valid():
             serializer.save(staff=request.user.staff)

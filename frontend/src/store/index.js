@@ -10,8 +10,6 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 9000;
 
-// cookies settings
-Cookies.set("staff_id", "");
 
 export default createStore({
   state: {
@@ -159,7 +157,10 @@ export default createStore({
             isAuthenticating: false,
             error: null,
           })
-          Cookies.set("staff_id", payload.rememberMe ? `${payload.staffId}`:"", {expires: 366})
+          // set required cookies
+          Cookies.set("staff_id", payload.rememberMe ? `${payload.staffId}`:"", {expires: 365, sameSite: "Lax"})
+          Cookies.set("authToken", resp.data.token, {expires: 3, sameSite: "Lax"})
+          Cookies.set("authStaff", payload.staffId, {expires: 3, sameSite: "Lax"})
           // console.log(resp.data);
           // then dispatch the actionFetchStaffData action to get the staff data.
           context.dispatch("actionFetchStaffData", payload)
@@ -195,6 +196,9 @@ export default createStore({
         isAuthenticated: false,
         error: null,
       });
+      // clear cookies concerning authentications
+      Cookies.set("authToken", "", {expires: 365, sameSite: "Lax"})
+      Cookies.set("authStaff", "", {expires: 365, sameSite: "Lax"})
       // also dispatch actionUpdateSignout to update signout state.
       context.dispatch("actionUpdateSignout", payload)
     },
@@ -205,7 +209,7 @@ export default createStore({
       axios.post(
           `staffs/${context.state.staffData.staff_id}/questionnaires/create/`,
           {...payload},
-          {headers: {"Authorization": `token ${context.state.auth.authToken}`}}
+          {headers: {"Authorization": `token ${Cookies.get("authToken")}`}}
         )
         .then(() => {
           // if success response, update actionUpdateQuestionnaireForm state to set open
@@ -229,7 +233,7 @@ export default createStore({
       axios.patch(
           `staffs/${context.state.staffData.staff_id}/questionnaires/${payload.id}/update/`,
           {...payload.data},
-          {headers: {"Authorization": `token ${context.state.auth.authToken}`}}
+          {headers: {"Authorization": `token ${Cookies.get("authToken")}`}}
         )
         .then(() => {
           // if success response, update actionUpdateQuestionnaireEdit state to set open
@@ -250,7 +254,7 @@ export default createStore({
       // action to get all questionnaire by the currently logged in staff, first update
       // questionnaire loading state to true.
       context.commit("updateQuestionnaire", {detail: "", loading: true, error: null})
-      await axios.get(`staffs/${context.state.staffData.staff_id}/questionnaires/`, {headers: {"Authorization": `token ${context.state.auth.authToken}`}})
+      await axios.get(`staffs/${context.state.staffData.staff_id}/questionnaires/`, {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
         .then((resp) => {
           // if success response, update questionnaire loading state to false and set
           // data state to the returned list of questionnaire.
@@ -268,7 +272,7 @@ export default createStore({
       // action to delete a questionnaire instance
       await axios.delete(
         `staffs/${context.state.staffData.staff_id}/questionnaires/${payload.delete}/delete/`,
-        {headers: {"Authorization": `token ${context.state.auth.authToken}`}},)
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}},)
         .then((resp) => {
           // if success response, update questionnaireView open state to false, data to empty string
           // error to null dispatch the actionFetchQuestionnaires to retrieve the questionnaire list.
@@ -288,7 +292,7 @@ export default createStore({
       await axios.post(
         `staffs/${context.state.staffData.staff_id}/schedules/create/`,
         {...payload.data},
-        {headers: {"Authorization": `token ${context.state.auth.authToken}`}},
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}},
       )
         .then((resp) => {
           // if success response, update scheduleForm saving and error state,
@@ -308,7 +312,7 @@ export default createStore({
       await axios.patch(
         `staffs/${context.state.staffData.staff_id}/schedules/${payload.id}/update/`,
         {completed: payload.completed},
-        {headers: {"Authorization": `token ${context.state.auth.authToken}`}}
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}}
       )
         .then((resp) => {
           // if success response, dispatch the actionFetchSchedule action
@@ -325,7 +329,7 @@ export default createStore({
       // first set scheduleView loading state to true and error to null, then make a get
       // request
       context.commit("updateSchedules", {loading: true, data: "", error: null})
-      axios.get(`staffs/${context.state.staffData.staff_id}/schedules/`, {headers: {"Authorization": `token ${context.state.auth.authToken}`}})
+      axios.get(`staffs/${context.state.staffData.staff_id}/schedules/`, {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
         .then((resp) => {
           // if success response, update scheduleView data, loading and error state
           context.commit("updateSchedules", {loading: false, data: resp.data, error: null})
@@ -341,7 +345,7 @@ export default createStore({
       // action to delete a schedule instance
       await axios.delete(
         `staffs/${context.state.staffData.staff_id}/schedules/${context.state.scheduleDelete.id}/delete/`,
-        {headers: {"Authorization": `token ${context.state.auth.authToken}`}})
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
         .then((resp) => {
           // if success response, dispatch the actionUpdateScheduleDelete and
           // actionFetchSchedule action
@@ -357,7 +361,7 @@ export default createStore({
     async actionFetchStudents(context) {
       // action to fetch all students, first set students loading state to true, then make request
       context.commit("updateStudentsState", {data: "", loading: true, error: null})
-      await axios.get("students/", {headers: {"Authorization": `token ${context.state.auth.authToken}`}})
+      await axios.get("students/", {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
         .then((resp) => {
           // if success response, set students loading state to false and update the data state to
           // the return data
@@ -381,7 +385,7 @@ export default createStore({
       await axios.post(
         `students/${context.state.studentView.department}/${context.state.studentView.level}/${context.state.studentView.reg_no}/observations/create/`,
         {...payload.data},
-        {headers: {"Authorization": `token ${context.state.auth.authToken}`}})
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
         .then((resp) => {
           // if success response, update observationForm then dispatch actionFetchObservation
           context.commit("updateObservationForm", {open: false, saving: false, error: null})
@@ -401,7 +405,7 @@ export default createStore({
       await axios.patch(
         `students/${context.state.studentView.department}/${context.state.studentView.level}/${context.state.studentView.reg_no}/observations/${payload.id}/update/`,
         {...payload.data},
-        {headers: {"Authorization": `token ${context.state.auth.authToken}`}})
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
         .then((resp) => {
           // if success response, update observationForm then dispatch actionFetchObservation
           context.commit("updateObservationForm", {open: false, saving: false, error: null})
@@ -420,7 +424,7 @@ export default createStore({
       context.commit("updateObservationView", {data: "", loading: true, error: null})
       await axios.get(
         `students/${context.state.studentView.department}/${context.state.studentView.level}/${context.state.studentView.reg_no}/observations/`,
-        {headers: {"Authorization": `token ${context.state.auth.authToken}`}})
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
         .then((resp) => {
           // if success response, update observations state
           context.commit("updateObservationView", {data: resp.data, loading: false, error: null})
@@ -441,7 +445,7 @@ export default createStore({
       // action to delete an observation from a student, first update observationDelete state
       await axios.delete(
         `students/${context.state.studentView.department}/${context.state.studentView.level}/${context.state.studentView.reg_no}/observations/${context.state.observationDelete.id}/delete/`,
-        {headers: {"Authorization": `token ${context.state.auth.authToken}`}})
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
         .then((resp) => {
           // if success response, update observationDelete state then dispatch actionFetchObservation
           context.commit("updateObservationDelete", {open: false, id: ""})

@@ -13,7 +13,7 @@ describe("AppLeftNavLinks.vue", () => {
 
     // component wrapper instance
     const wrapper = mount(AppLeftNavLinks, {
-        global: { plugins: [store] }
+        global: { plugins: [store] },
     })
 
     test("3 router-link and 1 button should be rendered", () => {
