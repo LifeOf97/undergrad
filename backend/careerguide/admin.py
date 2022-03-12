@@ -1,5 +1,5 @@
 from .forms import ProfileCreationForm, ProfileChangeForm, StaffAdminForm, StudentAdminForm
-from .models import Profile, Staff, Student, Schedule, Questionnaire, Observation
+from .models import Profile, Staff, Student, Schedule, Questionnaire, Observation, Result
 from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
 
@@ -166,9 +166,24 @@ class ObservationAdmin(admin.ModelAdmin):
     readonly_fields = ("id", "created")
 
 
+class ResultAdmin(admin.ModelAdmin):
+    list_display = ("id", "student", "staff", "updated")
+    list_display_links = ("id", "student")
+    list_filter = ("staff",)
+
+    fieldsets = (
+        ("Identification", {"fields": ("id", "staff", "student", "updated")}),
+        ("Detail", {"fields": ("interest", "better_perf", "desired_prof", "best_sub", "counselling")}),
+    )
+
+    ordering = ("-updated",)
+    readonly_fields = ("id", "updated",)
+
+
 admin.site.register(Staff, StaffAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Observation, ObservationAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Questionnaire, QuestionnaireAdmin)
+admin.site.register(Result, ResultAdmin)

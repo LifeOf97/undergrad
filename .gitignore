@@ -1,6 +1,5 @@
 # python (django) settings
 backend/venv/
-backend/media/
 backend/src/config.*
 
 .DS_Store

@@ -1,8 +1,9 @@
 from .serializers import (
     ProfileHyperlinkSerializer, StaffHyperLinkSerializer, StudentHyperLinkSerializer,
     ScheduleHyperlinkSerializer, QuestionnaireHyperlinkSerializer, ObservationHyperlinkSerializer,
+    ResultModelSerializer,
 )
-from .models import Staff, Student, Schedule, Questionnaire, Observation
+from .models import Staff, Student, Schedule, Questionnaire, Observation, Result
 from django.utils.translation import ugettext_lazy as _
 from .permissions import IsSuperUser, IsOwnerOrReadOnly
 from rest_framework import permissions, authentication
@@ -47,6 +48,9 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
     retrieve: [Method: GET]
     Returns the details of a profile user account instance.
+
+    update: [Method: PUT]
+    NOTE: Not Supported
 
     partial_update: [Method: PATCH]
     Update a profile user account instance, only fields to be updated are passed.
@@ -102,6 +106,9 @@ class StaffViewSet(viewsets.ModelViewSet):
 
     retrieve: [Method: GET]
     Returns the details of a staff account instance.
+
+    update: [Method: PUT]
+    NOTE: Not Supported
 
     partial_update: [Method: PATCH]
     Update a staff account instance, only fields to be updated are passed.
@@ -169,6 +176,9 @@ class StudentViewSet(viewsets.ModelViewSet):
     retrieve: [Method: GET]
     Returns the details of a student account instance.
 
+    update: [Method: PUT]
+    NOTE: Not Supported
+
     partial_update: [Method: PATCH]
     Update a student account instance, only fields to be updated are passed.
 
@@ -200,7 +210,6 @@ class StudentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset().order_by("id")
         return queryset
-
 
 
     def list(self, request, format=None, *args, **kwargs):
@@ -258,6 +267,9 @@ class ScheduleViewSet(viewsets.ModelViewSet):
     retrieve: [Method: GET]
     Returns the details of an instance of a schedule of a staff.
 
+    update: [Method: PUT]
+    NOTE: Not Supported
+
     partial_update: [Method: PATCH]
     Update a schedule instance of a staff account, only fields to be updated are passed.
 
@@ -293,9 +305,11 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
+
     def retrieve(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(self.get_object(), context={"request": request})
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
 
     def create(self, request, format=None, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={"request": request})
@@ -353,7 +367,7 @@ class ScheduleViewSet(viewsets.ModelViewSet):
 
 class QuestionnaireViewSet(viewsets.ModelViewSet):
     """
-    Schedule API ModelViewset.
+    Questionnaire API ModelViewset.
 
     list: [Method: GET]
     Returns a list of questionnaires for a particular staff in the system.
@@ -363,6 +377,9 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
 
     retrieve: [Method: GET]
     Returns the details of an instance of a questionnaire of a staff.
+
+    update: [Method: PUT]
+    NOTE: Not Supported
 
     partial_update: [Method: PATCH]
     Update a questionnaire instance of a staff account, only fields to be updated are passed.
@@ -491,6 +508,25 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
 
 class ObservationViewSet(viewsets.ModelViewSet):
     """
+    Observation API ModelViewset.
+
+    list: [Method: GET]
+    Returns a list of Observation for a particular student in the system.
+
+    create: [Method: POST]
+    Create a new instance of a Observation for a student account.
+
+    retrieve: [Method: GET]
+    Returns the details of an instance of a Observation of a student.
+
+    update: [Method: PUT]
+    NOTE: Not Supported
+
+    partial_update: [Method: PATCH]
+    Update a Observation instance of a student account, only fields to be updated are passed.
+
+    destroy: [Method: DELETE]
+    Delete an Observation instance of a student.
     """
     queryset = Observation.objects.all()
     serializer_class = ObservationHyperlinkSerializer
@@ -561,4 +597,90 @@ class ObservationViewSet(viewsets.ModelViewSet):
         o_id, o_student, o_created = [observation.id, observation.student.reg_no, observation.created]
         serializer = {"id": o_id, "student": o_student, "created": o_created, "detail": "Deleted successfully"}
         observation.delete()
+        return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
+
+
+
+class ResultViewSet(viewsets.ModelViewSet):
+    """
+    Result API ModelViewset.
+
+    list: [Method: GET]
+    Returns a list of Result for a particular student in the system.
+
+    create: [Method: POST]
+    Create a new instance of a Result for a student account.
+
+    retrieve: [Method: GET]
+    Returns the details of an instance of a Result of a student.
+
+    update: [Method: PUT]
+    NOTE: Not Supported
+
+    partial_update: [Method: PATCH]
+    Update a Result instance of a student account, only fields to be updated are passed.
+
+    destroy: [Method: DELETE]
+    Delete an Result instance of a student.
+    """
+    queryset = Result.objects.all()
+    serializer_class = ResultModelSerializer
+    permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
+    authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication]
+
+    def get_queryset(self):
+        # return a list of observations created by the logged in user (staff)
+        queryset = super().get_queryset().order_by("-updated")
+        return queryset
+
+    def get_object(self):
+        # return an instance of a observation for the student instance.
+        # make sure to edit the hyperlink identity field on the serializer class to make use
+        # of the appropriate lookup fields.
+        lookup_kwargs = {
+            "student__department": self.kwargs["department"],
+            "student__level": self.kwargs["level"],
+            "student__reg_no": self.kwargs["reg_no"],
+        }
+        obj = get_object_or_404(self.get_queryset(), **lookup_kwargs)
+        # make sure to check for object level permissions
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+    def list(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(self.get_object(), context={"request": request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"request":  request})
+
+        try:
+            serializer.initial_data["student"] = Student.objects.get(department=self.kwargs["department"], level=self.kwargs["level"], reg_no=self.kwargs["reg_no"]).sid
+        except Student.DoesNotExist:
+            return Response(data={"datail": "Student with that ID does not exists."}, status=status.HTTP_404_NOT_FOUND)
+
+        if serializer.is_valid():
+            serializer.save(staff=request.user.staff)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        # else
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def partial_update(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
+
+        if serializer.is_valid():
+            serializer.save(staff=request.user.staff)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        # else
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, format=None, *args, **kwargs):
+        result = self.get_object()
+        r_id, r_student, r_staff = [result.id, result.student.sid, result.staff.staff_id]
+        serializer = {"id": r_id, "student": r_student, "staff": r_staff, "detail": "Deleted successfully"}
+        result.delete()
         return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)

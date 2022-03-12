@@ -1,9 +1,9 @@
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
-from .others import make_id, save_image
 from django.utils.text import slugify
 from django.utils import timezone
 from django.conf import settings
+from .others import save_image
 from django.db import models
 import uuid
 
@@ -189,3 +189,23 @@ class Observation(models.Model):
 
     def __str__(self):
         return F"@{self.student}"
+
+
+
+class Result(models.Model):
+    """
+    Model to hold the result made by a staff.
+    """
+    id = models.AutoField(_("ID"), primary_key=True, unique=True, blank=False, null=False)
+    student = models.OneToOneField("Student", on_delete=models.CASCADE)
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, help_text=_("The staff who gave this result."))
+    interest = models.CharField(_("Area of interest"), max_length=255, null=True, blank=True)
+    better_perf = models.CharField(_("Area of better performance"), max_length=255, null=True, blank=True)
+    desired_prof = models.CharField(_("Desired profession"), max_length=255, null=True, blank=True)
+    best_sub = models.CharField(_("Best subject"), max_length=255, null=True, blank=True)
+    counselling = models.TextField(_("Counselling"), blank=True, null=True)
+    updated = models.DateTimeField(_("Updated"), auto_now=True, auto_now_add=False, blank=True, null=True)
+
+
+    def __str__(self):
+        return F"{self.student.sid}"

@@ -6,7 +6,7 @@
             <div class="overflow-hidden">
                 <img v-if="student.profile.image" :src="student.profile.image" class="w-full aspect-[1/1] object-center object-cover transition-all duration-1000 group-hover:scale-125">
                 <div v-else class="w-full aspect-[1/1] flex items-center justify-center bg-rose-500 transition-all duration-1000 group-hover:scale-125">
-                    <span class="text-xl text-slate-50 font-bold capitalize">{{student.profile.username}}</span>
+                    <span class="text-xl text-slate-50 font-bold capitalize">{{student.sid}}</span>
                 </div>
             </div>
 

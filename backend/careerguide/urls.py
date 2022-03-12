@@ -41,7 +41,6 @@ urlpatterns = [
     path("staffs/<str:staff_id>/questionnaires/<int:id>/delete/", views.QuestionnaireViewSet.as_view({"delete": "destroy"}), name="staff-questionnaire-delete"),
     path("staffs/<str:staff_id>/questionnaires/<int:id>/update/", views.QuestionnaireViewSet.as_view({"patch": "partial_update"}), name="staff-questionnaire-update"),
 
-
     # student urls path
     path("students/", views.StudentViewSet.as_view({"get": "list"}), name="student-list"),
     path("students/create/", views.StudentViewSet.as_view({"post": "create"}), name="student-create"),
@@ -55,6 +54,13 @@ urlpatterns = [
     path("students/<str:department>/<str:level>/<str:reg_no>/observations/<int:id>/", views.ObservationViewSet.as_view({"get": "retrieve"}), name="students-observation-detail"),
     path("students/<str:department>/<str:level>/<str:reg_no>/observations/<int:id>/delete/", views.ObservationViewSet.as_view({"delete": "destroy"}), name="students-observation-delete"),
     path("students/<str:department>/<str:level>/<str:reg_no>/observations/<int:id>/update/", views.ObservationViewSet.as_view({"patch": "partial_update"}), name="students-observation-update"),
+
+    # students result urls path
+    path("students/results/", views.ResultViewSet.as_view({"get": "list"}), name="students-result-list"),
+    path("students/<str:department>/<str:level>/<str:reg_no>/results/", views.ResultViewSet.as_view({"get": "retrieve"}), name="students-result-detail"),
+    path("students/<str:department>/<str:level>/<str:reg_no>/results/create/", views.ResultViewSet.as_view({"post": "create"}), name="students-result-create"),
+    path("students/<str:department>/<str:level>/<str:reg_no>/results/delete/", views.ResultViewSet.as_view({"delete": "destroy"}), name="students-result-delete"),
+    path("students/<str:department>/<str:level>/<str:reg_no>/results/update/", views.ResultViewSet.as_view({"patch": "partial_update"}), name="students-result-update"),
 ]
 
 # urls can append a [url]?format=* or [url].* where * is one of ['json', 'api']

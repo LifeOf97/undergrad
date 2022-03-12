@@ -1,4 +1,6 @@
-from .models import Staff, Student, Schedule, Questionnaire, Observation
+from dataclasses import fields
+from unittest import result
+from .models import Staff, Student, Schedule, Questionnaire, Observation, Result
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers, validators
 from django.contrib.auth import get_user_model
@@ -51,16 +53,20 @@ class StaffHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         # A new profile object has to be created first, because the staff model
         # has a one-to-one relationship to the Profile (user) model which houses
-        # the default django auth backend. Get the profile data and password
+        # the default django auth backend.
+
+        # Get the profile data and password
         profile_data = validated_data.pop("profile")
         password = profile_data.pop("password")
 
+        # create new profile
         profile = Profile.objects.create(**profile_data)
         profile.set_password(password)
         profile.is_staff = True
         profile.save()
 
         # after the profile has been created, create the staff instance
+        # wth the newly created profile instance
         staff = Staff.objects.create(profile=profile, **validated_data)
         return staff
 
@@ -96,9 +102,10 @@ class StaffHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
-    # identity field
+    # url identity field which uses the student reg_no, class and department as url kwargs
+    # NOTE: uses a custom serializer
     url = others.StudentHyperlinkIdentityField(view_name="careerguide:student-detail")
-    # nested relationship
+    # nested relationship: the profle of the student
     profile = ProfileHyperlinkSerializer()
 
     class Meta:
@@ -171,6 +178,7 @@ class StudentHyperLinkSerializer(serializers.HyperlinkedModelSerializer):
 
 class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
     # url identity field that links to staff instance that owns this schedule
+    # NOTE: uses a custom serializer
     url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-schedule-detail")
 
     class Meta:
@@ -182,7 +190,10 @@ class ScheduleHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
+    # url identity field that links to staff instance that owns this questionnaire
+    # NOTE: uses a custom serializer
     url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-questionnaire-detail")
+    # list of students profile ids
     students = serializers.SlugRelatedField(queryset=Student.objects.all(), many=True, slug_field="profile_id")
 
     class Meta:
@@ -194,9 +205,7 @@ class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ObservationHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
-    # url = others.OthersToStaffHyperlinkIdentityField(view_name="careerguide:staff-observation-detail")
     url  = others.StudentObservationHyperlinkIdentityField(view_name="careerguide:students-observation-detail")
-    # student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
     student = serializers.SlugRelatedField(queryset=Student.objects.all(), slug_field="sid")
     staff_id = serializers.PrimaryKeyRelatedField(read_only=True)
 
@@ -205,5 +214,18 @@ class ObservationHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id", "url", "staff", "staff_id", "student", "detail", "created")
         extra_kwargs = {
             "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
-            # "staff_id": {"read_only": True},
         }
+
+
+class ResultModelSerializer(serializers.ModelSerializer):
+    # url  = others.StudentResultHyperlinkIdentityField(view_name="careerguide:students-result-detail")
+    # staff_id = serializers.PrimaryKeyRelatedField(read_only=True)
+    student = serializers.SlugRelatedField(queryset=Student.objects.all(), slug_field="sid")
+
+    class Meta:
+        model = Result
+        fields = "__all__"
+        # fields = ("id", "url", "student", "staff_id", "interest", "better_perf", "desired_prof", "best_sub", "counselling", "updated")
+        # extra_kwargs = {
+        #     "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
+        # }

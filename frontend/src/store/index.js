@@ -3,8 +3,8 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 // axios settings
-// axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
-axios.defaults.baseURL = "http://192.168.43.208:8000/api/";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
+// axios.defaults.baseURL = "http://192.168.43.208:8000/api/";
 // axios.defaults.baseURL = "http://192.168.1.102:8000/api/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.withCredentials = true;
@@ -30,6 +30,8 @@ export default createStore({
     observationDelete: { open: false, id: "",},
     observationView: { data: "", loading: false, error: null,},
     observationForm: { open: false, saving: false, error: null,},
+    // staff counsel on students
+    counsel: {saving: false, action: "", staff: "", student: "", interest: "", betterPerf: "", desiredProf: "", bestSub: "", counselling: "", updated: ""},
     // staff questionnaires for student
     questionnaireView: { open: false, data: "", error: null,},
     questionnaires: { data: "", loading: false, error: null,},
@@ -85,6 +87,18 @@ export default createStore({
     updateObservationDelete(state, payload) {
       state.observationDelete.open = payload.open;
       state.observationDelete.id = payload.id;
+    },
+    updateCounsel(state, payload) {
+      state.counsel.saving = payload.saving;
+      state.counsel.action = payload.action;
+      state.counsel.staff = payload.staff;
+      state.counsel.student = payload.student;
+      state.counsel.interest = payload.interest;
+      state.counsel.betterPerf = payload.betterPerf;
+      state.counsel.desiredProf = payload.desiredProf;
+      state.counsel.bestSub = payload.bestSub;
+      state.counsel.counselling = payload.counselling;
+      state.counsel.updated = payload.updated;
     },
     updateQuestionnaireView(state, payload) {
       state.questionnaireView.open = payload.open;
@@ -457,7 +471,146 @@ export default createStore({
           context.commit("updateObservationDelete", {open: false, id: ""})
           console.log(err.response)
         })
-
+    },
+    async actionCreateCounsel(context, payload) {
+      // actio to create a students counselling data
+      // first update the counsel.saving state to true
+      context.commit("updateCounsel", {
+        saving: true,
+        action: "create",
+        staff: "",
+        student: "",
+        interest: "",
+        betterPerf: "",
+        desiredProf: "",
+        bestSub: "",
+        counselling: "",
+        updated: ""
+      })
+      // then send a patch request
+      await axios.post(
+        `students/${context.state.studentView.department}/${context.state.studentView.level}/${context.state.studentView.reg_no}/results/create/`,
+        {...payload.data},
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
+        .then((resp) => {
+          // if success response, dispatch actionFetchCounsel
+          context.dispatch("actionFetchCounsel")
+          console.log(resp.data)
+        })
+        .catch((err) => {
+          // if an error occures
+          context.commit("updateCounsel", {
+            saving: false,
+            action: "create",
+            staff: "",
+            student: "",
+            interest: "",
+            betterPerf: "",
+            desiredProf: "",
+            bestSub: "",
+            counselling: "",
+            updated: ""
+          })
+          console.log(err.response)
+        })
+    },
+    async actionUpdateCounsel(context, payload) {
+      // action to update a students counselling data
+      // first update the counsel.saving state to true
+      context.commit("updateCounsel", {
+        saving: true,
+        action: "update",
+        staff: "",
+        student: "",
+        interest: "",
+        betterPerf: "",
+        desiredProf: "",
+        bestSub: "",
+        counselling: "",
+        updated: ""
+      })
+      // then send a patch request
+      await axios.patch(
+        `students/${context.state.studentView.department}/${context.state.studentView.level}/${context.state.studentView.reg_no}/results/update/`,
+        {...payload.data},
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
+        .then((resp) => {
+          // if success response, dispatch actionFetchCounsel
+          context.dispatch("actionFetchCounsel")
+          console.log(resp.data)
+        })
+        .catch((err) => {
+          // if an error occures
+          context.commit("updateCounsel", {
+            saving: false,
+            action: "update",
+            staff: "",
+            student: "",
+            interest: "",
+            betterPerf: "",
+            desiredProf: "",
+            bestSub: "",
+            counselling: "",
+            updated: ""
+          })
+          console.log(err.response)
+        })
+    },
+    async actionFetchCounsel(context) {
+      // action to fetch a students counsel
+      await axios.get(
+        `students/${context.state.studentView.department}/${context.state.studentView.level}/${context.state.studentView.reg_no}/results/`,
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
+        .then((resp) => {
+          // if success response, update counsel state
+          context.commit("updateCounsel", {
+            saving: false,
+            action: "update",
+            staff: resp.data.staff,
+            student: resp.data.student,
+            interest: resp.data.interest,
+            betterPerf: resp.data.better_perf,
+            desiredProf: resp.data.desired_prof,
+            bestSub: resp.data.best_sub,
+            counselling: resp.data.counselling,
+            updated: resp.data.updated
+          })
+          console.log(resp.data)
+        })
+        .catch((err) => {
+          // if failed response, update counsel state
+          if (err.response.status == 404) {
+            context.commit("updateCounsel", {
+              saving: false,
+              action: "create",
+              staff: "",
+              student: "",
+              interest: "",
+              betterPerf: "",
+              desiredProf: "",
+              bestSub: "",
+              counselling: "",
+              updated: ""
+            })
+            console.log(context.state.counsel)
+          }
+          else {
+            context.commit("updateCounsel", {
+              saving: false,
+              action: "update",
+              staff: "",
+              student: "",
+              interest: "",
+              betterPerf: "",
+              desiredProf: "",
+              bestSub: "",
+              counselling: "",
+              updated: ""
+            })
+            console.log(context.state.counsel)
+          }
+          console.log(err.response);
+       })
     }
   },
   modules: {

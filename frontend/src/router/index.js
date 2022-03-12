@@ -9,7 +9,7 @@ const routes = [
     name: 'home',
     component: Home,
     meta: {
-      title: "Welcome | Career Guidance",
+      title: "Welcome | WEB-CGIMS",
       transition: 1,
       transitionName: "",
     },
@@ -25,7 +25,7 @@ const routes = [
     props: true,
     meta: {
       requiresAth: true,
-      title: "Dashboard | Career Guidance",
+      title: "Dashboard | WEB-CGIMS",
       transition: 3,
       transitionName: "",
     },
@@ -48,14 +48,14 @@ const routes = [
         path: "myschedules",
         name: "myschedules",
         component: () => import(/* webpackChunkName: "schedules" */ '../components/AppStaffSchedule.vue'),
-        meta: {title: "Schedules | Career Guidance"},
+        meta: {title: "Schedules | WEB-CGIMS"},
         beforeEnter: (to) => {document.title = to.meta.title;}
       },
       {
         path: "mystudents",
         name: "mystudents",
         component: () => import(/* webpackChunkName: "students" */ '../components/AppStudent.vue'),
-        meta: {title: "Students | Career Guidance"},
+        meta: {title: "Students | WEB-CGIMS"},
         beforeEnter: (to) => {document.title = to.meta.title;}
       },
       {
@@ -75,15 +75,27 @@ const routes = [
             name: "studentobservation",
             component: () => import(/* webpackChunkName: "studentobservation" */ '../components/AppStudentObservation.vue'),
           },
+          {
+            path: "result",
+            name: "studentcounsel",
+            component: () => import(/* webpackChunkName: "studentcounsel" */ '../components/AppStudentCounsel.vue'),
+          },
         ]
       },
     ]
   },
   {
+    path: "/aboutus",
+    name: "aboutus",
+    component: () => import(/* webpackChunkName: "signout" */ '../views/AboutUs.vue'),
+    meta: {title: "About Us | WEB-CGIMS", transition: 2, transitionName: ""},
+    beforeEnter: (to) => { document.title = to.meta.title;}
+  },
+  {
     path: "/signin",
     name: "signin",
     component: () => import(/* webpackChunkName: "signout" */ '../views/Signin.vue'),
-    meta: {title: "Sign in | Career Guidance", transition: 2, transitionName: ""},
+    meta: {title: "Sign in | WEB-CGIMS", transition: 2, transitionName: ""},
     beforeEnter: (to) => {
       if (Cookies.get("authToken")) {
         return {name: "staff", params: {staffId: store.state.staffData.staff_id}}

@@ -13,7 +13,7 @@
             </span>
 
             <div class="flex justify-end gap-3 border-t pt-4 mt-10">
-                <AppButton data-test="btn-update" @click.prevent :name="'Update'" :type="'plain'" />
+                <!-- <AppButton data-test="btn-update" @click.prevent :name="'Update'" :type="'plain'" /> -->
                 <AppButton data-test="btn-delete" @click.prevent="actionUpdateObservationDelete({open: true, id: observation.id})" :name="'Delete'" :loading="observationDelete.open" :loadingText="'Deleting'" :disabled="observationDelete.open" />
             </div>
         </details>

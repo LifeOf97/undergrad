@@ -28,7 +28,7 @@ class StudentHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
 
 class StudentHyperlinkRelatedField(serializers.HyperlinkedRelatedField):
     """
-    Custom student hyperlink identity field to retrieve a student instance
+    Custom student hyperlink related field to retrieve a student instance
     using the students department, class/level, and reg_no.
     """
     def get_url(self, obj, view_name, request, format):
@@ -51,8 +51,8 @@ class StudentHyperlinkRelatedField(serializers.HyperlinkedRelatedField):
 
 class OthersToStaffHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
     """
-    Custom student hyperlink identity field to retrieve a student instance
-    using the students department, class/level, and reg_no.
+    Custom staff hyperlink identity field to retrieve a staff instance
+    using the staff_id and id fields
     """
     def get_url(self, obj, view_name, request, format):
         url_kwargs = {"staff_id": obj.staff.staff_id, "id": obj.id}
@@ -84,6 +84,30 @@ class StudentObservationHyperlinkIdentityField(serializers.HyperlinkedIdentityFi
             "student__level": view_kwargs["level"],
             "student__reg_no": view_kwargs["reg_no"],
             "id": view_kwargs["id"],
+        }
+
+        return self.get_queryset().get(**lookup_kwargs)
+
+
+class StudentResultHyperlinkIdentityField(serializers.HyperlinkedIdentityField):
+    """
+    Custom student result hyperlink identity field to retrieve an result
+    belonging to a student instance using the students department, class/level,
+    and reg_no.
+    """
+    def get_url(self, obj, view_name, request, format):
+        url_kwargs = {
+            "department": obj.student.department,
+            "level": obj.student.level,
+            "reg_no": obj.student.reg_no,
+        }
+        return reverse(view_name, kwargs=url_kwargs, request=request, format=format)
+
+    def get_object(self, view_name, view_args, view_kwargs):
+        lookup_kwargs = {
+            "student__department": view_kwargs["department"],
+            "student__level": view_kwargs["level"],
+            "student__reg_no": view_kwargs["reg_no"],
         }
 
         return self.get_queryset().get(**lookup_kwargs)

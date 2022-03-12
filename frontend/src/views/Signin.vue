@@ -105,9 +105,9 @@ export default {
         animSignin() {
             // method to apply gsap animation to the sign in component
             const {homebtn, logo, txt1, form, formbtn} = this.$refs;
-            const tl = gsap.timeline();
-            tl.from([logo.$el, txt1, form, formbtn.$el], {duration: 0.5, y: 50, opacity: 0, stagger: 0.2, delay: 0.5})
-                .from(homebtn.$el, {duration: 1, y: -50, opacity: 0})
+            const tl = gsap.timeline()
+            tl.from([logo.$el, txt1, form.$el, formbtn.$el], {duration: 0.5, y: 50, opacity: 0, stagger: 0.2, delay: 0.5})
+              .from(homebtn, {duration: 1, y: -50, opacity: 0})
         },
     },
     watch: {

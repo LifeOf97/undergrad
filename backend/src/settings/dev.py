@@ -6,7 +6,7 @@ import json
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Get secure json files
-secure_file = Path(BASE_DIR / 'src/config.json').read_text()
+secure_file = Path(BASE_DIR / 'settings/config.json').read_text()
 CONFIG = json.loads(secure_file)
 
 # Quick-start development settings - unsuitable for production
