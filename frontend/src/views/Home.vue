@@ -20,7 +20,7 @@
 
         <span class="mt-7">
           <span class="flex" ref="btn">
-            <router-link v-if="getAuthToken" :to="getAuthUser == 'staff' ? {name: 'staff', params: {staffId: staffData.staff_id}}:{name: 'student', params: {department: student.department, level: student.level, regNo: student.reg_no}}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Dashboard</router-link>
+            <router-link v-if="getAuthToken" :to="getAuthUser == 'staff' ? {name: 'staff', params: {staffId: staffData.staff_id}}:{name: 'student', params: {department: studentData.department, level: studentData.level, regNo: studentData.reg_no}}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Dashboard</router-link>
             <router-link v-else :to="{name: 'signin'}" class="text-base text-slate-50 font-bold rounded-md py-3 px-16 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
           </span>
         </span>
@@ -58,7 +58,7 @@ export default {
   computed: {
     ...mapState({
       staffData: state => state.staffData,
-      students: state => state.students.data,
+      studentData: state => state.studentData,
     }),
     getAuthToken() {
       return Cookies.get("authToken")
@@ -68,15 +68,11 @@ export default {
       if (user.startsWith("STF")) return "staff"
       else return "student" 
     },
-    student() {
-      const cookieUser = Cookies.get("authUser")
-      return this.students.find((stud) => stud.sid == cookieUser)
-    }
   },
   methods: {
     ...mapActions([
       "actionFetchStaffData",
-      "actionFetchStudents",
+      "actionFetchStudentData"
     ]),
     animHome() {
       // method to apply gsap animation to contents
@@ -92,10 +88,10 @@ export default {
   mounted() {
     this.$nextTick(function() {
       this.animHome();
-      this.actionFetchStudents()
 
       if (Cookies.get("authToken")) {
         this.actionFetchStaffData({username: Cookies.get("authUser")})
+        this.actionFetchStudentData()
       }
     })
     console.log(Cookies.get("authToken"))

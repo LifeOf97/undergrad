@@ -95,7 +95,7 @@ export default {
         ...mapState({
             auth: state => state.auth,
             staffData: state => state.staffData,
-            students: state => state.students.data,
+            studentData: state => state.studentData,
         }),
     },
     methods: {
@@ -129,13 +129,10 @@ export default {
             console.log("Watch staffData")
             this.$router.push({name: "staff", params: {staffId: this.staffData.staff_id}});
         },
-        students() {
-            // watch students.data store state for changes so as to route
-            // authenticated students to their dashboard.
+        studentData() {
+            // watch studentData store state for changes so as to route authenticated students to their dashboard.
             console.log("Watch studentsData")
-            const studentData = this.students.find((student) => student.sid == this.regNo)
-            console.log("studentData : "+ studentData)
-            this.$router.push({name: "student", params: {department: studentData.department, level: studentData.level, regNo: studentData.reg_no}});
+            this.$router.push({name: "student", params: {department: this.studentData.department, level: this.studentData.level, regNo: this.studentData.reg_no}});
         },
     },
     mounted() {

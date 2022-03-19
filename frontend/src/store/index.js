@@ -19,7 +19,7 @@ export default createStore({
     auth: { isAuthenticating: false, isAuthenticated: false, authToken: null, error: null,},
     staffData: "",
     staffError: null,
-    studentData: "",
+    studentData: {},
     studentError: null,
     // students
     studentView: "",
@@ -246,7 +246,7 @@ export default createStore({
           Cookies.set("authUser", payload.username, {expires: 3, sameSite: "Lax"})
           // console.log(resp.data);
           // then dispatch the actionFetchStaffData action to get the staff data.
-          context.dispatch("actionFetchStudents")
+          context.dispatch("actionFetchStudentData")
         })
         .catch((err) => {
           // if error response. set auth staffToken state to null, isAuthenticating
@@ -260,6 +260,21 @@ export default createStore({
           })
           // console.log(err.toString().slice(7));
         });
+    },
+    async actionFetchStudentData(context) {
+      // action to get the data of a student, NOTE: username for students is in the format department/level/reg_no
+      // so we first have to split the username via '/' to result to ['dept', 'level', 'reg_no']
+      const data = Cookies.get("authUser").toLowerCase().split("/")
+      await axios.get(`students/${data[0]}/${data[1]}/${data[2]}/`,
+        {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
+        .then((resp) => {
+          // commit the updateStudentDataState
+          context.commit("updateStudentDataState", {data: resp.data})
+          console.log(resp.data)
+        })
+        .catch((err) => {
+          console.log(err.response)
+        })
     },
     async actionSignout(context, payload) {
       // action to sign out a staff, first set auth staffToken state to null,

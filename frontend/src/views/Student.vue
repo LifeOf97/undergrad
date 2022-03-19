@@ -69,11 +69,8 @@ export default {
         ...mapState({
             nav: state => state.nav,
             signout: state => state.signout,
-            students: state => state.students.data,
+            studentData: state => state.studentData,
         }),
-        studentData() {
-            return this.students.find((student) => student.sid == this.regNo)
-        }
     },
     methods: {
         ...mapActions([
