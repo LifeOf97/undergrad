@@ -1,11 +1,11 @@
 <template>
     <div class="w-full h-full">
-        AppStudentCounsel
+        AppStudentBrochure.vue
     </div>
 </template>
 
 <script>
 export default {
-    name: "AppStudentCounsel"
+    name: "AppStudentBrochure"
 }
 </script>

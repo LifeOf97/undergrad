@@ -64,8 +64,7 @@ export default {
       return Cookies.get("authToken")
     },
     getAuthUser() {
-      const user = Cookies.get("authUser")
-      if (user.startsWith("STF")) return "staff"
+      if (Cookies.get("authUser").startsWith("STF")) return "staff"
       else return "student" 
     },
   },
@@ -90,8 +89,8 @@ export default {
       this.animHome();
 
       if (Cookies.get("authToken")) {
-        this.actionFetchStaffData({username: Cookies.get("authUser")})
-        this.actionFetchStudentData()
+        if (Cookies.get("authUser").startsWith("STF")) this.actionFetchStaffData({username: Cookies.get("authUser")})
+        else this.actionFetchStudentData()
       }
     })
     console.log(Cookies.get("authToken"))

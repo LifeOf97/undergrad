@@ -62,7 +62,7 @@ export default {
         regNo: {type: String, required: true},
     },
     components: {
-        AppStudentId, AppTextLogo, AppLeftNavLinks, AppCloseButton,
+        AppStudentId, AppTextLogo, AppCloseButton, AppLeftNavLinks,
         AppLeftNavButton, AppNotificationModal, AppButton
     },
     computed: {

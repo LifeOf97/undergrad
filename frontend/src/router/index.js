@@ -18,35 +18,6 @@ const routes = [
     },
   },
   {
-    path: '/students/:department/:level/:regNo',
-    name: 'student',
-    redirect: {name: 'studentdashboard'},
-    component: () => import(/* webpackChunkName: "staff" */ '../views/Student.vue'),
-    props: true,
-    meta: {
-      requiresAth: true,
-      title: "Dashboard | WEB-CGIMS",
-      transition: 3,
-      transitionName: "",
-    },
-    beforeEnter: (to) => {
-      if (to.meta.requiresAth && !Cookies.get("authToken")) {
-        return {name: 'signin'}
-      }
-      else {
-        document.title = to.meta.title;
-        return true
-      }
-    },
-    children: [ // nested routes
-      {
-       path: "dashboard", 
-       name: "studentdashboard",
-       component: () => import(/* webpackChunkName: "dashboard" */ '../components/AppStudentDashBoard.vue'),
-      }
-    ]
-  },
-  {
     path: '/staffs/:staffId',
     name: 'staff',
     redirect: {name: 'dashboard'},
@@ -54,7 +25,7 @@ const routes = [
     props: true,
     meta: {
       requiresAth: true,
-      title: "Dashboard | WEB-CGIMS",
+      title: "Dashboard | Staff | WEB-CGIMS",
       transition: 3,
       transitionName: "",
     },
@@ -107,10 +78,49 @@ const routes = [
           {
             path: "result",
             name: "studentcounsel",
-            component: () => import(/* webpackChunkName: "studentcounsel" */ '../components/AppStudentCounsel.vue'),
+            component: () => import(/* webpackChunkName: "studentcounsel" */ '../components/AppStaffCounsel.vue'),
           },
         ]
       },
+    ]
+  },
+  {
+    path: '/students/:department/:level/:regNo',
+    name: 'student',
+    redirect: {name: 'mydashboard'},
+    component: () => import(/* webpackChunkName: "staff" */ '../views/Student.vue'),
+    props: true,
+    meta: {
+      requiresAth: true,
+      title: "Dashboard | Student | WEB-CGIMS",
+      transition: 3,
+      transitionName: "",
+    },
+    beforeEnter: (to) => {
+      if (to.meta.requiresAth && !Cookies.get("authToken")) {
+        return {name: 'signin'}
+      }
+      else {
+        document.title = to.meta.title;
+        return true
+      }
+    },
+    children: [ // nested routes
+      {
+       path: "mydashboard", 
+       name: "mydashboard",
+       component: () => import(/* webpackChunkName: "dashboard" */ '../components/AppStudentDashBoard.vue'),
+      },
+      {
+        path: "mycounsel", 
+        name: "mycounsel",
+        component: () => import(/* webpackChunkName: "dashboard" */ '../components/AppStudentCounsel.vue'),
+       },
+       {
+        path: "brochure", 
+        name: "brochure",
+        component: () => import(/* webpackChunkName: "dashboard" */ '../components/AppStudentBrochure.vue'),
+       },
     ]
   },
   {

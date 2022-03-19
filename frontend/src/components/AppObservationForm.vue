@@ -16,7 +16,7 @@
 
                 <div class="flex flex-col gap-2">
                     <p class="text-sm text-slate-500 font-normal">Create new observation for:</p>
-                    <AppStudentId />
+                    <AppStudentId :studentData="studentView" />
                 </div>
 
                 <form @submit.prevent="actionCreateObservation({data: {detail: detail}})" class="flex flex-col gap-4">
@@ -56,6 +56,7 @@ export default {
         ...mapState({
             observationForm: state => state.observationForm,
             staffData: state => state.staffData,
+            studentView: state => state.studentView,
         }),
     },
     methods: {

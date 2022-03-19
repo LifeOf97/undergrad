@@ -9,11 +9,10 @@
 
                 <div class="flex gap-2 w-full">
                     <span>
-                        <router-link v-if="getCurrentRouteName == 'home'" :to="{name: 'aboutus'}" class="text-sm text-slate-700 font-bold rounded-md border border-rose-600 py-2 px-4 tracking-wide transition-all duration-200 hover:bg-rose-600 hover:text-white">About Us</router-link>
-                        <router-link v-else  :to="{name: 'home'}" class="text-sm text-slate-700 font-bold rounded-md border border-rose-600 py-2 px-4 tracking-wide transition-all duration-200 hover:bg-rose-600 hover:text-white">Home</router-link>
+                        <router-link :to="getCurrentRouteName == 'home' ? {name: 'aboutus'} : {name: 'home'}" class="text-sm text-slate-700 font-bold rounded-md border border-rose-600 py-2 px-4 tracking-wide transition-all duration-200 capitalize hover:bg-rose-600 hover:text-white">{{ getCurrentRouteName == 'home' ? 'about':'home' }}</router-link>
                     </span>
                     <span>
-                        <router-link v-if="getAuthToken" :to="{name: 'staff', params: {staffId: staffData.staff_id}}" class="text-sm text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Dashboard</router-link>
+                        <router-link v-if="getAuthToken" :to="getAuthUser == 'staff' ? {name: 'staff', params: {staffId: staffData.staff_id}}:{name: 'student', params: {department: studentData.department, level: studentData.level, regNo: studentData.reg_no}}" class="text-sm text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Dashboard</router-link>
                         <router-link v-else :to="{name: 'signin'}" class="text-sm text-slate-50 font-bold rounded-md py-2 px-4 tracking-wide transition-all duration-200 bg-rose-500 hover:scale-105 hover:bg-rose-600 hover:shadow-lg">Sign in</router-link>
                     </span>
                 </div>
@@ -34,13 +33,19 @@ export default {
     computed: {
         ...mapState({
             staffData: state => state.staffData,
+            studentData: state => state.studentData,
         }),
         getAuthToken() {
             return Cookies.get("authToken")
         },
         getCurrentRouteName() {
             return this.$route.name;
-        }
+        },
+        getAuthUser() {
+            const user = Cookies.get("authUser")
+            if (user.startsWith("STF")) return "staff"
+            else return "student" 
+        },
     },
 }
 </script>
