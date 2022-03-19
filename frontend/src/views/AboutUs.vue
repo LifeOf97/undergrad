@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-screen min-h-[40rem] border">
+    <div class="w-full h-screen min-h-[44rem] border">
 
 
         <div class="w-full h-full">

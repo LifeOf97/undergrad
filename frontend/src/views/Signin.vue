@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen h-screen flex bg-rose-500 selection:text-slate-50 selection:bg-rose-500 landscape:h-[30rem] md:landscape:h-screen">
+    <div class="w-screen h-screen min-h-[44rem] flex bg-rose-500 selection:text-slate-50 selection:bg-rose-500">
 
         <div class="relative w-full h-full flex flex-col items-center justify-center bg-white lg:w-1/2">
 

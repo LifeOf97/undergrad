@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-screen w-screen flex flex-col bg-no-repeat bg-cover bg-center selection:bg-rose-500 selection:text-slate-50 md:bg-left landscape:h-[30rem] md:landscape:h-screen" :style="{backgroundImage: `url(${require(`@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg`).default})`}">
+  <div class="relative h-screen w-screen min-h-[44rem] flex flex-col bg-no-repeat bg-cover bg-center selection:bg-rose-500 selection:text-slate-50 md:bg-left" :style="{backgroundImage: `url(${require(`@/assets/images/ben-white-83tkHLPgg2Q-unsplash.jpg`).default})`}">
 
     <!-- absolute div background gradiant color -->
     <div class="absolute w-full h-full top-0 left-0 bg-gradient-to-r from-slate-100 via-slate-100/70 to-slate-100/0"></div>

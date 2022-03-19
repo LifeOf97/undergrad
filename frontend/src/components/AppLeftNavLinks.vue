@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full flex flex-col justify-between">
+    <div class="h-screen overflow-y-auto flex flex-col justify-between">
 
         <div>
             <!-- start of staff nav links -->

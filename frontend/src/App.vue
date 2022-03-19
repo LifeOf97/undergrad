@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full h-full font-Roboto overflow-hidden">
+  <div class="relative w-full h-full min-h-[44rem] font-Roboto overflow-hidden">
 
     <router-view v-slot="{Component, route}">
       <transition :name="route.meta.transitionName" mode="out-in">

@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-screen h-screen bg-white">
+    <div class="relative w-screen h-screen min-h-[44rem] bg-white">
 
         <img :src="story" class="w-full h-full">
 
