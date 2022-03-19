@@ -41,6 +41,13 @@ urlpatterns = [
     path("staffs/<str:staff_id>/questionnaires/<int:id>/delete/", views.QuestionnaireViewSet.as_view({"delete": "destroy"}), name="staff-questionnaire-delete"),
     path("staffs/<str:staff_id>/questionnaires/<int:id>/update/", views.QuestionnaireViewSet.as_view({"patch": "partial_update"}), name="staff-questionnaire-update"),
 
+    # questions url
+    path("questions/", views.QuestionViewSet.as_view({"get": "list"}), name="questions-list"),
+    path("questions/create/", views.QuestionViewSet.as_view({"post": "create"}), name="questions-create"),
+    path("questions/<int:id>/", views.QuestionViewSet.as_view({"get": "retrieve"}), name="questions-detail"),
+    path("questions/<int:id>/update/", views.QuestionViewSet.as_view({"patch": "partial_update"}), name="questions-update"),
+    path("questions/<int:id>/delete/", views.QuestionViewSet.as_view({"delete": "destroy"}), name="questions-delete"),
+
     # student urls path
     path("students/", views.StudentViewSet.as_view({"get": "list"}), name="student-list"),
     path("students/create/", views.StudentViewSet.as_view({"post": "create"}), name="student-create"),

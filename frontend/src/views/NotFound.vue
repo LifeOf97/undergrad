@@ -41,7 +41,7 @@ export default {
     mounted() {
         this.$nextTick(function() {
             if (Cookies.get("authToken")) {
-                this.actionFetchStaffData({staffId: Cookies.get("authStaff")})
+                this.actionFetchStaffData({username: Cookies.get("authUser")})
             }
         })
     }

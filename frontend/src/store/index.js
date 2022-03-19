@@ -19,9 +19,11 @@ export default createStore({
     auth: { isAuthenticating: false, isAuthenticated: false, authToken: null, error: null,},
     staffData: "",
     staffError: null,
+    studentData: "",
+    studentError: null,
     // students
     studentView: "",
-    students: { data: "", loading: false, error: null,},
+    students: { data: [], loading: false, error: null,},
     // staff schedule
     scheduleDelete: { open: false, id: "",},
     scheduleForm: {saving: false,error: null},
@@ -33,6 +35,7 @@ export default createStore({
     // staff counsel on students
     counsel: {saving: false, action: "", staff: "", student: "", interest: "", betterPerf: "", desiredProf: "", bestSub: "", counselling: "", updated: ""},
     // staff questionnaires for student
+    questions: [],
     questionnaireView: { open: false, data: "", error: null,},
     questionnaires: { data: "", loading: false, error: null,},
     questionnaireForm: { open: false, saving: false, error: null,},
@@ -58,6 +61,15 @@ export default createStore({
     },
     updateStaffErrorState(state, payload) {
       state.staffError = payload.error;
+    },
+    updateStudentDataState(state, payload) {
+      state.studentData = payload.data;
+    },
+    updateStudentErrorState(state, payload) {
+      state.studentError = payload.error;
+    },
+    updateQuestions(state, payload) {
+      state.questions = payload.data;
     },
     updateQuestionnaire(state, payload) {
       state.questionnaires.data = payload.detail;
@@ -156,11 +168,23 @@ export default createStore({
       // commit updateScheduleDelete mutation
       context.commit("updateScheduleDelete", payload);
     },
-    async actionSignin(context, payload) {
+    async actionFetchQuestions(context) {
+      // get all the custom question from the backend
+      await axios.get(`questions/`, {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
+        .then((resp) => {
+          // commite the updateQuestions mutation
+          context.commit("updateQuestions", {data: resp.data})
+          console.log(resp.data)
+        })
+        .catch((err) => {
+          console.log(err.response)
+        })
+    },
+    async actionSigninStaff(context, payload) {
       // action to signin a staff. First set isAuthenticating state to true
       context.commit("updateAuthState", {isAuthenticating: true});
       // then post the staffid/password using axios to get the staff token.
-      await axios.post("auth/signin/", {username: payload.staffId, password: payload.password})
+      await axios.post("auth/signin/", {username: payload.username, password: payload.password})
         .then((resp) => {
           // if success response, update auth state staffToken state with the returned token,
           // set isAuthenticated to true, signinError state back to null,
@@ -172,9 +196,9 @@ export default createStore({
             error: null,
           })
           // set required cookies
-          Cookies.set("staff_id", payload.rememberMe ? `${payload.staffId}`:"", {expires: 365, sameSite: "Lax"})
+          Cookies.set("user", payload.rememberMe ? `${payload.username}`:"", {expires: 365, sameSite: "Lax"})
           Cookies.set("authToken", resp.data.token, {expires: 3, sameSite: "Lax"})
-          Cookies.set("authStaff", payload.staffId, {expires: 3, sameSite: "Lax"})
+          Cookies.set("authUser", payload.username, {expires: 3, sameSite: "Lax"})
           // console.log(resp.data);
           // then dispatch the actionFetchStaffData action to get the staff data.
           context.dispatch("actionFetchStaffData", payload)
@@ -194,12 +218,48 @@ export default createStore({
     },
     async actionFetchStaffData(context, payload) {
       // action to get the currently signed in staff data
-      await axios.get(`staffs/${payload.staffId}/`)
+      await axios.get(`staffs/${payload.username}/`)
         .then((resp) => {
           // if success response, update auth staffData state with the returned data
           context.commit("updateStaffDataState", {detail: resp.data})
         })
         .catch((err) => {console.log(err.response.data)});
+    },
+    async actionSigninStudent(context, payload) {
+      // action to signin a student. First set isAuthenticating state to true
+      context.commit("updateAuthState", {isAuthenticating: true});
+      // then post the students reg_no and password using axios to get the staff token.
+      await axios.post("auth/signin/", {username: payload.username, password: payload.password})
+        .then((resp) => {
+          // if success response, update auth state studentToken state with the returned token,
+          // set isAuthenticated to true, signinError state back to null,
+          // isAuthenticating state to false and update staff_id cookie.
+          context.commit("updateAuthState", {
+            ...resp.data,
+            isAuthenticated: true,
+            isAuthenticating: false,
+            error: null,
+          })
+          // set required cookies
+          Cookies.set("user", payload.rememberMe ? `${payload.username}`:"", {expires: 365, sameSite: "Lax"})
+          Cookies.set("authToken", resp.data.token, {expires: 3, sameSite: "Lax"})
+          Cookies.set("authUser", payload.username, {expires: 3, sameSite: "Lax"})
+          // console.log(resp.data);
+          // then dispatch the actionFetchStaffData action to get the staff data.
+          context.dispatch("actionFetchStudents")
+        })
+        .catch((err) => {
+          // if error response. set auth staffToken state to null, isAuthenticating
+          // and isAuthenticated state to false, set signinError state to the error
+          // text and set staffData state to null.
+          context.commit("updateAuthState", {
+            token: null,
+            isAuthenticating: false,
+            isAuthenticated: false,
+            error: err.toString().slice(7).startsWith("Network") ? "Please check your network connection":"Incorrect staff id/password",
+          })
+          // console.log(err.toString().slice(7));
+        });
     },
     async actionSignout(context, payload) {
       // action to sign out a staff, first set auth staffToken state to null,
@@ -212,7 +272,7 @@ export default createStore({
       });
       // clear cookies concerning authentications
       Cookies.set("authToken", "", {expires: 365, sameSite: "Lax"})
-      Cookies.set("authStaff", "", {expires: 365, sameSite: "Lax"})
+      Cookies.set("authUser", "", {expires: 365, sameSite: "Lax"})
       // also dispatch actionUpdateSignout to update signout state.
       context.dispatch("actionUpdateSignout", payload)
     },
@@ -374,7 +434,7 @@ export default createStore({
     },
     async actionFetchStudents(context) {
       // action to fetch all students, first set students loading state to true, then make request
-      context.commit("updateStudentsState", {data: "", loading: true, error: null})
+      context.commit("updateStudentsState", {data: [], loading: true, error: null})
       await axios.get("students/", {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
         .then((resp) => {
           // if success response, set students loading state to false and update the data state to
@@ -384,7 +444,7 @@ export default createStore({
         })
         .catch((err) => {
           // if failed response set students loading state to false and update the error state
-          context.commit("updateStudentsState", {data: "", loading: false, error: "An error occured"})
+          context.commit("updateStudentsState", {data: [], loading: false, error: "An error occured"})
           console.log(err.response)
         })
     },

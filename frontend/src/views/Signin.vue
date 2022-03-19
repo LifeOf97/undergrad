@@ -10,7 +10,7 @@
                 <p class="text-xs md:text-base">Home</p>
             </router-link>
 
-            <div class="w-9/12 mx-auto flex flex-col gap-7 md:w-7/12">
+            <div class="w-9/12 mx-auto flex flex-col gap-5 md:w-7/12">
 
                 <span class="flex flex-col items-center justify-center gap-3">
                     <AppTextLogo ref="logo" :position="'center'" />
@@ -24,14 +24,21 @@
                     <!-- <li v-if="auth.authToken != null" class="text-sm text-rose-500 font-medium list-disc list-inside">{{auth.authToken}}</li> -->
                 </ul>
 
-                <form ref="form" @submit.prevent="signIn" class="w-full flex flex-col gap-5">
-                    <AppInputField v-model.upper="staffId" :type="'text'" :required="true" :label="'Staff ID'" :color="'rose'" :labelColor="'black'" />
+                <!-- start of sign in tabs -->
+                <div class="flex w-full">
+                    <button v-for="tab in tabs" :key="tab" @click.prevent="activeTab = tab" :class="activeTab == tab ? 'text-white bg-rose-500':'bg-white text-slate-900'" class="flex-1 p-2 font-medium border border-slate-100 duration-300 hover:text-white hover:bg-rose-500">{{ tab }}</button>
+                </div>
+                <!-- end of sign in tabs -->
+
+                <form ref="form" @submit.prevent="signIn(activeTab)" class="w-full flex flex-col gap-5">
+                    <AppInputField v-if="activeTab == 'staff'" v-model.upper="username" type="text" :required="true" label="Staff ID" placeholder="STFXXXX" color="rose" labelColor="black" />
+                    <AppInputField v-else v-model.upper="username" type="text" :required="true" label="Reg No" placeholder="DEPARTMENT/CLASS/REGNO" color="rose" labelColor="black" />
                     <AppInputField v-model="password" :type="'password'" :required="true" :label="'password'" :color="'rose'" :labelColor="'black'" />
 
                     <span class="flex justify-between items-center">
                         <span class="flex gap-1">
                             <input v-model="rememberMe" type="checkbox" name="remember" id="remember" class="cursor-pointer accent-rose-500">
-                            <label for="remember" class="text-slate-500 text-xs font-normal cursor-pointer">Remember staff</label>
+                            <label for="remember" class="text-slate-500 text-xs font-normal cursor-pointer">Remember me</label>
                         </span>
 
                         <button @click.prevent class="text-sm font-medium text-blue-500 hover:text-blue-600">
@@ -77,30 +84,35 @@ export default {
     data() {
         return {
             story: require("@/assets/images/trung-pham-quoc-YDWwCkdmcKM-unsplash.jpg").default,
-            staffId: "",
+            username: "",
             password: "",
             rememberMe: false,
+            activeTab: "staff",
+            tabs: ["staff", "student"]
         }
     },
     computed: {
         ...mapState({
             auth: state => state.auth,
             staffData: state => state.staffData,
+            students: state => state.students.data,
         }),
     },
     methods: {
         ...mapActions([
-            "actionSignin",
+            "actionSigninStaff",
+            "actionSigninStudent",
         ]),
-        signIn() {
+        signIn(user) {
             // method to sign in a staff. First get staff login details.
-            const staffData = {
-                staffId: this.staffId,
+            const data = {
+                username: this.username,
                 password: this.password,
                 rememberMe: this.rememberMe,
             };
-            // then dispatch actionSignin
-            this.actionSignin(staffData);
+            // then dispatch an action to signin staff or student
+            if (user == 'staff') return this.actionSigninStaff(data);
+            else return this.actionSigninStudent(data);
         },
         animSignin() {
             // method to apply gsap animation to the sign in component
@@ -114,13 +126,22 @@ export default {
         staffData() {
             // watch staffData store state for changes so as to route
             // authenticated users to their dashboard.
+            console.log("Watch staffData")
             this.$router.push({name: "staff", params: {staffId: this.staffData.staff_id}});
-        }
+        },
+        students() {
+            // watch students.data store state for changes so as to route
+            // authenticated students to their dashboard.
+            console.log("Watch studentsData")
+            const studentData = this.students.find((student) => student.sid == this.regNo)
+            console.log("studentData : "+ studentData)
+            this.$router.push({name: "student", params: {department: studentData.department, level: studentData.level, regNo: studentData.reg_no}});
+        },
     },
     mounted() {
         this.$nextTick(function() { // makes sure all components are rendered
-            this.staffId = Cookies.get("staff_id");
-            this.rememberMe = Cookies.get("staff_id") ? true:false;
+            this.username = Cookies.get("user");
+            this.rememberMe = Cookies.get("user") ? true:false;
             this.animSignin();
         });
     },

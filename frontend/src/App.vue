@@ -36,15 +36,15 @@ export default {
       staffData: state => state.staffData,
     }),
   },
-  watch: {
-    isAuthenticated(newValue) {
-      if (newValue == true) {
-        this.auth = true
-        setTimeout(() => {this.auth = false}, 3000);
-      }
-      else this.auth = false
-    }
-  }
+  // watch: {
+  //   isAuthenticated(newValue) {
+  //     if (newValue == true) {
+  //       this.auth = true
+  //       setTimeout(() => {this.auth = false}, 3000);
+  //     }
+  //     else this.auth = false
+  //   }
+  // }
 }
 </script>
 

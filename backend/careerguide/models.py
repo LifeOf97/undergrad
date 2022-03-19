@@ -173,7 +173,24 @@ class Questionnaire(models.Model):
 
     def __str__(self):
         return F"{self.title}"
-    
+
+
+class Question(models.Model):
+    """
+    Model to store question
+    """
+    id = models.AutoField(_("ID"), primary_key=True, unique=True, blank=False, null=False)
+    title = models.CharField(_("Title"), max_length=255, blank=False, null=False)
+    slug = models.SlugField(_("Title slug"), max_length=255, blank=False, null=True)
+    question = models.TextField(_("Question"), blank=False, null=False)
+    created = models.DateTimeField(_("Created"), auto_now=False, auto_now_add=False, default=timezone.now, blank=False, null=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return F"{self.title}"
 
 
 class Observation(models.Model):

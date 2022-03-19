@@ -125,6 +125,7 @@ export default {
             "actionUpdateQuestionnaireForm",
             "actionUpdateQuestionnaireView",
             "actionFetchQuestionnaires",
+            "actionFetchQuestions",
         ]),
         questionnaireLen() {
             if (this.questionnaires.data.length < 1) return true
@@ -144,6 +145,7 @@ export default {
     mounted() {
         this.$nextTick(function() {
             this.animDashBoard();
+            this.actionFetchQuestions();
         })
     }
 }

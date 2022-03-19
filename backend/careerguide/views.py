@@ -1,9 +1,9 @@
 from .serializers import (
     ProfileHyperlinkSerializer, StaffHyperLinkSerializer, StudentHyperLinkSerializer,
     ScheduleHyperlinkSerializer, QuestionnaireHyperlinkSerializer, ObservationHyperlinkSerializer,
-    ResultModelSerializer,
+    ResultModelSerializer, QuestionHyperlinkSerializer
 )
-from .models import Staff, Student, Schedule, Questionnaire, Observation, Result
+from .models import Staff, Student, Schedule, Questionnaire, Observation, Result, Question
 from django.utils.translation import ugettext_lazy as _
 from .permissions import IsSuperUser, IsOwnerOrReadOnly
 from rest_framework import permissions, authentication
@@ -187,8 +187,8 @@ class StudentViewSet(viewsets.ModelViewSet):
     """
     queryset = Student.objects.all()
     serializer_class = StudentHyperLinkSerializer
-    permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
-    authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication,]
+    permission_classes = [permissions.AllowAny]
+    # authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication,]
 
 
     def get_object(self):
@@ -506,6 +506,69 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
         return Response(data=serializer, status=status.HTTP_200_OK)
 
 
+class QuestionViewSet(viewsets.ModelViewSet):
+    """
+    question API ModelViewset.
+
+    list: [Method: GET]
+    Returns a list of questions in the system.
+
+    create: [Method: POST]
+    Create a new instance of a question.
+
+    retrieve: [Method: GET]
+    Returns the details of a question.
+
+    update: [Method: PUT]
+    NOTE: Not Supported
+
+    partial_update: [Method: PATCH]
+    Update a question instance.
+
+    destroy: [Method: DELETE]
+    Delete an question instance.
+    """
+    lookup_field = "id"
+    queryset = Question.objects.all()
+    serializer_class = QuestionHyperlinkSerializer
+    permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
+    authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication]
+    
+    def list(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(self.get_queryset(), many=True, context={"request": request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(self.get_object(), context={"request": request})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"request":  request})
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        # else
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def partial_update(self, request, format=None, *args, **kwargs):
+        serializer = self.serializer_class(instance=self.get_object(), data=request.data, context={"request": request}, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        # else
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, format=None, *args, **kwargs):
+        question = self.get_object()
+        id, title, created = [question.id, question.title, question.created]
+        serializer = {"id": id, "student": title, "created": created, "detail": "Deleted successfully"}
+        question.delete()
+        return Response(data=serializer, status=status.HTTP_204_NO_CONTENT)
+
+
+
 class ObservationViewSet(viewsets.ModelViewSet):
     """
     Observation API ModelViewset.
@@ -625,7 +688,7 @@ class ResultViewSet(viewsets.ModelViewSet):
     """
     queryset = Result.objects.all()
     serializer_class = ResultModelSerializer
-    permission_classes = [permissions.IsAuthenticated&permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.TokenAuthentication, BearerAuthentication, authentication.BasicAuthentication]
 
     def get_queryset(self):

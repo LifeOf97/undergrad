@@ -1,5 +1,8 @@
 from .forms import ProfileCreationForm, ProfileChangeForm, StaffAdminForm, StudentAdminForm
-from .models import Profile, Staff, Student, Schedule, Questionnaire, Observation, Result
+from .models import (
+    Profile, Staff, Student, Schedule, Questionnaire,
+    Observation, Result, Question
+)
 from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
 
@@ -31,6 +34,20 @@ class QuestionnaireInlineAdmin(admin.TabularInline):
     )
 
     extra = 0
+    ordering = ("-created",)
+    readonly_fields = ("id", "slug", "created")
+
+
+class QuestionAdmin(admin.ModelAdmin):
+    model = Question
+    list_display = ("id", "title", "created")
+    list_display_links = ("id", "title")
+
+    fieldsets = (
+        ("Identification", {"fields": ("id",)}),
+        ("Detail", {"fields": ("title", "slug", "question", "created")}),
+    )
+
     ordering = ("-created",)
     readonly_fields = ("id", "slug", "created")
 
@@ -186,4 +203,5 @@ admin.site.register(Observation, ObservationAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Questionnaire, QuestionnaireAdmin)
+admin.site.register(Question, QuestionAdmin)
 admin.site.register(Result, ResultAdmin)

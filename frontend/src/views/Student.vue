@@ -19,7 +19,7 @@
             <div class="w-full h-full bg-white p-4 overflow-y-auto shadow-inner xl:rounded-l-2xl xl:px-8 xl:py-4">
                 <div class="flex justify-between items-center top-10 right-16 z-20 xl:fixed">
                     <AppLeftNavButton />
-                    <AppStaffId :staffData="staffData" />
+                    <AppStudentId :studentData="studentData" />
                 </div>
 
                 <router-view v-slot="{Component}">
@@ -47,29 +47,33 @@
 <script>
 import {mapState, mapActions} from "vuex";
 import AppButton from "@/components/AppButton.vue";
-import AppStaffId from "@/components/AppStaffId.vue";
+import AppStudentId from "@/components/AppStudentId.vue";
 import AppTextLogo from "@/components/AppTextLogo.vue";
 import AppCloseButton from "@/components/AppCloseButton.vue";
 import AppLeftNavLinks from "@/components/AppLeftNavLinks.vue";
 import AppLeftNavButton from "@/components/AppLeftNavButton.vue";
-import AppStaffDashBoard from "@/components/AppStaffDashBoard.vue";
 import AppNotificationModal from "@/components/AppNotificationModal.vue";
 
 export default {
-    name: "Staff",
+    name: "Student",
     props: {
-        staffId: {type: String, required: true},
+        department: {type: String, required: true},
+        level: {type: String, required: true},
+        regNo: {type: String, required: true},
     },
     components: {
-        AppStaffId, AppTextLogo, AppLeftNavLinks, AppCloseButton, AppStaffDashBoard,
+        AppStudentId, AppTextLogo, AppLeftNavLinks, AppCloseButton,
         AppLeftNavButton, AppNotificationModal, AppButton
     },
     computed: {
         ...mapState({
             nav: state => state.nav,
             signout: state => state.signout,
-            staffData: state => state.staffData,
+            students: state => state.students.data,
         }),
+        studentData() {
+            return this.students.find((student) => student.sid == this.regNo)
+        }
     },
     methods: {
         ...mapActions([

@@ -1,6 +1,4 @@
-from dataclasses import fields
-from unittest import result
-from .models import Staff, Student, Schedule, Questionnaire, Observation, Result
+from .models import Question, Staff, Student, Schedule, Questionnaire, Observation, Result
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers, validators
 from django.contrib.auth import get_user_model
@@ -201,6 +199,16 @@ class QuestionnaireHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id", "url", "staff", "students", "categories", "created", "title", "slug", "question", "completed")
         extra_kwargs = {
             "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
+        }
+
+
+class QuestionHyperlinkSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Question
+        fields = ("id", "url", "title", "slug", "question", "created")
+        extra_kwargs = {
+            "url": {"view_name": "careerguide:questions-detail", "lookup_field": "id", "read_only": True},
         }
 
 

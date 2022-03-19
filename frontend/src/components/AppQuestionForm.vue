@@ -14,8 +14,33 @@
             <!-- forms fields -->
             <form @submit.prevent="questionnaireForm.open ? createQuestionnaire():updateQuestionnaire(questionnaireView.data.id)" class="grid grid-cols-1 gap-8 mt-10 lg:grid-cols-3 lg:gap-x-16 lg:gap-y-0">
 
-                <div class="space-y-8 col-span-2">
+                <div class="relative space-y-5 col-span-2">
                     <AppInputField v-model="title" :label="'Title'" :type="'text'" :color="'rose'" :placeholder="'Title of the questionnaire'" @keypress.enter.prevent :required="true" />
+                    
+                    <!-- start of custom question -->
+                    <div class="absolute -top-5 right-0">
+                        <button @click.prevent="openQuestion = !openQuestion" class="text-cyan-500 font-bold cursor-pointer">Select Question</button>
+                    </div>
+                    
+                    <transition
+                        name="slide-down"
+                        enter-from-class="opacity-0 -translate-y-10"
+                        enter-active-class="transition-all duration-500"
+                        leave-to-class="opacity-0 -translate-y-10"
+                        leave-active-class="transition-all duration-300">
+                            <div v-if="openQuestion" class="absolute top-12 left-0 w-full flex flex-col gap-5 z-10 bg-white rounded-lg shadow-lg">
+                                <div class="w-full p-2 bg-slate-50 text-center text-sm text-slate-400 shadow-inner md:text-base">
+                                    <p>Select from the options below</p>
+                                </div>
+
+                                <div class="bg-white flex flex-col gap-2 p-4 max-h-72 overflow-y-auto">
+                                    <button @click.prevent="selectQuestion(quest.id)" v-for="quest in questions" :key="quest.id" class="w-full shrink-0 rounded-md text-sm text-left text-slate-700 p-2 capitalize font-medium truncate duration-300 hover:text-white hover:bg-rose-500">-- {{ quest.title }}</button>
+                                </div>
+
+                            </div>
+                    </transition>
+                    <!-- end of custom question -->
+                    
                     <!-- textfield-->
                     <div class="relative flex flex-col space-y-2">
                         <label for="question" class="text-xs text-slate-900 font-medium md:text-base">Question(s)</label>
@@ -121,6 +146,7 @@ export default {
     emits: ["checked"],
     data() {
         return {
+            openQuestion: false,
             title: "",
             question: "",
             completed: false,
@@ -155,7 +181,8 @@ export default {
             questionnaireForm: state => state.questionnaireForm,
             questionnaireEdit: state => state.questionnaireEdit,
             questionnaireView: state => state.questionnaireView,
-        })
+            questions: state => state.questions,
+        }),
     },
     methods: {
         ...mapActions([
@@ -226,6 +253,13 @@ export default {
             }
             // dispatch the action to create the questionnaire
             this.actionUpdateQuestionnaire({data: data, id: id});
+        },
+        selectQuestion(id) {
+            console.log("Selected: "+id)
+            this.openQuestion = false
+            const selected = this.questions.find((quest) => quest.id == id)
+            this.title = selected.title;
+            this.question = selected.question;
         },
     },
 }

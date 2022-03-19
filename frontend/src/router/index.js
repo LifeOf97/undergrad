@@ -18,7 +18,36 @@ const routes = [
     },
   },
   {
-    path: '/:staffId',
+    path: '/students/:department/:level/:regNo',
+    name: 'student',
+    redirect: {name: 'studentdashboard'},
+    component: () => import(/* webpackChunkName: "staff" */ '../views/Student.vue'),
+    props: true,
+    meta: {
+      requiresAth: true,
+      title: "Dashboard | WEB-CGIMS",
+      transition: 3,
+      transitionName: "",
+    },
+    beforeEnter: (to) => {
+      if (to.meta.requiresAth && !Cookies.get("authToken")) {
+        return {name: 'signin'}
+      }
+      else {
+        document.title = to.meta.title;
+        return true
+      }
+    },
+    children: [ // nested routes
+      {
+       path: "dashboard", 
+       name: "studentdashboard",
+       component: () => import(/* webpackChunkName: "dashboard" */ '../components/AppStudentDashBoard.vue'),
+      }
+    ]
+  },
+  {
+    path: '/staffs/:staffId',
     name: 'staff',
     redirect: {name: 'dashboard'},
     component: () => import(/* webpackChunkName: "staff" */ '../views/Staff.vue'),
