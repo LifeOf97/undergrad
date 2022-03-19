@@ -20,6 +20,7 @@ export default createStore({
     staffData: "",
     staffError: null,
     studentData: {},
+    studentCounsel: {},
     studentError: null,
     // students
     studentView: "",
@@ -64,6 +65,9 @@ export default createStore({
     },
     updateStudentDataState(state, payload) {
       state.studentData = payload.data;
+    },
+    updateStudentCounselState(state, payload) {
+      state.studentCounsel = payload.data;
     },
     updateStudentErrorState(state, payload) {
       state.studentError = payload.error;
@@ -270,6 +274,19 @@ export default createStore({
         .then((resp) => {
           // commit the updateStudentDataState
           context.commit("updateStudentDataState", {data: resp.data})
+          console.log(resp.data)
+        })
+        .catch((err) => {
+          console.log(err.response)
+        })
+    },
+    async actionFetchStudentCounsel(context) {
+      // action to get the currently logged in students counsel result
+      const data = Cookies.get("authUser").toLowerCase().split("/")
+      await axios.get(`students/${data[0]}/${data[1]}/${data[2]}/results/`, {headers: {"Authorization": `token ${Cookies.get("authToken")}`}})
+        .then((resp) => {
+          // commit the updateStudentCounselState
+          context.commit("updateStudentCounselState", {data: resp.data})
           console.log(resp.data)
         })
         .catch((err) => {

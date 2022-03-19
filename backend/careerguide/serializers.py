@@ -233,7 +233,3 @@ class ResultModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = "__all__"
-        # fields = ("id", "url", "student", "staff_id", "interest", "better_perf", "desired_prof", "best_sub", "counselling", "updated")
-        # extra_kwargs = {
-        #     "staff": {"view_name": "careerguide:staff-detail", "lookup_field": "staff_id", "read_only": True},
-        # }
