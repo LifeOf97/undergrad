@@ -1,0 +1,4961 @@
+openapi: 3.0.3
+info:
+  title: CGIMS API
+  version: 1.0.0
+  description: Web-based Career Guidance Information Management System
+paths:
+  /api/:
+    get:
+      operationId: root_retrieve
+      description: API root view, returns the urls to all api endpoint.
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/{format}:
+    get:
+      operationId: root_formatted_retrieve
+      description: API root view, returns the urls to all api endpoint.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/auth/signin/:
+    post:
+      operationId: auth_signin_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
+  /api/auth/signin{format}:
+    post:
+      operationId: auth_signin_formatted_create
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
+  /api/profiles/:
+    get:
+      operationId: profiles_list
+      description: |-
+        Profile API ModelViewSet. Profile model is the user model.
+
+        list: [Method: GET]
+        Returns a list of profiles in the system.
+
+        create: [Method: POST]
+        Create a new instance of a profile user account.
+
+        retrieve: [Method: GET]
+        Returns the details of a profile user account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a profile user account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a profile user account intance.
+      tags:
+      - profiles
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileHyperlink'
+          description: ''
+  /api/profiles{format}:
+    get:
+      operationId: profiles_formatted_list
+      description: |-
+        Profile API ModelViewSet. Profile model is the user model.
+
+        list: [Method: GET]
+        Returns a list of profiles in the system.
+
+        create: [Method: POST]
+        Create a new instance of a profile user account.
+
+        retrieve: [Method: GET]
+        Returns the details of a profile user account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a profile user account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a profile user account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - profiles
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileHyperlink'
+          description: ''
+  /api/profiles/{id}/:
+    get:
+      operationId: profiles_retrieve
+      description: |-
+        Profile API ModelViewSet. Profile model is the user model.
+
+        list: [Method: GET]
+        Returns a list of profiles in the system.
+
+        create: [Method: POST]
+        Create a new instance of a profile user account.
+
+        retrieve: [Method: GET]
+        Returns the details of a profile user account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a profile user account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a profile user account intance.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - profiles
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileHyperlink'
+          description: ''
+  /api/profiles/{id}{format}:
+    get:
+      operationId: profiles_formatted_retrieve
+      description: |-
+        Profile API ModelViewSet. Profile model is the user model.
+
+        list: [Method: GET]
+        Returns a list of profiles in the system.
+
+        create: [Method: POST]
+        Create a new instance of a profile user account.
+
+        retrieve: [Method: GET]
+        Returns the details of a profile user account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a profile user account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a profile user account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - profiles
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileHyperlink'
+          description: ''
+  /api/profiles/{id}/delete/:
+    delete:
+      operationId: profiles_delete_destroy
+      description: |-
+        Profile API ModelViewSet. Profile model is the user model.
+
+        list: [Method: GET]
+        Returns a list of profiles in the system.
+
+        create: [Method: POST]
+        Create a new instance of a profile user account.
+
+        retrieve: [Method: GET]
+        Returns the details of a profile user account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a profile user account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a profile user account intance.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - profiles
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/profiles/{id}/delete{format}:
+    delete:
+      operationId: profiles_delete_formatted_destroy
+      description: |-
+        Profile API ModelViewSet. Profile model is the user model.
+
+        list: [Method: GET]
+        Returns a list of profiles in the system.
+
+        create: [Method: POST]
+        Create a new instance of a profile user account.
+
+        retrieve: [Method: GET]
+        Returns the details of a profile user account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a profile user account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a profile user account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - profiles
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/profiles/create/:
+    post:
+      operationId: profiles_create_create
+      description: |-
+        Profile API ModelViewSet. Profile model is the user model.
+
+        list: [Method: GET]
+        Returns a list of profiles in the system.
+
+        create: [Method: POST]
+        Create a new instance of a profile user account.
+
+        retrieve: [Method: GET]
+        Returns the details of a profile user account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a profile user account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a profile user account intance.
+      tags:
+      - profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProfileHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProfileHyperlink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileHyperlink'
+          description: ''
+  /api/profiles/create{format}:
+    post:
+      operationId: profiles_create_formatted_create
+      description: |-
+        Profile API ModelViewSet. Profile model is the user model.
+
+        list: [Method: GET]
+        Returns a list of profiles in the system.
+
+        create: [Method: POST]
+        Create a new instance of a profile user account.
+
+        retrieve: [Method: GET]
+        Returns the details of a profile user account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a profile user account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a profile user account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProfileHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProfileHyperlink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileHyperlink'
+          description: ''
+  /api/questions/:
+    get:
+      operationId: questions_list
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      tags:
+      - questions
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuestionHyperlink'
+          description: ''
+  /api/questions{format}:
+    get:
+      operationId: questions_formatted_list
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - questions
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuestionHyperlink'
+          description: ''
+  /api/questions/{id}/:
+    get:
+      operationId: questions_retrieve
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - questions
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionHyperlink'
+          description: ''
+  /api/questions/{id}{format}:
+    get:
+      operationId: questions_formatted_retrieve
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - questions
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionHyperlink'
+          description: ''
+  /api/questions/{id}/delete/:
+    delete:
+      operationId: questions_delete_destroy
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - questions
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/questions/{id}/delete{format}:
+    delete:
+      operationId: questions_delete_formatted_destroy
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - questions
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/questions/{id}/update/:
+    patch:
+      operationId: questions_update_partial_update
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - questions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionHyperlink'
+          description: ''
+  /api/questions/{id}/update{format}:
+    patch:
+      operationId: questions_update_formatted_partial_update
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - questions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionHyperlink'
+          description: ''
+  /api/questions/create/:
+    post:
+      operationId: questions_create_create
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      tags:
+      - questions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QuestionHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/QuestionHyperlink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionHyperlink'
+          description: ''
+  /api/questions/create{format}:
+    post:
+      operationId: questions_create_formatted_create
+      description: |-
+        question API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questions in the system.
+
+        create: [Method: POST]
+        Create a new instance of a question.
+
+        retrieve: [Method: GET]
+        Returns the details of a question.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a question instance.
+
+        destroy: [Method: DELETE]
+        Delete an question instance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - questions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QuestionHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/QuestionHyperlink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionHyperlink'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/staffs/:
+    get:
+      operationId: staffs_list
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StaffHyperLink'
+          description: ''
+  /api/staffs{format}:
+    get:
+      operationId: staffs_formatted_list
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StaffHyperLink'
+          description: ''
+  /api/staffs/{staff_id}/:
+    get:
+      operationId: staffs_retrieve
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      parameters:
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffHyperLink'
+          description: ''
+  /api/staffs/{staff_id}{format}:
+    get:
+      operationId: staffs_formatted_retrieve
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffHyperLink'
+          description: ''
+  /api/staffs/{staff_id}/delete/:
+    delete:
+      operationId: staffs_delete_destroy
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      parameters:
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/staffs/{staff_id}/delete{format}:
+    delete:
+      operationId: staffs_delete_formatted_destroy
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/staffs/{staff_id}/questionnaires/:
+    get:
+      operationId: staffs_questionnaires_list
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuestionnaireHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/questionnaires{format}:
+    get:
+      operationId: staffs_questionnaires_formatted_list
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuestionnaireHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/questionnaires/{id}/:
+    get:
+      operationId: staffs_questionnaires_retrieve
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionnaireHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/questionnaires/{id}{format}:
+    get:
+      operationId: staffs_questionnaires_formatted_retrieve
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionnaireHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/questionnaires/{id}/delete/:
+    delete:
+      operationId: staffs_questionnaires_delete_destroy
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/staffs/{staff_id}/questionnaires/{id}/delete{format}:
+    delete:
+      operationId: staffs_questionnaires_delete_formatted_destroy
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/staffs/{staff_id}/questionnaires/{id}/update/:
+    patch:
+      operationId: staffs_questionnaires_update_partial_update
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaireHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaireHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaireHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionnaireHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/questionnaires/{id}/update{format}:
+    patch:
+      operationId: staffs_questionnaires_update_formatted_partial_update
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaireHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaireHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaireHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionnaireHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/questionnaires/create/:
+    post:
+      operationId: staffs_questionnaires_create_create
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionnaireHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QuestionnaireHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/QuestionnaireHyperlink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionnaireHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/questionnaires/create{format}:
+    post:
+      operationId: staffs_questionnaires_create_formatted_create
+      description: |-
+        Questionnaire API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of questionnaires for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a questionnaire for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a questionnaire of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a questionnaire instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an questionnaire instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionnaireHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QuestionnaireHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/QuestionnaireHyperlink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionnaireHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/schedules/:
+    get:
+      operationId: staffs_schedules_list
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScheduleHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/schedules{format}:
+    get:
+      operationId: staffs_schedules_formatted_list
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScheduleHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/schedules/{id}/:
+    get:
+      operationId: staffs_schedules_retrieve
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/schedules/{id}{format}:
+    get:
+      operationId: staffs_schedules_formatted_retrieve
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/schedules/{id}/delete/:
+    delete:
+      operationId: staffs_schedules_delete_destroy
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/staffs/{staff_id}/schedules/{id}/delete{format}:
+    delete:
+      operationId: staffs_schedules_delete_formatted_destroy
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/staffs/{staff_id}/schedules/{id}/update/:
+    patch:
+      operationId: staffs_schedules_update_partial_update
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedScheduleHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedScheduleHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedScheduleHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/schedules/{id}/update{format}:
+    patch:
+      operationId: staffs_schedules_update_formatted_partial_update
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedScheduleHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedScheduleHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedScheduleHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/schedules/create/:
+    post:
+      operationId: staffs_schedules_create_create
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ScheduleHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ScheduleHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/schedules/create{format}:
+    post:
+      operationId: staffs_schedules_create_formatted_create
+      description: |-
+        Schedule API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of schedules for a particular staff in the system.
+
+        create: [Method: POST]
+        Create a new instance of a schedule for a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a schedule of a staff.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a schedule instance of a staff account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an schedule instance of a staff.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ScheduleHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ScheduleHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleHyperlink'
+          description: ''
+  /api/staffs/{staff_id}/update/:
+    patch:
+      operationId: staffs_update_partial_update
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      parameters:
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffHyperLink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffHyperLink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffHyperLink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffHyperLink'
+          description: ''
+  /api/staffs/{staff_id}/update{format}:
+    patch:
+      operationId: staffs_update_formatted_partial_update
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: staff_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffHyperLink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffHyperLink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffHyperLink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffHyperLink'
+          description: ''
+  /api/staffs/create/:
+    post:
+      operationId: staffs_create_create
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StaffHyperLink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StaffHyperLink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StaffHyperLink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffHyperLink'
+          description: ''
+  /api/staffs/create{format}:
+    post:
+      operationId: staffs_create_formatted_create
+      description: |-
+        Staff API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of staffs in the system.
+
+        create: [Method: POST]
+        Create a new instance of a staff account.
+
+        retrieve: [Method: GET]
+        Returns the details of a staff account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a staff account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a staff account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - staffs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StaffHyperLink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StaffHyperLink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StaffHyperLink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffHyperLink'
+          description: ''
+  /api/students/:
+    get:
+      operationId: students_list
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      tags:
+      - students
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentHyperLink'
+          description: ''
+  /api/students{format}:
+    get:
+      operationId: students_formatted_list
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - students
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentHyperLink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/:
+    get:
+      operationId: students_retrieve
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentHyperLink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}{format}:
+    get:
+      operationId: students_formatted_retrieve
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentHyperLink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/delete/:
+    delete:
+      operationId: students_delete_destroy
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/students/{department}/{level}/{reg_no}/delete{format}:
+    delete:
+      operationId: students_delete_formatted_destroy
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/students/{department}/{level}/{reg_no}/observations/:
+    get:
+      operationId: students_observations_list
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObservationHyperlink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/observations{format}:
+    get:
+      operationId: students_observations_formatted_list
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObservationHyperlink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/observations/{id}/:
+    get:
+      operationId: students_observations_retrieve
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationHyperlink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/observations/{id}{format}:
+    get:
+      operationId: students_observations_formatted_retrieve
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationHyperlink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/observations/{id}/delete/:
+    delete:
+      operationId: students_observations_delete_destroy
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/students/{department}/{level}/{reg_no}/observations/{id}/delete{format}:
+    delete:
+      operationId: students_observations_delete_formatted_destroy
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/students/{department}/{level}/{reg_no}/observations/{id}/update/:
+    patch:
+      operationId: students_observations_update_partial_update
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedObservationHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedObservationHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedObservationHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationHyperlink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/observations/{id}/update{format}:
+    patch:
+      operationId: students_observations_update_formatted_partial_update
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedObservationHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedObservationHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedObservationHyperlink'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationHyperlink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/observations/create/:
+    post:
+      operationId: students_observations_create_create
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObservationHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ObservationHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ObservationHyperlink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationHyperlink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/observations/create{format}:
+    post:
+      operationId: students_observations_create_formatted_create
+      description: |-
+        Observation API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Observation for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Observation for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Observation of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Observation instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Observation instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObservationHyperlink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ObservationHyperlink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ObservationHyperlink'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObservationHyperlink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/results/:
+    get:
+      operationId: students_results_retrieve
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultModel'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/results{format}:
+    get:
+      operationId: students_results_formatted_retrieve
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultModel'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/results/create/:
+    post:
+      operationId: students_results_create_create
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResultModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResultModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResultModel'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultModel'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/results/create{format}:
+    post:
+      operationId: students_results_create_formatted_create
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResultModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResultModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResultModel'
+        required: true
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultModel'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/results/delete/:
+    delete:
+      operationId: students_results_delete_destroy
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/students/{department}/{level}/{reg_no}/results/delete{format}:
+    delete:
+      operationId: students_results_delete_formatted_destroy
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/students/{department}/{level}/{reg_no}/results/update/:
+    patch:
+      operationId: students_results_update_partial_update
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedResultModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedResultModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedResultModel'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultModel'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/results/update{format}:
+    patch:
+      operationId: students_results_update_formatted_partial_update
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedResultModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedResultModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedResultModel'
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultModel'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/update/:
+    patch:
+      operationId: students_update_partial_update
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentHyperLink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentHyperLink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentHyperLink'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentHyperLink'
+          description: ''
+  /api/students/{department}/{level}/{reg_no}/update{format}:
+    patch:
+      operationId: students_update_formatted_partial_update
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      parameters:
+      - in: path
+        name: department
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: level
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: reg_no
+        schema:
+          type: string
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentHyperLink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentHyperLink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentHyperLink'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentHyperLink'
+          description: ''
+  /api/students/create/:
+    post:
+      operationId: students_create_create
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentHyperLink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StudentHyperLink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StudentHyperLink'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentHyperLink'
+          description: ''
+  /api/students/create{format}:
+    post:
+      operationId: students_create_formatted_create
+      description: |-
+        Student API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of students in the system.
+
+        create: [Method: POST]
+        Create a new instance of a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of a student account instance.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a student account instance, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete a student account intance.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentHyperLink'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StudentHyperLink'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StudentHyperLink'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentHyperLink'
+          description: ''
+  /api/students/results/:
+    get:
+      operationId: students_results_list
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResultModel'
+          description: ''
+  /api/students/results{format}:
+    get:
+      operationId: students_results_formatted_list
+      description: |-
+        Result API ModelViewset.
+
+        list: [Method: GET]
+        Returns a list of Result for a particular student in the system.
+
+        create: [Method: POST]
+        Create a new instance of a Result for a student account.
+
+        retrieve: [Method: GET]
+        Returns the details of an instance of a Result of a student.
+
+        update: [Method: PUT]
+        NOTE: Not Supported
+
+        partial_update: [Method: PATCH]
+        Update a Result instance of a student account, only fields to be updated are passed.
+
+        destroy: [Method: DELETE]
+        Delete an Result instance of a student.
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - students
+      security:
+      - tokenAuth: []
+      - tokenAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResultModel'
+          description: ''
+components:
+  schemas:
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - token
+      - username
+    BlankEnum:
+      enum:
+      - ''
+    DepartmentEnum:
+      enum:
+      - art
+      - science
+      - commercial
+      - social science
+      type: string
+    GenderEnum:
+      enum:
+      - male
+      - female
+      type: string
+    LevelEnum:
+      enum:
+      - jss1
+      - jss2
+      - jss3
+      - sss1
+      - sss2
+      - sss3
+      type: string
+    NullEnum:
+      enum:
+      - null
+    ObservationHyperlink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        staff:
+          type: string
+          format: uri
+          readOnly: true
+          description: The staff who made the comments.
+        staff_id:
+          type: string
+          description: The staff who made the comments.
+          readOnly: true
+        student:
+          type: string
+        detail:
+          type: string
+          title: Details
+        created:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - detail
+      - id
+      - staff
+      - staff_id
+      - student
+      - url
+    PatchedObservationHyperlink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        staff:
+          type: string
+          format: uri
+          readOnly: true
+          description: The staff who made the comments.
+        staff_id:
+          type: string
+          description: The staff who made the comments.
+          readOnly: true
+        student:
+          type: string
+        detail:
+          type: string
+          title: Details
+        created:
+          type: string
+          format: date-time
+          nullable: true
+    PatchedQuestionHyperlink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        slug:
+          type: string
+          nullable: true
+          title: Title slug
+          maxLength: 255
+          pattern: ^[-a-zA-Z0-9_]+$
+        question:
+          type: string
+        created:
+          type: string
+          format: date-time
+          nullable: true
+    PatchedQuestionnaireHyperlink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        staff:
+          type: string
+          format: uri
+          readOnly: true
+        students:
+          type: array
+          items:
+            type: string
+        categories:
+          type: string
+          description: 'Comma/space seperated values representing the type of students
+            this questionnaire is ment for<br>E.G: art, ss1, male'
+          maxLength: 255
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        title:
+          type: string
+          maxLength: 255
+        slug:
+          type: string
+          nullable: true
+          title: Title slug
+          maxLength: 255
+          pattern: ^[-a-zA-Z0-9_]+$
+        question:
+          type: string
+        completed:
+          type: boolean
+    PatchedResultModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        student:
+          type: string
+        interest:
+          type: string
+          nullable: true
+          title: Area of interest
+          maxLength: 255
+        better_perf:
+          type: string
+          nullable: true
+          title: Area of better performance
+          maxLength: 255
+        desired_prof:
+          type: string
+          nullable: true
+          title: Desired profession
+          maxLength: 255
+        best_sub:
+          type: string
+          nullable: true
+          title: Best subject
+          maxLength: 255
+        counselling:
+          type: string
+          nullable: true
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+        staff:
+          type: string
+          description: The staff who gave this result.
+    PatchedScheduleHyperlink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        staff:
+          type: string
+          format: uri
+          readOnly: true
+        title:
+          type: string
+          nullable: true
+          maxLength: 255
+        slug:
+          type: string
+          nullable: true
+          title: Title slug
+          maxLength: 255
+          pattern: ^[-a-zA-Z0-9_]+$
+        detail:
+          type: string
+          nullable: true
+          title: Details
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        expire:
+          type: string
+          format: date
+          nullable: true
+          title: Before
+        completed:
+          type: boolean
+    PatchedStaffHyperLink:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 7
+        staff_id:
+          type: string
+          description: 'Example: <b>STF1234</b>'
+          maxLength: 7
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        level:
+          type: string
+          nullable: true
+          maxLength: 255
+        profile:
+          $ref: '#/components/schemas/ProfileHyperlink'
+    PatchedStudentHyperLink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        sid:
+          type: string
+          nullable: true
+          maxLength: 255
+        reg_no:
+          type: string
+          maxLength: 4
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        level:
+          allOf:
+          - $ref: '#/components/schemas/LevelEnum'
+          title: Student level
+        department:
+          $ref: '#/components/schemas/DepartmentEnum'
+        parent:
+          type: string
+          nullable: true
+          title: Parent/Guardian
+          maxLength: 255
+        profile:
+          $ref: '#/components/schemas/ProfileHyperlink'
+    ProfileHyperlink:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        last_login:
+          type: string
+          format: date-time
+          nullable: true
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        is_staff:
+          type: boolean
+          title: Staff status
+          description: Designates whether the user can log into this admin site.
+        username:
+          type: string
+          description: '<b>Students username syntax: department/class/reg_no</b><br><b>Staff
+            username syntax: STF0000</b>'
+          maxLength: 255
+        other_name:
+          type: string
+          maxLength: 255
+        gender:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/GenderEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        dob:
+          type: string
+          format: date
+          nullable: true
+          title: Date of Birth
+        image:
+          type: string
+          format: uri
+          nullable: true
+        about:
+          type: string
+          nullable: true
+          title: About me
+        email:
+          type: string
+          format: email
+          nullable: true
+          title: Email Address
+          maxLength: 254
+        phone_1:
+          type: string
+          nullable: true
+          maxLength: 20
+        phone_2:
+          type: string
+          nullable: true
+          maxLength: 20
+        continent:
+          type: string
+          nullable: true
+          maxLength: 50
+        country:
+          type: string
+          nullable: true
+          maxLength: 50
+        state:
+          type: string
+          nullable: true
+          maxLength: 50
+        postal:
+          type: string
+          nullable: true
+          title: Postal/ZIP code
+          maxLength: 50
+      required:
+      - password
+      - url
+      - username
+    QuestionHyperlink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        slug:
+          type: string
+          nullable: true
+          title: Title slug
+          maxLength: 255
+          pattern: ^[-a-zA-Z0-9_]+$
+        question:
+          type: string
+        created:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - id
+      - question
+      - title
+      - url
+    QuestionnaireHyperlink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        staff:
+          type: string
+          format: uri
+          readOnly: true
+        students:
+          type: array
+          items:
+            type: string
+        categories:
+          type: string
+          description: 'Comma/space seperated values representing the type of students
+            this questionnaire is ment for<br>E.G: art, ss1, male'
+          maxLength: 255
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        title:
+          type: string
+          maxLength: 255
+        slug:
+          type: string
+          nullable: true
+          title: Title slug
+          maxLength: 255
+          pattern: ^[-a-zA-Z0-9_]+$
+        question:
+          type: string
+        completed:
+          type: boolean
+      required:
+      - id
+      - question
+      - staff
+      - students
+      - title
+      - url
+    ResultModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        student:
+          type: string
+        interest:
+          type: string
+          nullable: true
+          title: Area of interest
+          maxLength: 255
+        better_perf:
+          type: string
+          nullable: true
+          title: Area of better performance
+          maxLength: 255
+        desired_prof:
+          type: string
+          nullable: true
+          title: Desired profession
+          maxLength: 255
+        best_sub:
+          type: string
+          nullable: true
+          title: Best subject
+          maxLength: 255
+        counselling:
+          type: string
+          nullable: true
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+        staff:
+          type: string
+          description: The staff who gave this result.
+      required:
+      - id
+      - staff
+      - student
+      - updated
+    ScheduleHyperlink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        staff:
+          type: string
+          format: uri
+          readOnly: true
+        title:
+          type: string
+          nullable: true
+          maxLength: 255
+        slug:
+          type: string
+          nullable: true
+          title: Title slug
+          maxLength: 255
+          pattern: ^[-a-zA-Z0-9_]+$
+        detail:
+          type: string
+          nullable: true
+          title: Details
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        expire:
+          type: string
+          format: date
+          nullable: true
+          title: Before
+        completed:
+          type: boolean
+      required:
+      - id
+      - staff
+      - url
+    StaffHyperLink:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 7
+        staff_id:
+          type: string
+          description: 'Example: <b>STF1234</b>'
+          maxLength: 7
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        level:
+          type: string
+          nullable: true
+          maxLength: 255
+        profile:
+          $ref: '#/components/schemas/ProfileHyperlink'
+      required:
+      - profile
+      - staff_id
+      - url
+    StudentHyperLink:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        sid:
+          type: string
+          nullable: true
+          maxLength: 255
+        reg_no:
+          type: string
+          maxLength: 4
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        level:
+          allOf:
+          - $ref: '#/components/schemas/LevelEnum'
+          title: Student level
+        department:
+          $ref: '#/components/schemas/DepartmentEnum'
+        parent:
+          type: string
+          nullable: true
+          title: Parent/Guardian
+          maxLength: 255
+        profile:
+          $ref: '#/components/schemas/ProfileHyperlink'
+      required:
+      - department
+      - id
+      - level
+      - profile
+      - reg_no
+      - url
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

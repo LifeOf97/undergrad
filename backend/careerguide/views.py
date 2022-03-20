@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.reverse import reverse
+from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework import status
 from django.utils import timezone
@@ -21,16 +22,19 @@ from django.utils import timezone
 Profile = get_user_model()
 
 
-class APIRootView(viewsets.ViewSet):
+class APIRootView(APIView):
     """
-    API root view, returns the urls to all apoi endpoint.
+    API root view, returns the urls to all api endpoint.
     """
-    def list(self, request, format=None, *args, **kwargs):
+    permission_class = [permissions.AllowAny]
+
+    def get(self, request, format=None, *args, **kwargs):
         profiles = reverse("careerguide:profile-list", request=request, format=format)
         staffs = reverse("careerguide:staff-list", request=request, format=format)
         students = reverse("careerguide:student-list", request=request, format=format)
+        questions = reverse("careerguide:questions-list", request=request, format=format)
 
-        serializer = {"profiles": profiles, "staffs": staffs, "students": students,}
+        serializer = {"profiles": profiles, "staffs": staffs, "students": students, "questions": questions}
         return Response(data=serializer, status=status.HTTP_200_OK)
 
 

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     # "DEFAULT_AUTHENTICATION_CLASSES"
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 # Django corsheaders settings
@@ -168,3 +170,11 @@ CORS_EXPOSE_HEADERS = []
 CORS_REPLACE_HTTPS_REFERER = False
 CORS_PREFLIGHT_MAX_AGE = 86400
 CORS_ALLOW_CREDENTIALS = True
+
+# drg_spectacular settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'CGIMS API',
+    'DESCRIPTION': 'Web-based Career Guidance Information Management System',
+    'VERSION': '1.0.0',
+    # OTHER SETTINGS
+}

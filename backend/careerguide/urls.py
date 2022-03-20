@@ -8,7 +8,7 @@ app_name = "careerguide"
 
 urlpatterns = [
     # API" root view ulr path
-    path("", views.APIRootView.as_view({"get": "list"})),
+    path("", views.APIRootView.as_view(), name="APIRoot"),
 
     # Auth url path.
     # Send a post request containing a username and password.
@@ -68,6 +68,7 @@ urlpatterns = [
     path("students/<str:department>/<str:level>/<str:reg_no>/results/create/", views.ResultViewSet.as_view({"post": "create"}), name="students-result-create"),
     path("students/<str:department>/<str:level>/<str:reg_no>/results/delete/", views.ResultViewSet.as_view({"delete": "destroy"}), name="students-result-delete"),
     path("students/<str:department>/<str:level>/<str:reg_no>/results/update/", views.ResultViewSet.as_view({"patch": "partial_update"}), name="students-result-update"),
+
 ]
 
 # urls can append a [url]?format=* or [url].* where * is one of ['json', 'api']

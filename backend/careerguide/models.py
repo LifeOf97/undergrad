@@ -81,9 +81,9 @@ class Staff(models.Model):
     level = models.CharField(_("Level"), max_length=255, blank=True, null=True)
     profile = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    def save(self, *args, **kwargs):
-        self.id = self.staff_id
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.id = self.staff_id
+    #     super().save(*args, **kwargs)
 
     def __str__(self):
         return F"STAFF ID: {self.staff_id}"
