@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
@@ -152,19 +154,17 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://127.0.0.1:8080',
-    'http://localhost:8000',
-    'http://localhost:8080',
+    'http://127.0.0.1:5000',
     'http://192.168.43.208:8000',
     'http://192.168.43.208:8080',
-    'http://192.168.1.102:8000',
-    'http://192.168.1.102:8080',
-
+    'http://192.168.43.208:5000',
 ]
 
 CORS_ALLOW_METHODS = list(default_methods) + []
 CORS_ALLOW_HEADERS = list(default_headers) + []
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
+    'http://127.0.0.1:5000',
 ]
 CORS_EXPOSE_HEADERS = []
 CORS_REPLACE_HTTPS_REFERER = False
