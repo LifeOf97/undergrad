@@ -76,7 +76,7 @@ class Staff(models.Model):
     """
     Staff model
     """
-    id = models.CharField(_("ID"), max_length=7, primary_key=True, unique=True, blank=True, null=False)
+    id = models.AutoField(_("ID"), primary_key=True, unique=True, blank=False, null=False)
     staff_id = models.CharField(_("Staff ID"), max_length=7, unique=True, blank=False, null=False, help_text=_("Example: <b>STF1234</b>"))
     level = models.CharField(_("Level"), max_length=255, blank=True, null=True)
     profile = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
