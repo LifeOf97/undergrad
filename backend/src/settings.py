@@ -1,6 +1,6 @@
 from corsheaders.defaults import default_headers, default_methods
 from pathlib import Path
-import json
+import json, os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,13 +13,13 @@ CONFIG = json.loads(secure_file)
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = CONFIG['SECRET_KEY']
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Boolean value
-DEBUG = CONFIG['DEBUG']['DEVELOPMENT']
+DEBUG = False
 
-ALLOWED_HOSTS = ["https://web-cgims.herokuapp.com"]
+ALLOWED_HOSTS = ["web-cgims.herokuapp.com",]
 
 
 # Application definition
@@ -87,12 +87,12 @@ AUTHENTICATION_BACKENDS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': CONFIG['DATABASE']['ENGINE']['POSTGRESQL'],
-        'NAME': CONFIG['DATABASE']['NAME'],
-        'USER': CONFIG['DATABASE']['USER'],
-        'PASSWORD': CONFIG['DATABASE']['PASS'],
-        'HOST': CONFIG['DATABASE']['HOST'],
-        'PORT': CONFIG['DATABASE']['PORT'],
+        'ENGINE': "",
+        'NAME': "",
+        'USER': "",
+        'PASSWORD': "",
+        'HOST': "",
+        'PORT': "",
     }
 }
 
@@ -152,13 +152,13 @@ REST_FRAMEWORK = {
 
 # Django corsheaders settings
 CORS_ALLOWED_ORIGINS = [
-    "https://web-cgims.herokuapp.com"
+    "web-cgims.herokuapp.com"
 ]
 
 CORS_ALLOW_METHODS = list(default_methods) + []
 CORS_ALLOW_HEADERS = list(default_headers) + []
 CSRF_TRUSTED_ORIGINS = [
-    "https://web-cgims.herokuapp.com"
+    "web-cgims.herokuapp.com"
 ]
 CORS_EXPOSE_HEADERS = []
 CORS_REPLACE_HTTPS_REFERER = False
