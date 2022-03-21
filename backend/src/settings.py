@@ -6,8 +6,8 @@ import json, os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Get secure json files
-secure_file = Path(BASE_DIR / 'src/config.json').read_text()
-CONFIG = json.loads(secure_file)
+# secure_file = Path(BASE_DIR / 'src/config.json').read_text()
+# CONFIG = json.loads(secure_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -87,7 +87,7 @@ AUTHENTICATION_BACKENDS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': "",
+        'ENGINE': "django.db.backends.postgresql",
         'NAME': "",
         'USER': "",
         'PASSWORD': "",
