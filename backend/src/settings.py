@@ -85,16 +85,16 @@ AUTHENTICATION_BACKENDS = [
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# postgres://bpowvayqwiwcjg:5ccbd5f994910a544f7db31b9c37145123910e26cc6b348375701d74780075b1@ec2-63-32-7-190.eu-west-1.compute.amazonaws.com:5432/d7a55854223ciu
+# postgres://lrrmystnytkstg:edbd0bd5e77d54502fbe097a3223a961351846be6e207eeb0fdfdf5e23d7b581@ec2-34-242-89-204.eu-west-1.compute.amazonaws.com:5432/deirjbjtabqadb
 
 DATABASES = {
     'default': {
         'ENGINE': "django.db.backends.postgresql",
-        'NAME': "d7a55854223ciu",
-        'HOST': "ec2-63-32-7-190.eu-west-1.compute.amazonaws.com",
+        'NAME': "deirjbjtabqadb",
+        'HOST': "ec2-34-242-89-204.eu-west-1.compute.amazonaws.com",
         'PORT': 5432,
-        'USER': "bpowvayqwiwcjg",
-        'PASSWORD': "5ccbd5f994910a544f7db31b9c37145123910e26cc6b348375701d74780075b1",
+        'USER': "lrrmystnytkstg",
+        'PASSWORD': "edbd0bd5e77d54502fbe097a3223a961351846be6e207eeb0fdfdf5e23d7b581",
         "CONN_MAX_AGE": 500,
     }
 }
