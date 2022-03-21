@@ -155,13 +155,13 @@ REST_FRAMEWORK = {
 
 # Django corsheaders settings
 CORS_ALLOWED_ORIGINS = [
-    "web-cgims.herokuapp.com"
+    "https://web-cgims.herokuapp.com"
 ]
 
 CORS_ALLOW_METHODS = list(default_methods) + []
 CORS_ALLOW_HEADERS = list(default_headers) + []
 CSRF_TRUSTED_ORIGINS = [
-    "web-cgims.herokuapp.com"
+    "https://web-cgims.herokuapp.com"
 ]
 CORS_EXPOSE_HEADERS = []
 CORS_REPLACE_HTTPS_REFERER = False
