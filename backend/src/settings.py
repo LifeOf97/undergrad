@@ -20,7 +20,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # Boolean value
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "web-cgims.herokuapp.com",]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "web-cgims.herokuapp.com", "web-cgims.netlify.app"]
 
 
 # Application definition
@@ -157,6 +157,7 @@ REST_FRAMEWORK = {
 # Django corsheaders settings
 CORS_ALLOWED_ORIGINS = [
     "https://web-cgims.herokuapp.com",
+    "https://web-cgims.netlify.app",
     "http://127.0.0.1:8080",
     "http://localhost:8080",
 ]
@@ -165,6 +166,7 @@ CORS_ALLOW_METHODS = list(default_methods) + []
 CORS_ALLOW_HEADERS = list(default_headers) + []
 CSRF_TRUSTED_ORIGINS = [
     "https://web-cgims.herokuapp.com",
+    "https://web-cgims.netlify.app",
     "http://127.0.0.1:8080",
     "http://localhost:8080",
 ]
