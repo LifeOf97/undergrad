@@ -91,8 +91,8 @@
                 <p class="text-sm text-slate-500 md:text-base">&copy; 2022 | Providence | In GOD we Trust</p>
                 <div class="flex gap-5 items-center text-sm">
                     <p>API Docs:</p>
-                    <a class="text-blue-400 cursor-pointer" href="http://127.0.0.1:8000/api/schema/redoc/" target="_blank">Redoc</a>
-                    <a class="text-blue-400 cursor-pointer" href="http://127.0.0.1:8000/api/schema/swagger/" target="_blank">Swagger</a>
+                    <a class="text-blue-400 cursor-pointer" href="https://web-cgims.herokuapp.com/api/schema/redoc/" target="_blank">Redoc</a>
+                    <a class="text-blue-400 cursor-pointer" href="https://web-cgims.herokuapp.com/api/schema/swagger/" target="_blank">Swagger</a>
                 </div>
             </div>
 
