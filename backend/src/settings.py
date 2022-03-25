@@ -156,7 +156,7 @@ REST_FRAMEWORK = {
 
 # Django corsheaders settings
 CORS_ALLOWED_ORIGINS = [
-    "https://web-cgims.herokuapp.com"
+    "https://web-cgims.herokuapp.com",
     "http://127.0.0.1:8080",
     "http://localhost:8080",
 ]
