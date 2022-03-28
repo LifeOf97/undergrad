@@ -8,7 +8,7 @@
             <AppTopNav />
             <!-- end of top nav -->
 
-            <div class="w-10/12 mx-auto h-full flex flex-col gap-10 pb-20">
+            <div class="w-10/12 mx-auto h-full flex flex-col gap-10 pb-28">
 
                 <div class="border-b-2 border-rose-500">
                     <h1 class="text-3xl font-black text-rose-500 md:text-5xl">About Us</h1>
@@ -37,6 +37,32 @@
                     </div>
                 </div>
 
+                <!-- start of school history -->
+                <div class="flex flex-col gap-10 py-10">
+                    <div>
+                        <h1 class="text-3xl font-black underline underline-offset-4 text-rose-500 md:text-5xl">Polytecnic Academy Nasarawa</h1>
+                    </div>
+                    <div class="flex flex-col gap-5 items-center lg:flex-row">
+                        <div class="w-full lg:w-1/3">
+                            <img :src="img" class="w-full h-96 object-cover object-top rounded-lg">
+                        </div>
+                        <div class="w-2/3">
+                            <p class="text-sm text-slate-600 text-justify font-light md:text-lg">
+                                The polytechnic Academy Nasarawa formally called Polytecnic Staff School was founded on the 4th of October, 2004. It was initially a science based school,
+                                and was called polytechnic staff science secondary school Nasarawa until the name was changed to polytechnic Academy
+                                Nasarawa in 2014 to give room for Science, Arts and Commercial subjects. The school is located within the premises
+                                of Federal Polytechnic Nasarawa along Keffi- Nasarawa road, Nasarawa.
+                                It began with 17 pioneer staff and 68 students and one block of classroom and administrative offices. Over the years,
+                                the school now has 34 teaching staff and 9 non-academic staff with four blocks of classroom, an admin complex, a science
+                                laboratory block and a population of about 390 students. The school graduates its first sets of students on August 7,
+                                2010 and from then till date, the school has graduated 11 set of students.
+                                The school has had three different principles amongst whom is Mr. A.D. Ejoor, the current principle of the school.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- start of school history -->
+
                 <div class="flex flex-col gap-5">
 
                     <div>
@@ -50,7 +76,7 @@
                                 <!-- <img :src="mayo" class="w-full h-full"> -->
                             </div>
                             <div class="flex flex-col gap-1">
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Kelvin Mayowa Ayeni</p>
+                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Mayowa Kelvin Ayeni</p>
                                 <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Matric Number:</code> FPN/S05/2019/2020/CMP/1336</p>
                                 <p class="text-base text-slate-700"><code class="font-bold text-slate-900">School Of:</code> Information Technology</p>
                                 <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Department Of:</code> Computer Science</p>
@@ -62,7 +88,7 @@
                             <div class="w-full h-72 border bg-rose-500 rounded-lg overflow-hidden">
                             </div>
                             <div class="flex flex-col gap-1">
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Jeremiah Ode</p>
+                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Ahonye Jeremiah Ode</p>
                                 <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Matric Number:</code> FPN/S05/2019/2020/CMP/1341</p>
                                 <p class="text-base text-slate-700"><code class="font-bold text-slate-900">School Of:</code> Information Technology</p>
                                 <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Department Of:</code> Computer Science</p>
@@ -74,7 +100,7 @@
                             <div class="w-full h-72 border bg-rose-500 rounded-lg overflow-hidden">
                             </div>
                             <div class="flex flex-col gap-1">
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Judith Omojo Ikah</p>
+                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Ikah Judith Omojo</p>
                                 <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Matric Number:</code> FPN/S05/2019/2020/CMP/1358</p>
                                 <p class="text-base text-slate-700"><code class="font-bold text-slate-900">School Of:</code> Information Technology</p>
                                 <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Department Of:</code> Computer Science</p>
@@ -110,6 +136,7 @@ export default {
     components: {AppTopNav},
     data() {
         return {
+            img: require("@/assets/images/polyacad.jpg").default,
             mayo: require("@/assets/images/mayo.jpg").default,
         }
     },

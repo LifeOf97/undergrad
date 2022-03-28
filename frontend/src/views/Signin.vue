@@ -84,6 +84,7 @@ export default {
     data() {
         return {
             story: require("@/assets/images/trung-pham-quoc-YDWwCkdmcKM-unsplash.jpg").default,
+            // story: require("@/assets/images/polyacad.jpg").default,
             username: "",
             password: "",
             rememberMe: false,
