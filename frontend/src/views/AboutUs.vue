@@ -69,44 +69,58 @@
                         <h3 class="text-2xl font-black underline underline-offset-2 italic text-rose-500 md:text-2xl">Meet The Team</h3>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="flex flex-col items-center gap-10">
 
                         <div class="flex flex-col gap-5">
-                            <div class="w-full h-72 border bg-rose-500 rounded-lg overflow-hidden">
-                                <!-- <img :src="mayo" class="w-full h-full"> -->
+                            <div class="w-full h-80 border bg-rose-500 rounded-lg overflow-hidden">
+                                <img :src="supervisor" class="w-full h-full object-cover object-top">
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Mayowa Kelvin Ayeni</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Matric Number:</code> FPN/S05/2019/2020/CMP/1336</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">School Of:</code> Information Technology</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Department Of:</code> Computer Science</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Year:</code> HND II</p>
+                            <div class="flex flex-col gap-1 items-center">
+                                <p class="text-lg text-slate-900 font-bold">Mal. Aliyu Hassan</p>
+                                <p class="text-base text-slate-500">(Project Supervisor)</p>
                             </div>
                         </div>
 
-                        <div class="flex flex-col gap-5">
-                            <div class="w-full h-72 border bg-rose-500 rounded-lg overflow-hidden">
+                        <div class="grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3">
+
+                            <div class="flex flex-col gap-5">
+                                <div class="w-full h-72 border bg-rose-500 rounded-lg overflow-hidden">
+                                    <!-- <img :src="mayo" class="w-full h-full"> -->
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Mayowa Kelvin Ayeni</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Matric Number:</code> FPN/S05/2019/2020/CMP/1336</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">School Of:</code> Information Technology</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Department Of:</code> Computer Science</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Year:</code> HND II</p>
+                                </div>
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Ahonye Jeremiah Ode</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Matric Number:</code> FPN/S05/2019/2020/CMP/1341</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">School Of:</code> Information Technology</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Department Of:</code> Computer Science</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Year:</code> HND II</p>
+
+                            <div class="flex flex-col gap-5">
+                                <div class="w-full h-72 border bg-rose-500 rounded-lg overflow-hidden">
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Ahonye Jeremiah Ode</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Matric Number:</code> FPN/S05/2019/2020/CMP/1341</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">School Of:</code> Information Technology</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Department Of:</code> Computer Science</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Year:</code> HND II</p>
+                                </div>
                             </div>
+
+                            <div class="flex flex-col gap-5">
+                                <div class="w-full h-72 border bg-rose-500 rounded-lg overflow-hidden">
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Ikah Judith Omojo</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Matric Number:</code> FPN/S05/2019/2020/CMP/1358</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">School Of:</code> Information Technology</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Department Of:</code> Computer Science</p>
+                                    <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Year:</code> HND II</p>
+                                </div>
+                            </div>                        
                         </div>
 
-                        <div class="flex flex-col gap-5">
-                            <div class="w-full h-72 border bg-rose-500 rounded-lg overflow-hidden">
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Name:</code> Ikah Judith Omojo</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Matric Number:</code> FPN/S05/2019/2020/CMP/1358</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">School Of:</code> Information Technology</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Department Of:</code> Computer Science</p>
-                                <p class="text-base text-slate-700"><code class="font-bold text-slate-900">Year:</code> HND II</p>
-                            </div>
-                        </div>                        
                     </div>
 
                 </div>
@@ -137,7 +151,7 @@ export default {
     data() {
         return {
             img: require("@/assets/images/polyacad.jpg").default,
-            mayo: require("@/assets/images/mayo.jpg").default,
+            supervisor: require("@/assets/images/supervisor.png").default,
         }
     },
 }
