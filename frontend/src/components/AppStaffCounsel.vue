@@ -98,7 +98,7 @@ export default {
         ]),
         submitCounsel(action) {
             const data = {
-                staff: this.staff.staff_id,
+                staff: this.staff.id,
                 student: this.student.sid,
                 interest: this.interest,
                 better_perf: this.betterPerf,
