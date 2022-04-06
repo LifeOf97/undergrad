@@ -247,8 +247,8 @@ export default createStore({
           })
           // set required cookies
           Cookies.set("user", payload.rememberMe ? `${payload.username.toLowerCase()}`:"", {expires: 365, sameSite: "Lax"})
-          Cookies.set("authToken", resp.data.token, {expires: 3, sameSite: "Lax"})
-          Cookies.set("authUser", payload.username.toLowerCase(), {expires: 3, sameSite: "Lax"})
+          Cookies.set("authToken", resp.data.token, {expires: 365, sameSite: "Lax"})
+          Cookies.set("authUser", payload.username.toLowerCase(), {expires: 365, sameSite: "Lax"})
           // console.log(resp.data);
           // then dispatch the actionFetchStaffData action to get the staff data.
           context.dispatch("actionFetchStudentData")
@@ -275,6 +275,7 @@ export default createStore({
         .then((resp) => {
           // commit the updateStudentDataState
           context.commit("updateStudentDataState", {data: resp.data})
+          context.dispatch("actionFetchStudentCounsel")
           console.log(resp.data)
         })
         .catch((err) => {

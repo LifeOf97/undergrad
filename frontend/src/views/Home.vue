@@ -93,7 +93,6 @@ export default {
         else this.actionFetchStudentData()
       }
     })
-    console.log(Cookies.get("authToken"))
-  }
+  },
 }
 </script>
