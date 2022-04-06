@@ -53,7 +53,7 @@ export default {
 .slide-right-leave-active,
 .slide-left-enter-active,
 .slide-left-leave-active {
-  @apply transition-all duration-300
+  @apply transition-all duration-100
 
 }
 .slide-right-enter-from {

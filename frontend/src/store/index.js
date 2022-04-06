@@ -202,8 +202,8 @@ export default createStore({
           })
           // set required cookies
           Cookies.set("user", payload.rememberMe ? `${payload.username}`:"", {expires: 365, sameSite: "Lax"})
-          Cookies.set("authToken", resp.data.token, {expires: 3, sameSite: "Lax"})
-          Cookies.set("authUser", payload.username, {expires: 3, sameSite: "Lax"})
+          Cookies.set("authToken", resp.data.token, {expires: 365, sameSite: "Lax"})
+          Cookies.set("authUser", payload.username, {expires: 365, sameSite: "Lax"})
           // console.log(resp.data);
           // then dispatch the actionFetchStaffData action to get the staff data.
           context.dispatch("actionFetchStaffData", payload)
