@@ -26,11 +26,11 @@
 
                 <!-- start of sign in tabs -->
                 <div class="flex w-full">
-                    <button v-for="tab in tabs" :key="tab" @click.prevent="activeTab = tab" :class="activeTab == tab ? 'text-white bg-rose-500':'bg-white text-slate-900'" class="flex-1 p-2 font-medium border border-slate-100 duration-300 hover:text-white hover:bg-rose-500">{{ tab }}</button>
+                    <button v-for="tab in tabs" :key="tab" @click.prevent="activeTab = tab" :class="activeTab == tab ? 'text-white bg-rose-500':'bg-white text-slate-900'" class="flex-1 p-2 font-medium border border-slate-100 duration-300 hover:text-white hover:bg-rose-500 first:rounded-l-md last:rounded-r-md overflow-hidden">{{ tab }}</button>
                 </div>
                 <!-- end of sign in tabs -->
 
-                <form ref="form" @submit.prevent="signIn(activeTab)" class="w-full flex flex-col gap-5">
+                <form id="form" @submit.prevent="signIn(activeTab)" class="w-full flex flex-col gap-5">
                     <AppInputField v-if="activeTab == 'staff'" v-model.upper="username" type="text" :required="true" label="Staff ID" placeholder="STFXXXX" color="rose" labelColor="black" />
                     <AppInputField v-else v-model.upper="username" type="text" :required="true" label="Reg No" placeholder="DEPARTMENT/CLASS/REGNO" color="rose" labelColor="black" />
                     <AppInputField v-model="password" :type="'password'" :required="true" :label="'password'" :color="'rose'" :labelColor="'black'" />
@@ -117,9 +117,10 @@ export default {
         },
         animSignin() {
             // method to apply gsap animation to the sign in component
-            const {homebtn, logo, txt1, form, formbtn} = this.$refs;
+            const {homebtn, logo, txt1, formbtn} = this.$refs;
+            const form = document.getElementById("form")
             const tl = gsap.timeline()
-            tl.from([logo.$el, txt1, form.$el, formbtn.$el], {duration: 0.5, y: 50, opacity: 0, stagger: 0.2, delay: 0.5})
+            tl.from([logo.$el, txt1, form, formbtn.$el], {duration: 0.5, y: 50, opacity: 0, stagger: 0.2, delay: 0.5})
               .from(homebtn, {duration: 1, y: -50, opacity: 0})
         },
     },

@@ -11,8 +11,8 @@
             <div :class="menu ? 'scale-100 opacity-100':'scale-0 opacity-0'" class="absolute top-0 left-0 flex flex-col items-center justify-between bg-white/70 backdrop-blur h-44 shadow-lg w-full duration-150 md:shadow-none md:flex-none md:relative md:top-0 md:contents">
 
                 <!-- start nav of close btn -->
-                <button @click.prevent="menu = !menu" class="cursor-pointer pt-4 outline-none md:hidden">
-                    <svg v-if="menu" class="w-10 h-10 fill-slate-700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <button @click.prevent="menu = !menu" class="group cursor-pointer mt-4 outline-none rounded-lg hover:bg-blue-500 md:hidden">
+                    <svg v-if="menu" class="w-10 h-10 fill-slate-700 group-hover:fill-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41L17.59 5Z"></path>
                     </svg>
                 </button>
@@ -31,8 +31,8 @@
             </div>
 
 
-            <button @click.prevent="menu = !menu" class="cursor-pointer outline-none md:hidden">
-                <svg class="w-10 h-10 fill-slate-700" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <button @click.prevent="menu = !menu" class="group cursor-pointer outline-none rounded-lg hover:bg-blue-500 md:hidden">
+                <svg class="w-10 h-10 fill-slate-700 group-hover:fill-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M21 18H3V16H21V18ZM21 13H3V11H21V13ZM21 8H3V6H21V8Z"></path>
                 </svg>
             </button>
